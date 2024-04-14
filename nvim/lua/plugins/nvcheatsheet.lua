@@ -1,0 +1,5 @@
+return {
+  {
+    "smartinellimarco/nvcheatsheet.nvim",
+  },
+}
