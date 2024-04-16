@@ -3,8 +3,7 @@
 -- Add any additional keymaps here
 --
 --
-vim.api.nvim_set_keymap("i", "<Del>", "x", { noremap = false })
-vim.keymap.set("n", "<C-S-L>", ":lua ToggleLineNumbers()<CR>", { noremap = false, silent = true })
+-- vim.api.nvim_set_keymap("i", "<Del>", "x", { noremap = false })
 
 function ToggleLineNumbers()
   if vim.wo.relativenumber then
@@ -14,3 +13,11 @@ function ToggleLineNumbers()
     vim.wo.relativenumber = true
   end
 end
+
+-- vim.keymap.set("n", "<C-M-l>", ":lua ToggleLineNumbers()<CR>", { noremap = true, silent = false })
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>cL",
+  ":lua ToggleLineNumbers()<CR>",
+  { desc = "Toggle relative and absolute line numbers", noremap = true }
+)

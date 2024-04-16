@@ -17,6 +17,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.ruby" },
     {
+
       "nvim-treesitter/nvim-treesitter",
       opts = function(_, opts)
         -- add tsx and treesitter
@@ -63,6 +64,7 @@ require("lazy").setup({
 
 require("catppuccin").setup()
 vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("nord")
 require("telescope").setup({
   extensions = {
     ["ui-select"] = {
