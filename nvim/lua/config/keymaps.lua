@@ -21,3 +21,5 @@ vim.api.nvim_set_keymap(
   ":lua ToggleLineNumbers()<CR>",
   { desc = "Toggle relative and absolute line numbers", noremap = true }
 )
+
+vim.api.nvim_set_keymap("n", "<BS>", "X", { noremap = true })
