@@ -23,3 +23,4 @@ vim.api.nvim_set_keymap(
 )
 
 vim.api.nvim_set_keymap("n", "<BS>", "X", { noremap = true })
+vim.api.nvim_set_keymap("n", "$", "C-S-l", { noremap = false })

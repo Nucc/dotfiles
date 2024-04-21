@@ -11,7 +11,7 @@ require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+    -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     -- import any extras modules here
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.json" },
@@ -43,7 +43,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "catppuccin", "tokyonight", "habamax" } },
+  -- install = { colorscheme = { "catppuccin", "tokyonight", "habamax" } },
   checker = { enabled = true }, -- automatically check for plugin updates
   performance = {
     rtp = {
@@ -62,9 +62,12 @@ require("lazy").setup({
   },
 })
 
-require("catppuccin").setup()
-vim.cmd.colorscheme("catppuccin")
--- vim.cmd.colorscheme("nord")
+-- require("catppuccin").setup()
+-- vim.cmd.colorscheme("catppuccin")
+--vim.cmd.colorscheme("github")
+
+-- vim.cmd("colorscheme github_dark")
+vim.cmd.colorscheme("nord")
 require("telescope").setup({
   extensions = {
     ["ui-select"] = {
@@ -93,3 +96,31 @@ require("telescope").setup({
 require("telescope").load_extension("ui-select")
 
 require("lspconfig").solargraph.setup({})
+
+require("neo-tree").setup({
+  source_selector = {
+    -- winbar = true,
+    -- statusline = true,
+    -- content_layout = "tabline",
+  },
+  sources = {
+    "filesystem",
+    "buffers",
+    "git_status",
+    "document_symbols",
+  },
+})
+
+-- vim.o.fillchars = "vert:|,horiz:━"
+
+-- vim.g.neotree_icons = {
+--   default = "x",
+--   folder = {
+--     default = "▸",
+--     open = "",
+--     empty = "",
+--     empty_open = "",
+--     symlink = "",
+--     symlink_open = "",
+--   },
+-- }
