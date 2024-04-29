@@ -24,3 +24,10 @@ vim.api.nvim_set_keymap(
 
 vim.api.nvim_set_keymap("n", "<BS>", "X", { noremap = true })
 vim.api.nvim_set_keymap("n", "$", "C-S-l", { noremap = false })
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>cs",
+  ":Neotree document_symbols<CR><C-h>",
+  { desc = "Show symbols", noremap = true }
+)

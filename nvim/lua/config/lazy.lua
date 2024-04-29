@@ -67,7 +67,6 @@ require("lazy").setup({
 --vim.cmd.colorscheme("github")
 
 -- vim.cmd("colorscheme github_dark")
-vim.cmd.colorscheme("nord")
 require("telescope").setup({
   extensions = {
     ["ui-select"] = {
@@ -111,6 +110,7 @@ require("neo-tree").setup({
   },
 })
 
+vim.cmd.colorscheme("nord")
 -- vim.o.fillchars = "vert:|,horiz:━"
 
 -- vim.g.neotree_icons = {
