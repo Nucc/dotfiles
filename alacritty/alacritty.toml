@@ -26,7 +26,24 @@ style = "Medium"
 decorations = "buttonless"
 dynamic_padding = false
 opacity = 0.95
+blur = true
 
 [window.padding]
-x = 20
-y = 20
+x = 15 
+y = 15
+
+[scrolling]
+history = 100000
+
+[cursor.style]
+shape = "beam"
+
+[keyboard]
+bindings = [
+  { key = "Left", mods = "Option", chars = "\u001BB" },
+  { key = "Right", mods = "Option", chars = "\u001BF" },
+  { key = "Back", mods = "Option", chars = "\u001b\u007f" },
+  { key = "Delete", mods = "Option", chars = "\u001bd" },
+]
+
+
