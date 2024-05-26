@@ -25,7 +25,7 @@ style = "Medium"
 [window]
 decorations = "buttonless"
 dynamic_padding = false
-opacity = 0.95
+opacity = 0.9
 blur = true
 
 [window.padding]
@@ -36,7 +36,7 @@ y = 15
 history = 100000
 
 [cursor.style]
-shape = "beam"
+shape = "block"
 
 [keyboard]
 bindings = [
