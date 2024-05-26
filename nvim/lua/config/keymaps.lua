@@ -23,7 +23,6 @@ vim.api.nvim_set_keymap(
 )
 
 vim.api.nvim_set_keymap("n", "<BS>", "X", { noremap = true })
-vim.api.nvim_set_keymap("n", "$", "C-S-l", { noremap = false })
 
 vim.api.nvim_set_keymap(
   "n",
@@ -31,3 +30,8 @@ vim.api.nvim_set_keymap(
   ":Neotree document_symbols<CR><C-h>",
   { desc = "Show symbols", noremap = true }
 )
+vim.api.nvim_set_keymap("n", "M-l", "$", { noremap = false })
+vim.api.nvim_set_keymap("n", "<leader>bn", ":enew<CR>", { desc = "New buffer", noremap = true })
+
+vim.api.nvim_set_keymap("n", "M-S-k", ":m-1", { desc = "Move selection up", noremap = true })
+vim.api.nvim_set_keymap("n", "M-S-j", ":m+1", { desc = "Move selection down", noremap = true })

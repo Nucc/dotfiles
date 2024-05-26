@@ -108,6 +108,33 @@ require("neo-tree").setup({
     "git_status",
     "document_symbols",
   },
+
+  event_handlers = {
+    {
+      event = "after_render",
+      handler = function()
+        local state = require("neo-tree.sources.manager").get_state("filesystem")
+        if not require("neo-tree.sources.common.preview").is_active() then
+          state.config = { use_float = false } -- or whatever your config is
+          state.commands.toggle_preview(state)
+        end
+      end,
+    },
+  },
+})
+
+local neotree_augroup = vim.api.nvim_create_augroup("NeoTreeAutocmds", { clear = true })
+
+-- Create an autocmd to close NeoTree when a file is opened
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = neotree_augroup,
+  pattern = "*",
+  callback = function()
+    local buf_ft = vim.bo.filetype
+    if buf_ft ~= "neo-tree" then
+      vim.cmd("Neotree close")
+    end
+  end,
 })
 
 vim.cmd.colorscheme("nord")
@@ -119,8 +146,8 @@ vim.cmd.colorscheme("nord")
 --     default = "▸",
 --     open = "",
 --     empty = "",
---     empty_open = "",
---     symlink = "",
 --     symlink_open = "",
 --   },
--- }
+--
+
+vim.g.minipairs_disable = true
