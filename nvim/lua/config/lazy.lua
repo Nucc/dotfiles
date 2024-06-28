@@ -151,3 +151,33 @@ vim.cmd.colorscheme("nord")
 --
 
 vim.g.minipairs_disable = true
+
+vim.keymap.set("n", "<PageUp>", [[<cmd>lua require('custom.tmux_commands').send_page_key_to_tmux('PageUp')<cr>]])
+vim.keymap.set("n", "<PageDown>", [[<cmd>lua require('custom.tmux_commands').send_page_key_to_tmux('PageDown')<cr>]])
+-- Load your custom tmux commands plugin
+require("custom.tmux_commands")
+-- Optional: Create keybindings for the plugin functions
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>tp",
+  ':lua require("custom.tmux_commands").set_target_pane()<CR>',
+  { noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>tc",
+  ':lua require("custom.tmux_commands").prompt_and_send_command()<CR>',
+  { noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>tr",
+  ':lua require("custom.tmux_commands").repeat_command()<CR>',
+  { noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>tu",
+  ':lua require("custom.tmux_commands").up_enter()<CR>',
+  { noremap = true, silent = true }
+)
