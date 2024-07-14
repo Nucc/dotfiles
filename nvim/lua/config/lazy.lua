@@ -68,6 +68,12 @@ require("lazy").setup({
 
 -- vim.cmd("colorscheme github_dark")
 require("telescope").setup({
+  defaults = {
+    layout_strategy = "horizontal",
+    layout_config = { prompt_position = "top" },
+    sorting_strategy = "ascending",
+    winblend = 0,
+  },
   extensions = {
     ["ui-select"] = {
       require("telescope.themes").get_dropdown({
@@ -121,6 +127,11 @@ require("neo-tree").setup({
       end,
     },
   },
+
+  config = function()
+    vim.g.neo_tree_remove_legacy_commands = 1
+    vim.g.neo_tree_auto_open = 0
+  end,
 })
 
 local neotree_augroup = vim.api.nvim_create_augroup("NeoTreeAutocmds", { clear = true })
