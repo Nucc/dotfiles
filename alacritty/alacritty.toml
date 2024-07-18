@@ -100,10 +100,14 @@ bindings = [
   { key = "Z", mods = "Command|Shift", chars = "\u002b[1;52Z" },
 
   { key = "/", mods = "Command", chars = "\u002b[1;53/" },
-  { key = "[", mods = "Command", chars = "\u002b[1;100[" },
-  { key = "]", mods = "Command", chars = "\u002b[1;101]" },
+
+  # { key = "[", mods = "Command", chars = "\u002b[1;100[" },
+  # { key = "]", mods = "Command", chars = "\u002b[1;101]" },
   { key = "{", mods = "Command|Shift", chars = "\u002b[1;102{" },
   { key = "}", mods = "Command|Shift", chars = "\u002b[1;103}" },
+  { key = "<", mods = "Command|Shift", chars = "\u002b[1;104<" },
+  { key = ">", mods = "Command|Shift", chars = "\u002b[1;105>" },
 
+  { key = 'Down', mods = "Command|Option", chars = "\u002b[1;106D" },
 ]
 

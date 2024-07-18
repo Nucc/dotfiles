@@ -57,8 +57,8 @@ vim.api.nvim_set_keymap("n", "+[1;19S", ":w<CR>", { noremap = true, silent = tru
 vim.api.nvim_set_keymap("i", "+[1;19S", "<Esc>:w<CR>", { noremap = true, silent = true })
 
 -- # CMD-/
-vim.api.nvim_set_keymap("n", "+[1;27A", "gcc", { noremap = false, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;27A", "<Esc>gcc", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("n", "+[1;53/", "gcc", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("i", "+[1;53/", "<Esc>gcc", { noremap = false, silent = true })
 
 -- CMD-C
 vim.api.nvim_set_keymap("n", "+[1;3C", "yy", { noremap = true, silent = true })
@@ -100,11 +100,24 @@ vim.api.nvim_set_keymap("v", "+[1;30D", '<Esc>"-yy"-p', { noremap = true, silent
 vim.api.nvim_set_keymap("i", "+[1;30D", '<Esc>"-yy"-p', { noremap = true, silent = true })
 
 -- CMD-{
-vim.api.nvim_set_keymap("n", "+[1;102{", ":b#<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;102{", "<Esc>:b#<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;102{", "<Esc>:b#<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "+[1;102{", ":bp<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "+[1;102{", "<Esc>:bp<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "+[1;102{", "<Esc>:bp<CR>", { noremap = true, silent = true })
 
 -- CMD-{
-vim.api.nvim_set_keymap("i", "+[1;102{", "<Esc>:bnext<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;102{", "<Esc>:bnext<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;102{", "<Esc>:bnext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "+[1;103}", "<Esc>:bnext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "+[1;103}", ":bnext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "+[1;103}", "<Esc>:bnext<CR>", { noremap = true, silent = true })
+
+-- CMD-SHIFT-<
+vim.api.nvim_set_keymap("i", "+[1;104<", "<Esc><<", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "+[1;104<", "<<", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "+[1;104<", "<<", { noremap = true, silent = true })
+
+-- CMD-SHIFT->
+vim.api.nvim_set_keymap("i", "+[1;105>", "<Esc>>>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "+[1;105>", ">>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "+[1;105>", "", { noremap = true, silent = true })
+
+-- CMD-OPT-Down
+vim.api.nvim_set_keymap("n", "+[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
