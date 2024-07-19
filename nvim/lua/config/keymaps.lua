@@ -3,6 +3,15 @@
 -- Add any additional keymaps here
 --
 --
+
+local function map(mode, key, command, opts)
+  local options = { noremap = true, silent = true }
+  if opts then
+    options = vim.tbl_extend("force", options, opts)
+  end
+  vim.api.nvim_set_keymap(mode, key, command, options)
+end
+
 vim.api.nvim_set_keymap("n", "<Del>", '"_x', { noremap = false })
 vim.api.nvim_set_keymap("v", "<Del>", '"_d', { noremap = false })
 vim.api.nvim_set_keymap("n", "<BS>", '"_X', { noremap = true })
@@ -14,7 +23,7 @@ vim.api.nvim_set_keymap(
   ":lua ToggleLineNumbers()<CR>",
   { desc = "Toggle relative and absolute line numbers", noremap = true }
 )
-vim.api.nvim_set_keymap("n", "+[1;38L", ":lua ToggleLineNumbers()<CR>", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("n", "¤[1;38L", ":lua ToggleLineNumbers()<CR>", { noremap = false, silent = true })
 
 vim.api.nvim_set_keymap(
   "n",
@@ -43,103 +52,104 @@ vim.api.nvim_set_keymap("n", "D", '"_d', { desc = "Remove line into null registe
 vim.api.nvim_set_keymap("v", "D", '"_d', { desc = "Remove line into null register", noremap = false })
 
 -- # CMD-A
-vim.api.nvim_set_keymap("n", "+[1;1A", "ggVG", { noremap = true, silent = true })
--- # CMD-S
-vim.api.nvim_set_keymap("n", "+[1;19S", ":w<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;19S", "<Esc>:w<CR>", { noremap = true, silent = true })
+map("n", "¤[1;1A", "ggVG")
+map("i", "¤[1;1A", "<Esc>ggVG")
+map("v", "¤[1;1A", "<Esc>ggVG")
 
--- # CMD-/
-vim.api.nvim_set_keymap("n", "+[1;53/", "gcc", { noremap = false, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;53/", "<Esc>gcc", { noremap = false, silent = true })
+-- CMD-S
+map("n", "¤[1;19S", ":w<CR>")
+map("i", "¤[1;19S", "<Esc>:w<CR>")
+map("v", "¤[1;19S", "<Esc>:w<CR>")
+
+-- CMD-/
+map("n", "¤[1;53/", "gcc", { noremap = false })
+map("i", "¤[1;53/", "<Esc>gcc"), { noremap = true })
 
 -- CMD-C
-vim.api.nvim_set_keymap("n", "+[1;3C", "yy", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;3C", "y", { noremap = true, silent = true })
+map("n", "¤[1;3C", "yy")
+map("v", "¤[1;3C", "y")
 
 -- CMD-D
-vim.api.nvim_set_keymap("i", "+[1;4D", '<Esc>"_dd', { desc = "Remove line into null register", noremap = false })
-vim.api.nvim_set_keymap("n", "+[1;4D", '"_dd', { desc = "Remove line into null register", noremap = false })
-vim.api.nvim_set_keymap("v", "+[1;4D", '"_d', { desc = "Remove line into null register", noremap = false })
+map("i", "¤[1;4D", '<Esc>"_dd')
+map("n", "¤[1;4D", '"_dd')
+map("v", "¤[1;4D", '"_d')
 
 -- CMD-N
-vim.api.nvim_set_keymap("i", "+[1;14N", "<Esc>:enew<CR>", { desc = "Remove line into null register", noremap = false })
-vim.api.nvim_set_keymap("n", "+[1;14N", ":enew<CR>", { noremap = false, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;14N", ":enew<CR>", { noremap = false, silent = true })
+map("i", "¤[1;14N", "<Esc>:enew<CR>")
+map("n", "¤[1;14N", ":enew<CR>")
+map("v", "¤[1;14N", ":enew<CR>")
 
 -- CMD-P
-vim.api.nvim_set_keymap("n", "+[1;16P", ":Telescope find_files<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;16P", "<Esc>:Telescope find_files<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;16P", "<Esc>:Telescope find_files<CR>", { noremap = true, silent = true })
+map("n", "¤[1;16P", ":Telescope find_files<CR>")
+map("v", "¤[1;16P", "<Esc>:Telescope find_files<CR>")
+map("i", "¤[1;16P", "<Esc>:Telescope find_files<CR>")
 
 -- CMD-W
-vim.api.nvim_set_keymap("n", "+[1;23W", ":bd<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;23W", "<Esc>:bd<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;23W", "<Esc>:bd<CR>", { noremap = true, silent = true })
+map("n", "¤[1;23W", ":bd<CR>")
+map("v", "¤[1;23W", "<Esc>:bd<CR>")
+map("i", "¤[1;23W", "<Esc>:bd<CR>")
 
 -- CMD-SHIFT-F
-vim.api.nvim_set_keymap("n", "+[1;32F", ":Telescope live_grep<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;32F", "<Esc>:Telescope live_grep<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;32F", "<Esc>:Telescope live_grep<CR>", { noremap = true, silent = true })
+map("n", "¤[1;32F", ":Telescope live_grep<CR>")
+map("v", "¤[1;32F", "<Esc>:Telescope live_grep<CR>")
+map("i", "¤[1;32F", "<Esc>:Telescope live_grep<CR>")
 
 -- CMD-Z
-vim.api.nvim_set_keymap("n", "+[1;26Z", "u", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;26Z", "<Esc>u", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;26Z", "<Esc>u", { noremap = true, silent = true })
+map("n", "¤[1;26Z", "u")
+map("v", "¤[1;26Z", "<Esc>u")
+map("i", "¤[1;26Z", "<Esc>u")
+
+-- CMD-SHIFT-Z
+map("n", "¤[1;52Z", "<cmd>redo<CR>")
+map("v", "¤[1;52Z", "<Esc><cmd>redo<CR>")
+map("i", "¤[1;52Z", "<Esc><cmd>redo<CR>")
 
 -- CMD-SHIFT-D
-vim.api.nvim_set_keymap("n", "+[1;30D", '"-yy"-p', { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;30D", '<Esc>"-yy"-p', { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;30D", '<Esc>"-yy"-p', { noremap = true, silent = true })
+map("n", "¤[1;30D", '"-yy"-p')
+map("v", "¤[1;30D", '<Esc>"-yy"-p')
+map("i", "¤[1;30D", '<Esc>"-yy"-p')
 
 -- CMD-{
-vim.api.nvim_set_keymap("n", "+[1;102{", ":bp<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;102{", "<Esc>:bp<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;102{", "<Esc>:bp<CR>", { noremap = true, silent = true })
+map("n", "¤[1;102{", ":bp<CR>")
+map("v", "¤[1;102{", "<Esc>:bp<CR>")
+map("i", "¤[1;102{", "<Esc>:bp<CR>")
 
--- CMD-{
-vim.api.nvim_set_keymap("i", "+[1;103}", "<Esc>:bnext<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "+[1;103}", ":bnext<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;103}", "<Esc>:bnext<CR>", { noremap = true, silent = true })
+-- CMD-}
+map("i", "¤[1;103}", "<Esc>:bnext<CR>")
+map("n", "¤[1;103}", ":bnext<CR>")
+map("v", "¤[1;103}", "<Esc>:bnext<CR>")
 
 -- CMD-SHIFT-<
-vim.api.nvim_set_keymap("i", "+[1;104<", "<Esc><<", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "+[1;104<", "<<", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;104<", "<<", { noremap = true, silent = true })
+map("i", "¤[1;104<", "<Esc><<")
+map("n", "¤[1;104<", "<<")
+map("v", "¤[1;104<", "<<")
 
 -- CMD-SHIFT->
-vim.api.nvim_set_keymap("i", "+[1;105>", "<Esc>>>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "+[1;105>", ">>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;105>", "", { noremap = true, silent = true })
+map("i", "¤[1;105>", "<Esc>>>")
+map("n", "¤[1;105>", ">>")
+map("v", "¤[1;105>", ">>")
 
 -- CMD-OPT-Down
-vim.api.nvim_set_keymap("n", "+[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+map("n", "¤[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>")
 
--- CMD-OPT-Down
-vim.api.nvim_set_keymap("n", "+[1;45S", "<leader>sw", { noremap = true, silent = true })
+-- CMD-OPT-Down (with leader)
+map("n", "¤[1;45S", "<leader>sw")
 
 -- CMD-Up
-vim.api.nvim_set_keymap("v", "+[1;107D", "G", { noremap = false, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;107D", "<Esc>G", { noremap = false, silent = true })
-vim.api.nvim_set_keymap("n", "+[1;107D", "G", { noremap = false, silent = true })
+map("v", "¤[1;107D", "G")
+map("i", "¤[1;107D", "<Esc>G")
+map("n", "¤[1;107D", "G")
 
 -- CMD-Down
-vim.api.nvim_set_keymap("v", "+[1;109U", "gg", { noremap = false, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;109U", "<Esc>gg", { noremap = false, silent = true })
-vim.api.nvim_set_keymap("n", "+[1;109U", "gg", { noremap = false, silent = true })
+map("v", "¤[1;109U", "gg")
+map("i", "¤[1;109U", "<Esc>gg")
+map("n", "¤[1;109U", "gg", { noremap = false })
 
-vim.api.nvim_set_keymap("n", "+[1;41O", "<cmd>Neotree filesystem reveal left<CR>", { noremap = false, silent = true })
-vim.api.nvim_set_keymap("v", "+[1;41O", "<cmd>Neotree filesystem reveal left<CR>", { noremap = false, silent = true })
-vim.api.nvim_set_keymap("i", "+[1;41O", "<Esc>:Neotree filesystem reveal left<CR>", { noremap = false, silent = true })
+-- Neotree reveal
+map("n", "¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>")
+map("v", "¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>")
+map("i", "¤[1;41O", "<Esc>:Neotree filesystem reveal left<CR>")
 
-vim.api.nvim_set_keymap(
-  "n",
-  "+[1;29C",
-  '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>',
-  { noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-  "i",
-  "+[1;29C",
-  '<Esc><cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>',
-  { noremap = true, silent = true }
-)
+-- Custom command
+map("n", "¤[1;29C", '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>')
+map("i", "¤[1;29C", '<Esc><cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>')
