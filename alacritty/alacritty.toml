@@ -107,7 +107,11 @@ bindings = [
   { key = "}", mods = "Command|Shift", chars = "\u002b[1;103}" },
   { key = "<", mods = "Command|Shift", chars = "\u002b[1;104<" },
   { key = ">", mods = "Command|Shift", chars = "\u002b[1;105>" },
-
   { key = 'Down', mods = "Command|Option", chars = "\u002b[1;106D" },
+  { key = 'Down', mods = "Command", chars = "\u002b[1;107D" },
+  { key = 'Up', mods = "Command|Option", chars = "\u002b[1;108U" },
+  { key = 'Up', mods = "Command", chars = "\u002b[1;109U" },
+  
+
 ]
 

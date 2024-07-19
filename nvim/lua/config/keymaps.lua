@@ -3,17 +3,10 @@
 -- Add any additional keymaps here
 --
 --
--- vim.api.nvim_set_keymap("i", "<Del>", "x", { noremap = false })
-
-function ToggleLineNumbers()
-  if vim.wo.relativenumber then
-    vim.wo.relativenumber = false
-    vim.wo.number = true
-  else
-    vim.wo.relativenumber = true
-  end
-end
-
+vim.api.nvim_set_keymap("n", "<Del>", '"_x', { noremap = false })
+vim.api.nvim_set_keymap("v", "<Del>", '"_d', { noremap = false })
+vim.api.nvim_set_keymap("n", "<BS>", '"_X', { noremap = true })
+vim.api.nvim_set_keymap("v", "<BS>", '"_d', { noremap = true })
 -- vim.keymap.set("n", "<C-M-l>", ":lua ToggleLineNumbers()<CR>", { noremap = true, silent = false })
 vim.api.nvim_set_keymap(
   "n",
@@ -21,8 +14,7 @@ vim.api.nvim_set_keymap(
   ":lua ToggleLineNumbers()<CR>",
   { desc = "Toggle relative and absolute line numbers", noremap = true }
 )
-
-vim.api.nvim_set_keymap("n", "<BS>", "X", { noremap = true })
+vim.api.nvim_set_keymap("n", "+[1;38L", ":lua ToggleLineNumbers()<CR>", { noremap = false, silent = true })
 
 vim.api.nvim_set_keymap(
   "n",
@@ -121,3 +113,33 @@ vim.api.nvim_set_keymap("v", "+[1;105>", "", { noremap = true, silent = true })
 
 -- CMD-OPT-Down
 vim.api.nvim_set_keymap("n", "+[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+
+-- CMD-OPT-Down
+vim.api.nvim_set_keymap("n", "+[1;45S", "<leader>sw", { noremap = true, silent = true })
+
+-- CMD-Up
+vim.api.nvim_set_keymap("v", "+[1;107D", "G", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("i", "+[1;107D", "<Esc>G", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("n", "+[1;107D", "G", { noremap = false, silent = true })
+
+-- CMD-Down
+vim.api.nvim_set_keymap("v", "+[1;109U", "gg", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("i", "+[1;109U", "<Esc>gg", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("n", "+[1;109U", "gg", { noremap = false, silent = true })
+
+vim.api.nvim_set_keymap("n", "+[1;41O", "<cmd>Neotree filesystem reveal left<CR>", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("v", "+[1;41O", "<cmd>Neotree filesystem reveal left<CR>", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("i", "+[1;41O", "<Esc>:Neotree filesystem reveal left<CR>", { noremap = false, silent = true })
+
+vim.api.nvim_set_keymap(
+  "n",
+  "+[1;29C",
+  '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>',
+  { noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap(
+  "i",
+  "+[1;29C",
+  '<Esc><cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>',
+  { noremap = true, silent = true }
+)
