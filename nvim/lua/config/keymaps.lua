@@ -56,6 +56,8 @@ map("n", "¤[1;1A", "ggVG")
 map("i", "¤[1;1A", "<Esc>ggVG")
 map("v", "¤[1;1A", "<Esc>ggVG")
 
+vim.api.nvim_set_keymap("n", "¤[1;1A", "ggVG", {})
+
 -- CMD-S
 map("n", "¤[1;19S", ":w<CR>")
 map("i", "¤[1;19S", "<Esc>:w<CR>")
@@ -63,7 +65,7 @@ map("v", "¤[1;19S", "<Esc>:w<CR>")
 
 -- CMD-/
 map("n", "¤[1;53/", "gcc", { noremap = false })
-map("i", "¤[1;53/", "<Esc>gcc"), { noremap = true })
+map("i", "¤[1;53/", "<Esc>gcc", { noremap = true })
 
 -- CMD-C
 map("n", "¤[1;3C", "yy")
