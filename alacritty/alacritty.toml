@@ -111,7 +111,11 @@ bindings = [
   { key = 'Down', mods = "Command", chars = "\u00a4[1;107D" },
   { key = 'Up', mods = "Command|Option", chars = "\u00a4[1;108U" },
   { key = 'Up', mods = "Command", chars = "\u00a4[1;109U" },
-  
-
+  { key = 'Enter', mods = "Command", chars = "\u00a4[1;110E" },
+  { key = 'Enter', mods = "Command|Shift", chars = "\u00a4[1;111E" }, 
+  { key = 'Backspace', mods = "Command", chars = "\u00a4[1;112B" }, 
+  { key = 'Backspace', mods = "Command|Shift", chars = "\u00a4[1;113B" }, 
+  { key = 'Delete', mods = "Command", chars = "\u00a4[1;114D" }, 
+  { key = 'Delete', mods = "Command|Shift", chars = "\u00a4[1;115D" }, 
 ]
 

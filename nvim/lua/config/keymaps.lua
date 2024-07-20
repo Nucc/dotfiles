@@ -12,6 +12,28 @@ local function map(mode, key, command, opts)
   vim.api.nvim_set_keymap(mode, key, command, options)
 end
 
+-- Function to check if current buffer is Neotree
+local function is_neotree_buffer()
+  local buftype = vim.api.nvim_buf_get_option(0, "filetype")
+  return buftype == "neo-tree"
+end
+
+-- Function to set keybinding only for Neotree buffers
+local function set_neotree_keybindings()
+  if is_neotree_buffer() then
+    vim.api.nvim_buf_set_keymap(0, "n", "¤[1;41O", "<Cmd>Neotree close<CR>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "¤[1;110E", "<Cmd>Neotree action=split<CR>", { noremap = true, silent = true })
+  end
+end
+
+vim.api.nvim_create_augroup("NeotreeKeybindings", { clear = true })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = "NeotreeKeybindings",
+  pattern = "*",
+  callback = set_neotree_keybindings,
+})
+
 vim.api.nvim_set_keymap("n", "<Del>", '"_x', { noremap = false })
 vim.api.nvim_set_keymap("v", "<Del>", '"_d', { noremap = false })
 vim.api.nvim_set_keymap("n", "<BS>", '"_X', { noremap = true })
@@ -66,10 +88,11 @@ map("v", "¤[1;19S", "<Esc>:w<CR>")
 -- CMD-/
 map("n", "¤[1;53/", "gcc", { noremap = false })
 map("i", "¤[1;53/", "<Esc>gcc", { noremap = true })
+map("v", "¤[1;53/", "gcc", { noremap = false })
 
 -- CMD-C
-map("n", "¤[1;3C", "yy")
-map("v", "¤[1;3C", "y")
+map("n", "¤[1;3C", "yy'[")
+map("v", "¤[1;3C", "y'[")
 
 -- CMD-D
 map("i", "¤[1;4D", '<Esc>"_dd')
@@ -87,7 +110,7 @@ map("v", "¤[1;16P", "<Esc>:Telescope find_files<CR>")
 map("i", "¤[1;16P", "<Esc>:Telescope find_files<CR>")
 
 -- CMD-W
-map("n", "¤[1;23W", ":bd<CR>")
+map("n", "23W", ":bd<CR>")
 map("v", "¤[1;23W", "<Esc>:bd<CR>")
 map("i", "¤[1;23W", "<Esc>:bd<CR>")
 
@@ -155,3 +178,14 @@ map("i", "¤[1;41O", "<Esc>:Neotree filesystem reveal left<CR>")
 -- Custom command
 map("n", "¤[1;29C", '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>')
 map("i", "¤[1;29C", '<Esc><cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>')
+
+map("n", "¤[1;110E", "o<Esc>", { noremap = false })
+map("i", "¤[1;110E", "<Esc>o", { noremap = false })
+map("n", "¤[1;111E", "O<Esc>", { noremap = false })
+map("i", "¤[1;111E", "<Esc>O", { noremap = false })
+
+map("i", "¤[1;112B", '<Esc>l"_di', { noremap = false })
+map("n", "¤[1;112B", '"_d^', { noremap = false })
+
+map("i", "¤[1;114D", '<Esc>l"_d$a', { noremap = false })
+map("n", "¤[1;114D", '"_d$', { noremap = false })
