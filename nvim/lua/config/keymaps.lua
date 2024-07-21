@@ -34,6 +34,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = set_neotree_keybindings,
 })
 
+vim.api.nvim_set_keymap("n", "¤[1;116L", "^", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-Left>", "b", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-Right>", "w", { noremap = true, silent = true })
+
 vim.api.nvim_set_keymap("n", "<Del>", '"_x', { noremap = false })
 vim.api.nvim_set_keymap("v", "<Del>", '"_d', { noremap = false })
 vim.api.nvim_set_keymap("n", "<BS>", '"_X', { noremap = true })
@@ -82,13 +86,13 @@ vim.api.nvim_set_keymap("n", "¤[1;1A", "ggVG", {})
 
 -- CMD-S
 map("n", "¤[1;19S", ":w<CR>")
-map("i", "¤[1;19S", "<Esc>:w<CR>")
+map("i", "¤[1;19S", "<Esc>l<cmd>w<CR>")
 map("v", "¤[1;19S", "<Esc>:w<CR>")
 
 -- CMD-/
 map("n", "¤[1;53/", "gcc", { noremap = false })
 map("i", "¤[1;53/", "<Esc>gcc", { noremap = true })
-map("v", "¤[1;53/", "gcc", { noremap = false })
+map("v", "¤[1;53/", "gc", { noremap = false })
 
 -- CMD-C
 map("n", "¤[1;3C", "yy'[")

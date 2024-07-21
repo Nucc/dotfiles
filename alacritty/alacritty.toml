@@ -117,5 +117,8 @@ bindings = [
   { key = 'Backspace', mods = "Command|Shift", chars = "\u00a4[1;113B" }, 
   { key = 'Delete', mods = "Command", chars = "\u00a4[1;114D" }, 
   { key = 'Delete', mods = "Command|Shift", chars = "\u00a4[1;115D" }, 
+
+  { key = "Left", mods = "Command|Shift", chars = "\u00a4[1;116L" },
+
 ]
 
