@@ -34,6 +34,16 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = set_neotree_keybindings,
 })
 
+cmp = require("cmp")
+cmp.setup({
+  mapping = {
+    ["<Tab>"] = cmp.mapping.confirm({ select = true }),
+    ["<CR>"] = cmp.mapping(function(fallback)
+      fallback() -- If no completion is selected, perform default Enter action
+    end),
+  },
+})
+
 vim.api.nvim_set_keymap("n", "¤[1;116L", "^", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-Left>", "b", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-Right>", "w", { noremap = true, silent = true })
@@ -42,7 +52,6 @@ vim.api.nvim_set_keymap("n", "<Del>", '"_x', { noremap = false })
 vim.api.nvim_set_keymap("v", "<Del>", '"_d', { noremap = false })
 vim.api.nvim_set_keymap("n", "<BS>", '"_X', { noremap = true })
 vim.api.nvim_set_keymap("v", "<BS>", '"_d', { noremap = true })
--- vim.keymap.set("n", "<C-M-l>", ":lua ToggleLineNumbers()<CR>", { noremap = true, silent = false })
 vim.api.nvim_set_keymap(
   "n",
   "<leader>cL",
@@ -123,6 +132,11 @@ map("n", "¤[1;32F", ":Telescope live_grep<CR>")
 map("v", "¤[1;32F", "<Esc>:Telescope live_grep<CR>")
 map("i", "¤[1;32F", "<Esc>:Telescope live_grep<CR>")
 
+-- CMD-SHIFT-S
+map("n", "¤[1;45S", ":Telescope grep_string<CR>")
+map("v", "¤[1;45S", "<Esc>:Telescope grep_string<CR>")
+map("i", "¤[1;45S", "<Esc>:Telescope grep_string<CR>")
+
 -- CMD-Z
 map("n", "¤[1;26Z", "u")
 map("v", "¤[1;26Z", "<Esc>u")
@@ -161,9 +175,6 @@ map("v", "¤[1;105>", ">>")
 -- CMD-OPT-Down
 map("n", "¤[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>")
 
--- CMD-OPT-Down (with leader)
-map("n", "¤[1;45S", "<leader>sw")
-
 -- CMD-Up
 map("v", "¤[1;107D", "G")
 map("i", "¤[1;107D", "<Esc>G")
@@ -174,6 +185,11 @@ map("v", "¤[1;109U", "gg")
 map("i", "¤[1;109U", "<Esc>gg")
 map("n", "¤[1;109U", "gg", { noremap = false })
 
+-- CMD-T
+map("v", "¤[1;20T", ":Telescope buffers<CR>")
+map("i", "¤[1;20T", "<Esc>:Telescope buffers<CR>")
+map("n", "¤[1;20T", ":Telescope buffers<CR>")
+
 -- Neotree reveal
 map("n", "¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>")
 map("v", "¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>")
@@ -183,7 +199,7 @@ map("i", "¤[1;41O", "<Esc>:Neotree filesystem reveal left<CR>")
 map("n", "¤[1;29C", '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>')
 map("i", "¤[1;29C", '<Esc><cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>')
 
-map("n", "¤[1;110E", "o<Esc>", { noremap = false })
+map("n", "¤[1;110E", "o", { noremap = false })
 map("i", "¤[1;110E", "<Esc>o", { noremap = false })
 map("n", "¤[1;111E", "O<Esc>", { noremap = false })
 map("i", "¤[1;111E", "<Esc>O", { noremap = false })
@@ -193,3 +209,8 @@ map("n", "¤[1;112B", '"_d^', { noremap = false })
 
 map("i", "¤[1;114D", '<Esc>l"_d$a', { noremap = false })
 map("n", "¤[1;114D", '"_d$', { noremap = false })
+
+map("n", "¤[1;117", ":silent !tmux split-window -h<CR>", { noremap = true, silent = true })
+
+map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command()<CR>')
+map("n", "¤[1;118", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>')

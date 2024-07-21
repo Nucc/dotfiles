@@ -8,6 +8,10 @@ end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("lazy").setup({
+  ui = {
+    border = "rounded",
+    notify = false,
+  },
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
@@ -44,7 +48,7 @@ require("lazy").setup({
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
   -- install = { colorscheme = { "catppuccin", "tokyonight", "habamax" } },
-  checker = { enabled = true }, -- automatically check for plugin updates
+  checker = { enabled = false }, -- automatically check for plugin updates
   performance = {
     rtp = {
       -- disable some rtp plugins
@@ -64,7 +68,7 @@ require("lazy").setup({
 
 -- require("catppuccin").setup()
 -- vim.cmd.colorscheme("catppuccin")
---vim.cmd.colorscheme("github")
+-- vim.cmd.colorscheme("github")
 
 -- vim.cmd("colorscheme github_dark")
 require("telescope").setup({
@@ -192,3 +196,12 @@ vim.api.nvim_set_keymap(
   ':lua require("custom.tmux_commands").up_enter()<CR>',
   { noremap = true, silent = true }
 )
+
+require("bufferline").setup({
+  options = {
+    show_buffer_icons = false, -- Disable icons
+    show_buffer_close_icons = false, -- Disable close icons
+    show_close_icon = false, -- Disable close icon on the right side
+    show_tab_indicators = false, -- Disable tab indicators
+  },
+})
