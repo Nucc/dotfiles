@@ -214,3 +214,8 @@ map("n", "¤[1;117", ":silent !tmux split-window -h<CR>", { noremap = true, sile
 
 map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command()<CR>')
 map("n", "¤[1;118", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>')
+
+-- {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
+map("n", "\xF4\x80\x81\x90", ":Telescope commands<CR>")
+map("i", "\xF4\x80\x81\x90", "<Esc>:Telescope commands<CR>")
+map("v", "\xF4\x80\x81\x90", "<Esc>:Telescope commands<CR>")

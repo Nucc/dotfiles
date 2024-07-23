@@ -168,15 +168,19 @@ characters = [
   { char: 'NumLock', code: 275, shift: true }
 
 ]
-
+start_code_point = 0x100000
 offset = -1000
 ['', 'Control|', 'Alt|', 'Control|Alt|'].each do |com|
   offset += 1000
   characters.each do |char|
     mods = 'Command'
     mods += '|Shift' if char[:shift]
+    code_point = start_code_point + char[:code] + offset
 
-    puts "{key = '#{char[:char]}', mods = '#{com}#{mods}', chars = '\u00a4#{offset + char[:code].to_int}'},".gsub("'''",
-                                                                                                                  "\"'\"")
+    utf_code = [code_point].pack('U*')
+    utf8_bytes = utf_code.bytes.map { |b| format('\\x%02X', b) }.join
+
+    puts "# {key = '#{char[:char]}', mods = '#{com}#{mods}', chars = '#{utf_code}'}, # #{"U+#{format('%06X', code_point)}: #{utf8_bytes}"}".gsub("'''",
+                                                                                                                                                 "\"'\"")
   end
 end

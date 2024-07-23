@@ -40,7 +40,7 @@ shape = "block"
 
 [keyboard]
   bindings = [
-      { key = "Left", mods = "Option", chars = "\u001BB" },
+    { key = "Left", mods = "Option", chars = "\u001BB" },
     { key = "Right", mods = "Option", chars = "\u001BF" },
     { key = "Back", mods = "Option", chars = "\u001b\u007f" },
     { key = "Delete", mods = "Option", chars = "\u001bd" },
@@ -87,7 +87,9 @@ shape = "block"
     { key = "M", mods = "Command|Shift", chars = "\u00a4[1;39M" },
     { key = "N", mods = "Command|Shift", chars = "\u00a4[1;40N" },
     { key = "O", mods = "Command|Shift", chars = "\u00a4[1;41O" },
-    { key = "P", mods = "Command|Shift", chars = "\u00a4[1;42P" },
+    # { key = "P", mods = "Command|Shift", chars = "\u00a4[1;42P" },
+    {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
+  
     { key = "Q", mods = "Command|Shift", chars = "\u00a4[1;43Q" },
     { key = "R", mods = "Command|Shift", chars = "\u00a4[1;44R" },
     { key = "S", mods = "Command|Shift", chars = "\u00a4[1;45S" },
@@ -122,6 +124,13 @@ shape = "block"
 
     { key = "\\", mods = "Command|Alt", chars = "\u00a4[1;117" },
     { key = "Enter", mods = "Command|Alt", chars = "\u00a4[1;118" },
+
+    { key = "[", mods = "Command", chars = "\uE000" },
+    { key = "]", mods = "Command", chars = "\uE001" },
+    { key = "\\", mods = "Command", chars = "\uE003" },
+ {key = '[', mods = 'Alt|Command', chars = '􀠫'}, # 10082b
+{key = ']', mods = 'Alt|Command', chars = '􀠭'}, # 10082d
+
 
 # {key = ' ', mods = 'Command', chars = '¤32'},
 # {key = '!', mods = 'Command|Shift', chars = '¤33'},
