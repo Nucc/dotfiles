@@ -123,7 +123,7 @@ map("v", "¤[1;16P", "<Esc>:Telescope find_files<CR>")
 map("i", "¤[1;16P", "<Esc>:Telescope find_files<CR>")
 
 -- CMD-W
-map("n", "23W", ":bd<CR>")
+map("n", "¤[1;23W", ":bd<CR>")
 map("v", "¤[1;23W", "<Esc>:bd<CR>")
 map("i", "¤[1;23W", "<Esc>:bd<CR>")
 
@@ -201,7 +201,7 @@ map("i", "¤[1;29C", '<Esc><cmd>let @+ = substitute(expand("%:p"), getcwd() .. "
 
 map("n", "¤[1;110E", "o", { noremap = false })
 map("i", "¤[1;110E", "<Esc>o", { noremap = false })
-map("n", "¤[1;111E", "O<Esc>", { noremap = false })
+map("n", "¤[1;111E", "O", { noremap = false })
 map("i", "¤[1;111E", "<Esc>O", { noremap = false })
 
 map("i", "¤[1;112B", '<Esc>l"_di', { noremap = false })
