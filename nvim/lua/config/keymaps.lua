@@ -3,78 +3,26 @@
 -- Add any additional keymaps here
 --
 --
-
-local function map(mode, key, command, opts)
-  local options = { noremap = true, silent = true }
-  if opts then
-    options = vim.tbl_extend("force", options, opts)
-  end
-  vim.api.nvim_set_keymap(mode, key, command, options)
-end
-
--- Function to check if current buffer is Neotree
-local function is_neotree_buffer()
-  local buftype = vim.api.nvim_buf_get_option(0, "filetype")
-  return buftype == "neo-tree"
-end
-
--- Function to set keybinding only for Neotree buffers
-local function set_neotree_keybindings()
-  if is_neotree_buffer() then
-    vim.api.nvim_buf_set_keymap(0, "n", "¤[1;41O", "<Cmd>Neotree close<CR>", { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(0, "n", "¤[1;110E", "<Cmd>Neotree action=split<CR>", { noremap = true, silent = true })
-  end
-end
-
-vim.api.nvim_create_augroup("NeotreeKeybindings", { clear = true })
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  group = "NeotreeKeybindings",
-  pattern = "*",
-  callback = set_neotree_keybindings,
-})
-
-cmp = require("cmp")
-cmp.setup({
-  mapping = {
-    ["<Tab>"] = cmp.mapping.confirm({ select = true }),
-    ["<CR>"] = cmp.mapping(function(fallback)
-      fallback() -- If no completion is selected, perform default Enter action
-    end),
-  },
-})
+require("config.keymaps.keymap-helper")
+require("config.keymaps.neotree-keymaps")
+require("config.keymaps.cmp-keymaps")
 
 vim.api.nvim_set_keymap("n", "¤[1;116L", "^", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-Left>", "b", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-Right>", "w", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("n", "<Del>", '"_x', { noremap = false })
-vim.api.nvim_set_keymap("v", "<Del>", '"_d', { noremap = false })
-vim.api.nvim_set_keymap("n", "<BS>", '"_X', { noremap = true })
-vim.api.nvim_set_keymap("v", "<BS>", '"_d', { noremap = true })
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>cL",
-  ":lua ToggleLineNumbers()<CR>",
-  { desc = "Toggle relative and absolute line numbers", noremap = true }
-)
-vim.api.nvim_set_keymap("n", "¤[1;38L", ":lua ToggleLineNumbers()<CR>", { noremap = false, silent = true })
+bind_niv("<Del>", '"_x', nil, '"_d')
+bind_niv("<BS>", '"_X', nil, '"_d')
 
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>cs",
-  ":Neotree document_symbols<CR><C-h>",
-  { desc = "Show symbols", noremap = true }
-)
-vim.api.nvim_set_keymap("n", "<leader>bn", ":enew<CR>", { desc = "New buffer", noremap = true })
+-- CMD-SHIFT-L
+bind_all("¤[1;38L", ":lua ToggleLineNumbers()<CR>", { keep_mode = true })
+
+-- vim.api.nvim_set_keymap("n", "<leader>bn", ":enew<CR>", { desc = "New buffer", noremap = true })
 
 vim.api.nvim_set_keymap("n", "<C-M-Up>", ":m .-2<CR>==", { desc = "Move selection up", noremap = true })
 vim.api.nvim_set_keymap("n", "<C-M-Down>", ":m .+1<CR>==", { desc = "Move selection down", noremap = true })
 vim.api.nvim_set_keymap("v", "<C-M-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selection Down", noremap = true })
 vim.api.nvim_set_keymap("v", "<C-M-Up>", ":m '<-2<CR>gv=gv", { desc = "Move selection Up", noremap = true })
-
-vim.api.nvim_set_keymap("n", "<C-/>", "gcc<CR>", { desc = "Comment out the line", noremap = false })
-vim.api.nvim_set_keymap("v", "<C-/>", "gc<CR>", { desc = "Comment the selection", noremap = false })
 
 vim.api.nvim_set_keymap(
   "n",
@@ -83,20 +31,12 @@ vim.api.nvim_set_keymap(
   { desc = "Copy the location of the current file", noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap("n", "<leader>dd", '"_dd', { desc = "Remove line into null register", noremap = false })
-vim.api.nvim_set_keymap("n", "D", '"_d', { desc = "Remove line into null register", noremap = false })
-vim.api.nvim_set_keymap("v", "D", '"_d', { desc = "Remove line into null register", noremap = false })
 
 -- # CMD-A
-map("n", "¤[1;1A", "ggVG")
-map("i", "¤[1;1A", "<Esc>ggVG")
-map("v", "¤[1;1A", "<Esc>ggVG")
-
-vim.api.nvim_set_keymap("n", "¤[1;1A", "ggVG", {})
+bind_all("¤[1;1A", "ggVG")
 
 -- CMD-S
-map("n", "¤[1;19S", ":w<CR>")
-map("i", "¤[1;19S", "<Esc>l<cmd>w<CR>")
-map("v", "¤[1;19S", "<Esc>:w<CR>")
+bind_niv("¤[1;19S", ":w<CR>", "<Esc>:w<CR>l", "<Esc>:w<CR>")
 
 -- CMD-/
 map("n", "¤[1;53/", "gcc", { noremap = false })
