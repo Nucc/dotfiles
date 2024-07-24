@@ -9,3 +9,5 @@ function ToggleLineNumbers()
     vim.wo.relativenumber = true
   end
 end
+
+vim.wo.relativenumber = false
