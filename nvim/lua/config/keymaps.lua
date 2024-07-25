@@ -1,161 +1,48 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
---
---
 require("config.keymaps.keymap-helper")
 require("config.keymaps.neotree-keymaps")
 require("config.keymaps.cmp-keymaps")
 
 vim.api.nvim_set_keymap("n", "¤[1;116L", "^", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-Left>", "b", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-Right>", "w", { noremap = true, silent = true })
-
-bind_niv("<Del>", '"_x', nil, '"_d')
-bind_niv("<BS>", '"_X', nil, '"_d')
-
--- CMD-SHIFT-L
-bind_all("¤[1;38L", ":lua ToggleLineNumbers()<CR>", { keep_mode = true })
-
--- vim.api.nvim_set_keymap("n", "<leader>bn", ":enew<CR>", { desc = "New buffer", noremap = true })
+vim.api.nvim_set_keymap("n", "<M-Left>", "b", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-Right>", "w", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("n", "<C-M-Up>", ":m .-2<CR>==", { desc = "Move selection up", noremap = true })
 vim.api.nvim_set_keymap("n", "<C-M-Down>", ":m .+1<CR>==", { desc = "Move selection down", noremap = true })
 vim.api.nvim_set_keymap("v", "<C-M-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selection Down", noremap = true })
 vim.api.nvim_set_keymap("v", "<C-M-Up>", ":m '<-2<CR>gv=gv", { desc = "Move selection Up", noremap = true })
 
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>cp",
-  ':let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>',
-  { desc = "Copy the location of the current file", noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap("n", "<leader>dd", '"_dd', { desc = "Remove line into null register", noremap = false })
-
--- # CMD-A
-bind_all("¤[1;1A", "ggVG")
-
--- CMD-S
-bind_niv("¤[1;19S", ":w<CR>", "<Esc>:w<CR>l", "<Esc>:w<CR>")
-
--- CMD-/
-map("n", "¤[1;53/", "gcc", { noremap = false })
-map("i", "¤[1;53/", "<Esc>gcc", { noremap = true })
-map("v", "¤[1;53/", "gc", { noremap = false })
-
--- CMD-C
-map("n", "¤[1;3C", "yy'[")
-map("v", "¤[1;3C", "y'[")
-
--- CMD-D
-map("i", "¤[1;4D", '<Esc>"_dd')
-map("n", "¤[1;4D", '"_dd')
-map("v", "¤[1;4D", '"_d')
-
--- CMD-N
-map("i", "¤[1;14N", "<Esc>:enew<CR>")
-map("n", "¤[1;14N", ":enew<CR>")
-map("v", "¤[1;14N", ":enew<CR>")
-
--- CMD-P
-map("n", "¤[1;16P", ":Telescope find_files<CR>")
-map("v", "¤[1;16P", "<Esc>:Telescope find_files<CR>")
-map("i", "¤[1;16P", "<Esc>:Telescope find_files<CR>")
-
--- CMD-W
-map("n", "¤[1;23W", ":bd<CR>")
-map("v", "¤[1;23W", "<Esc>:bd<CR>")
-map("i", "¤[1;23W", "<Esc>:bd<CR>")
-
--- CMD-SHIFT-F
-map("n", "¤[1;32F", ":Telescope live_grep<CR>")
-map("v", "¤[1;32F", "<Esc>:Telescope live_grep<CR>")
-map("i", "¤[1;32F", "<Esc>:Telescope live_grep<CR>")
-
--- CMD-SHIFT-S
-map("n", "¤[1;45S", ":Telescope grep_string<CR>")
-map("v", "¤[1;45S", "<Esc>:Telescope grep_string<CR>")
-map("i", "¤[1;45S", "<Esc>:Telescope grep_string<CR>")
-
--- CMD-Z
-map("n", "¤[1;26Z", "u")
-map("v", "¤[1;26Z", "<Esc>u")
-map("i", "¤[1;26Z", "<Esc>u")
-
--- CMD-SHIFT-Z
-map("n", "¤[1;52Z", "<cmd>redo<CR>")
-map("v", "¤[1;52Z", "<Esc><cmd>redo<CR>")
-map("i", "¤[1;52Z", "<Esc><cmd>redo<CR>")
-
--- CMD-SHIFT-D
-map("n", "¤[1;30D", '"-yy"-p')
-map("v", "¤[1;30D", '<Esc>"-yy"-p')
-map("i", "¤[1;30D", '<Esc>"-yy"-p')
-
--- CMD-{
-map("n", "¤[1;102{", ":bp<CR>")
-map("v", "¤[1;102{", "<Esc>:bp<CR>")
-map("i", "¤[1;102{", "<Esc>:bp<CR>")
-
--- CMD-}
-map("i", "¤[1;103}", "<Esc>:bnext<CR>")
-map("n", "¤[1;103}", ":bnext<CR>")
-map("v", "¤[1;103}", "<Esc>:bnext<CR>")
-
--- CMD-SHIFT-<
-map("i", "¤[1;104<", "<Esc><<")
-map("n", "¤[1;104<", "<<")
-map("v", "¤[1;104<", "<<")
-
--- CMD-SHIFT->
-map("i", "¤[1;105>", "<Esc>>>")
-map("n", "¤[1;105>", ">>")
-map("v", "¤[1;105>", ">>")
-
--- CMD-OPT-Down
-map("n", "¤[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>")
-
--- CMD-Up
-map("v", "¤[1;107D", "G")
-map("i", "¤[1;107D", "<Esc>G")
-map("n", "¤[1;107D", "G")
-
--- CMD-Down
-map("v", "¤[1;109U", "gg")
-map("i", "¤[1;109U", "<Esc>gg")
-map("n", "¤[1;109U", "gg", { noremap = false })
-
--- CMD-T
-map("v", "¤[1;20T", ":Telescope buffers<CR>")
-map("i", "¤[1;20T", "<Esc>:Telescope buffers<CR>")
-map("n", "¤[1;20T", ":Telescope buffers<CR>")
-
--- Neotree reveal
-map("n", "¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>")
-map("v", "¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>")
-map("i", "¤[1;41O", "<Esc>:Neotree filesystem reveal left<CR>")
-
--- Custom command
-map("n", "¤[1;29C", '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>')
-map("i", "¤[1;29C", '<Esc><cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>')
-
-map("n", "¤[1;110E", "o", { noremap = false })
-map("i", "¤[1;110E", "<Esc>o", { noremap = false })
-map("n", "¤[1;111E", "O", { noremap = false })
-map("i", "¤[1;111E", "<Esc>O", { noremap = false })
-
-map("i", "¤[1;112B", '<Esc>l"_di', { noremap = false })
-map("n", "¤[1;112B", '"_d^', { noremap = false })
-
-map("i", "¤[1;114D", '<Esc>l"_d$a', { noremap = false })
-map("n", "¤[1;114D", '"_d$', { noremap = false })
+bind_niv("<Del>", '"_x', nil, '"_d') -- Delete
+bind_niv("<BS>", '"_X', nil, '"_d') -- Backspace
+bind_all("¤[1;38L", ":lua ToggleLineNumbers()<CR>", { keep_mode = true }) -- CMD-SHIFT-L
+bind_all("¤[1;1A", "ggVG") -- # CMD-A
+bind_niv("¤[1;19S", ":w<CR>", "<Esc>:w<CR>l", "<Esc>:w<CR>") -- CMD-S
+bind_niv("¤[1;53/", "gcc", "<Esc>gcc", "gc", { noremap = false }) -- CMD-/
+bind_niv("¤[1;3C", "yy'[", "<Esc>yy'[", "y'[") -- CMD-C
+bind_niv("¤[1;4D", '"_dd', '<Esc>"_dd', '"_d') -- CMD-D
+bind_all("¤[1;14N", ":enew<CR>") -- CMD-N
+bind_all("¤[1;16P", ":Telescope find_files<CR>") -- CMD-P
+bind_all("¤[1;23W", ":bd<CR>") -- CMD-W
+bind_all("¤[1;32F", ":Telescope live_grep<CR>") -- CMD-SHIFT-F
+bind_all("¤[1;45S", ":Telescope grep_string<CR>") -- CMD-SHIFT-S
+bind_all("¤[1;26Z", "u") -- CMD-Z
+bind_all("¤[1;52Z", "<cmd>redo<CR>") -- CMD-SHIFT-Z
+bind_all("¤[1;30D", '"-yy"-p') -- CMD-SHIFT-D
+bind_all("¤[1;102{", ":bp<CR>") -- CMD-{
+bind_all("¤[1;103}", ":bnext<CR>") -- CMD-}
+bind_all("¤[1;104<", "<<") -- CMD-SHIFT-<
+bind_all("¤[1;105>", ">>") -- CMD-SHIFT->
+bind_niv("¤[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
+bind_all("¤[1;107D", "G") -- CMD-Up
+bind_all("¤[1;109U", "gg") -- CMD-Down
+bind_all("¤[1;20T", ":Telescope buffers<CR>") -- CMD-T
+bind_all("¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>") -- Neotree reveal
+bind_all("¤[1;29C", '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>', { keep_mode = true }) -- Cmd-Shift-C
+bind_all("¤[1;110E", "o", { noremap = false }) -- CMD-O
+bind_all("¤[1;111E", "O", { noremap = false }) -- CMD-SHIFT-O
+bind_niv("¤[1;112B", '"_d^', '<Esc>l"_di', nil, { noremap = false }) -- CMD-Backspace
+bind_niv("¤[1;114D", '"_d$', '<Esc>l"_d$a', nil, { noremap = false }) -- CMD-Backspace
+bind_all("\xF4\x80\x81\x90", ":Telescope commands<CR>") -- {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
 
 map("n", "¤[1;117", ":silent !tmux split-window -h<CR>", { noremap = true, silent = true })
-
 map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command()<CR>')
 map("n", "¤[1;118", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>')
-
--- {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
-map("n", "\xF4\x80\x81\x90", ":Telescope commands<CR>")
-map("i", "\xF4\x80\x81\x90", "<Esc>:Telescope commands<CR>")
-map("v", "\xF4\x80\x81\x90", "<Esc>:Telescope commands<CR>")
