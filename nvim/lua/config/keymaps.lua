@@ -35,7 +35,7 @@ bind_niv("¤[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-
 bind_all("¤[1;107D", "G") -- CMD-Up
 bind_all("¤[1;109U", "gg") -- CMD-Down
 bind_all("¤[1;20T", ":Telescope buffers<CR>") -- CMD-T
-bind_all("¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>") -- Neotree reveal
+bind_all("¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-SHIFT-O
 bind_all("¤[1;29C", '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>', { keep_mode = true }) -- Cmd-Shift-C
 bind_all("¤[1;110E", "o", { noremap = false }) -- CMD-O
 bind_all("¤[1;111E", "O", { noremap = false }) -- CMD-SHIFT-O
