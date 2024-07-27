@@ -47,7 +47,7 @@ shape = "block"
 
     { key = "A", mods = "Command", chars = "\u00a4[1;1A" },
     { key = "B", mods = "Command", chars = "\u00a4[1;2B" },
-    { key = "C", mods = "Command", chars = "\u00a4[1;3C" },
+    # { key = "C", mods = "Command", chars = "\u00a4[1;3C" },
     { key = "D", mods = "Command", chars = "\u00a4[1;4D" },
     { key = "E", mods = "Command", chars = "\u00a4[1;5E" },
     { key = "F", mods = "Command", chars = "\u00a4[1;6F" },
@@ -198,7 +198,7 @@ shape = "block"
 # {key = '`', mods = 'Command', chars = '􀁠'}, # U+100060: \xF4\x80\x81\xA0
 # {key = 'a', mods = 'Command', chars = '􀁡'}, # U+100061: \xF4\x80\x81\xA1
 # {key = 'b', mods = 'Command', chars = '􀁢'}, # U+100062: \xF4\x80\x81\xA2
-# {key = 'c', mods = 'Command', chars = '􀁣'}, # U+100063: \xF4\x80\x81\xA3
+{key = 'c', mods = 'Command', chars = '􀁣'}, # U+100063: \xF4\x80\x81\xA3
 # {key = 'd', mods = 'Command', chars = '􀁤'}, # U+100064: \xF4\x80\x81\xA4
 # {key = 'e', mods = 'Command', chars = '􀁥'}, # U+100065: \xF4\x80\x81\xA5
 # {key = 'f', mods = 'Command', chars = '􀁦'}, # U+100066: \xF4\x80\x81\xA6
@@ -227,7 +227,7 @@ shape = "block"
 # {key = '}', mods = 'Command|Shift', chars = '􀁽'}, # U+10007D: \xF4\x80\x81\xBD
 # {key = '~', mods = 'Command|Shift', chars = '􀁾'}, # U+10007E: \xF4\x80\x81\xBE
 # {key = 'Enter', mods = 'Command', chars = '􀃈'}, # U+1000C8: \xF4\x80\x83\x88
-# {key = 'Backspace', mods = 'Command', chars = '􀃉'}, # U+1000C9: \xF4\x80\x83\x89
+{key = 'Backspace', mods = 'Command', chars = '􀃉'}, # U+1000C9: \xF4\x80\x83\x89
 # {key = 'Delete', mods = 'Command', chars = '􀃊'}, # U+1000CA: \xF4\x80\x83\x8A
 # {key = 'Insert', mods = 'Command', chars = '􀃋'}, # U+1000CB: \xF4\x80\x83\x8B
 # {key = 'PageUp', mods = 'Command', chars = '􀃌'}, # U+1000CC: \xF4\x80\x83\x8C
@@ -298,7 +298,7 @@ shape = "block"
 # {key = 'NumLock', mods = 'Command|Shift', chars = '􀄓'}, # U+100113: \xF4\x80\x84\x93
 # {key = ' ', mods = 'Control|Command', chars = '􀐈'}, # U+100408: \xF4\x80\x90\x88
 # {key = '!', mods = 'Control|Command|Shift', chars = '􀐉'}, # U+100409: \xF4\x80\x90\x89
-# {key = '"', mods = 'Control|Command|Shift', chars = '􀐊'}, # U+10040A: \xF4\x80\x90\x8A
+{ key = '"', mods = 'Control|Command|Shift', chars = '􀐊'}, # U+10040A: \xF4\x80\x90\x8A
 # {key = '#', mods = 'Control|Command|Shift', chars = '􀐋'}, # U+10040B: \xF4\x80\x90\x8B
 # {key = '$', mods = 'Control|Command|Shift', chars = '􀐌'}, # U+10040C: \xF4\x80\x90\x8C
 # {key = '%', mods = 'Control|Command|Shift', chars = '􀐍'}, # U+10040D: \xF4\x80\x90\x8D
@@ -322,7 +322,7 @@ shape = "block"
 # {key = '7', mods = 'Control|Command', chars = '􀐟'}, # U+10041F: \xF4\x80\x90\x9F
 # {key = '8', mods = 'Control|Command', chars = '􀐠'}, # U+100420: \xF4\x80\x90\xA0
 # {key = '9', mods = 'Control|Command', chars = '􀐡'}, # U+100421: \xF4\x80\x90\xA1
-# {key = ':', mods = 'Control|Command|Shift', chars = '􀐢'}, # U+100422: \xF4\x80\x90\xA2
+{key = ':', mods = 'Control|Command|Shift', chars = '􀐢'}, # U+100422: \xF4\x80\x90\xA2
 # {key = ';', mods = 'Control|Command', chars = '􀐣'}, # U+100423: \xF4\x80\x90\xA3
 # {key = '<', mods = 'Control|Command|Shift', chars = '􀐤'}, # U+100424: \xF4\x80\x90\xA4
 # {key = '=', mods = 'Control|Command', chars = '􀐥'}, # U+100425: \xF4\x80\x90\xA5
@@ -330,7 +330,7 @@ shape = "block"
 # {key = '?', mods = 'Control|Command|Shift', chars = '􀐧'}, # U+100427: \xF4\x80\x90\xA7
 # {key = '@', mods = 'Control|Command|Shift', chars = '􀐨'}, # U+100428: \xF4\x80\x90\xA8
 # {key = 'A', mods = 'Control|Command|Shift', chars = '􀐩'}, # U+100429: \xF4\x80\x90\xA9
-# {key = 'B', mods = 'Control|Command|Shift', chars = '􀐪'}, # U+10042A: \xF4\x80\x90\xAA
+{key = 'B', mods = 'Control|Command|Shift', chars = '􀐪'}, # U+10042A: \xF4\x80\x90\xAA
 # {key = 'C', mods = 'Control|Command|Shift', chars = '􀐫'}, # U+10042B: \xF4\x80\x90\xAB
 # {key = 'D', mods = 'Control|Command|Shift', chars = '􀐬'}, # U+10042C: \xF4\x80\x90\xAC
 # {key = 'E', mods = 'Control|Command|Shift', chars = '􀐭'}, # U+10042D: \xF4\x80\x90\xAD
@@ -344,17 +344,17 @@ shape = "block"
 # {key = 'M', mods = 'Control|Command|Shift', chars = '􀐵'}, # U+100435: \xF4\x80\x90\xB5
 # {key = 'N', mods = 'Control|Command|Shift', chars = '􀐶'}, # U+100436: \xF4\x80\x90\xB6
 # {key = 'O', mods = 'Control|Command|Shift', chars = '􀐷'}, # U+100437: \xF4\x80\x90\xB7
-# {key = 'P', mods = 'Control|Command|Shift', chars = '􀐸'}, # U+100438: \xF4\x80\x90\xB8
+{key = 'P', mods = 'Control|Command|Shift', chars = '􀐸'}, # U+100438: \xF4\x80\x90\xB8
 # {key = 'Q', mods = 'Control|Command|Shift', chars = '􀐹'}, # U+100439: \xF4\x80\x90\xB9
 # {key = 'R', mods = 'Control|Command|Shift', chars = '􀐺'}, # U+10043A: \xF4\x80\x90\xBA
 {key = 'S', mods = 'Control|Command|Shift', chars = '􀐻'}, # U+10043B: \xF4\x80\x90\xBB
-# {key = 'T', mods = 'Control|Command|Shift', chars = '􀐼'}, # U+10043C: \xF4\x80\x90\xBC
+{key = 'T', mods = 'Control|Command|Shift', chars = '􀐼'}, # U+10043C: \xF4\x80\x90\xBC
 # {key = 'U', mods = 'Control|Command|Shift', chars = '􀐽'}, # U+10043D: \xF4\x80\x90\xBD
 # {key = 'V', mods = 'Control|Command|Shift', chars = '􀐾'}, # U+10043E: \xF4\x80\x90\xBE
 {key = 'W', mods = 'Control|Command|Shift', chars = '􀐿'}, # U+10043F: \xF4\x80\x90\xBF
 # {key = 'X', mods = 'Control|Command|Shift', chars = '􀑀'}, # U+100440: \xF4\x80\x91\x80
-# {key = 'Y', mods = 'Control|Command|Shift', chars = '􀑁'}, # U+100441: \xF4\x80\x91\x81
-# {key = 'Z', mods = 'Control|Command|Shift', chars = '􀑂'}, # U+100442: \xF4\x80\x91\x82
+{key = 'Y', mods = 'Control|Command|Shift', chars = '􀑁'}, # U+100441: \xF4\x80\x91\x81
+{key = 'Z', mods = 'Control|Command|Shift', chars = '􀑂'}, # U+100442: \xF4\x80\x91\x82
 # {key = '[', mods = 'Control|Command', chars = '􀑃'}, # U+100443: \xF4\x80\x91\x83
 # {key = '\', mods = 'Control|Command', chars = '􀑄'}, # U+100444: \xF4\x80\x91\x84
 # {key = ']', mods = 'Control|Command', chars = '􀑅'}, # U+100445: \xF4\x80\x91\x85
@@ -449,7 +449,7 @@ shape = "block"
 # {key = 'F13', mods = 'Control|Command|Shift', chars = '􀓬'}, # U+1004EC: \xF4\x80\x93\xAC
 # {key = 'Tab', mods = 'Control|Command|Shift', chars = '􀓭'}, # U+1004ED: \xF4\x80\x93\xAD
 # {key = 'Escape', mods = 'Control|Command|Shift', chars = '􀓮'}, # U+1004EE: \xF4\x80\x93\xAE
-# {key = 'Up', mods = 'Control|Command|Shift', chars = '􀓯'}, # U+1004EF: \xF4\x80\x93\xAF
+{key = 'Up', mods = 'Control|Command|Shift', chars = '􀓯'}, # U+1004EF: \xF4\x80\x93\xAF
 # {key = 'Down', mods = 'Control|Command|Shift', chars = '􀓰'}, # U+1004F0: \xF4\x80\x93\xB0
 # {key = 'Left', mods = 'Control|Command|Shift', chars = '􀓱'}, # U+1004F1: \xF4\x80\x93\xB1
 # {key = 'Right', mods = 'Control|Command|Shift', chars = '􀓲'}, # U+1004F2: \xF4\x80\x93\xB2
