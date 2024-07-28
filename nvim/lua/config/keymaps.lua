@@ -32,8 +32,9 @@ bind_all("¤[1;103}", ":bnext<CR>") -- CMD-}
 bind_all("¤[1;104<", "<<") -- CMD-SHIFT-<
 bind_all("¤[1;105>", ">>") -- CMD-SHIFT->
 bind_niv("¤[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
-bind_all("¤[1;107D", "G") -- CMD-Up
-bind_all("¤[1;109U", "gg") -- CMD-Down
+bind_all("\xF4\x80\x83\x9F", "gg") -- CMD-Down
+bind_all("\xF4\x80\x83\xA0", "G") -- CMD-Up
+bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
 bind_all("¤[1;20T", ":Telescope buffers<CR>") -- CMD-T
 bind_all("¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-SHIFT-O
 bind_all("¤[1;29C", '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>', { keep_mode = true }) -- Cmd-Shift-C
@@ -42,7 +43,10 @@ bind_all("¤[1;111E", "O", { noremap = false }) -- CMD-SHIFT-O
 bind_niv("¤[1;112B", '"_d^', '<Esc>l"_di', nil, { noremap = false }) -- CMD-Backspace
 bind_niv("¤[1;114D", '"_d$', '<Esc>l"_d$a', nil, { noremap = false }) -- CMD-Backspace
 bind_all("\xF4\x80\x81\x90", ":Telescope commands<CR>") -- {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
+bind_all("\xF4\x80\x81\x94", ":vsplit<CR>:enew<CR>") --
+bind_all("\xF4\x80\x93\x87", "<C-u>")
+bind_all("\xF4\x80\x93\x88", "<C-d>")
 
 map("n", "¤[1;117", ":silent !tmux split-window -h<CR>", { noremap = true, silent = true })
 map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command()<CR>')
-map("n", "¤[1;118", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>')
+map("n", "<C-CR>", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>', { noremap = true })
