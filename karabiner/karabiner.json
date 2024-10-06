@@ -190,21 +190,21 @@
                     "simple_modifications": [
                         {
                             "from": {
-                                "key_code": "home"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "delete_forward"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
                                 "key_code": "delete_forward"
                             },
                             "to": [
                                 {
                                     "key_code": "home"
+                                }
+                            ]
+                        },
+                        {
+                            "from": {
+                                "key_code": "home"
+                            },
+                            "to": [
+                                {
+                                    "key_code": "delete_forward"
                                 }
                             ]
                         }
