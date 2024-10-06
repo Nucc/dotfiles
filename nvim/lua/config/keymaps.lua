@@ -26,7 +26,7 @@ bind_all("¤[1;32F", ":Telescope live_grep<CR>") -- CMD-SHIFT-F
 bind_all("¤[1;45S", ":Telescope grep_string<CR>") -- CMD-SHIFT-S
 bind_all("¤[1;26Z", "u") -- CMD-Z
 bind_all("¤[1;52Z", "<cmd>redo<CR>") -- CMD-SHIFT-Z
-bind_all("¤[1;30D", '"-yy"-p') -- CMD-SHIFT-D
+bind_all("􀁄", '"-yy"-p') -- CMD-SHIFT-D {key = 'D', mods = 'Command|Shift', chars = '􀁄'}, # U+100044: \xF4\x80\x81\x84
 bind_all("¤[1;102{", ":bp<CR>") -- CMD-{
 bind_all("¤[1;103}", ":bnext<CR>") -- CMD-}
 bind_all("¤[1;104<", "<<") -- CMD-SHIFT-<
