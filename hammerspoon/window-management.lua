@@ -100,7 +100,7 @@ function This.windowMaximize(factor, window)
 		maxFrame.h = maxFrame.h - (2 * margin)
 
 		window:setFrame(maxFrame)
-		hs.window.animationDuration(0)
+		-- hs.window.animationDuration(0)
 	end
 end
 return This
