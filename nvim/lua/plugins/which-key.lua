@@ -6,5 +6,8 @@ return {
     icons = {
       mappings = false,
     },
+    disable = {
+      v = {},
+    },
   },
 }
