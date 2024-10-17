@@ -45,7 +45,7 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "2", function()
 	hs.spaces.gotoSpace(2)
 end)
 
-hs.hotkey.bind({ "control", "cmd", "shift" }, "c", function()
+hs.hotkey.bind({ "cmd", "shift", "ctrl" }, "c", function()
 	hs.eventtap.keyStroke({ "cmd" }, "c")
 	copy = hs.pasteboard.getContents()
 	for index = 8, 0, -1 do
@@ -61,6 +61,7 @@ hs.hotkey.bind({ "control", "cmd", "shift" }, "c", function()
 end)
 
 local choices = {}
+
 local function focusLastFocused()
 	local wf = hs.window.filter
 	local lastFocused = wf.defaultCurrentSpace:getWindows(wf.sortByFocusedLast)
@@ -68,6 +69,7 @@ local function focusLastFocused()
 		lastFocused[1]:focus()
 	end
 end
+
 local chooser = hs.chooser.new(function(choice)
 	if not choice then
 		focusLastFocused()
@@ -88,6 +90,7 @@ function update_choices()
 	end
 	chooser:choices(choices)
 end
+
 hs.hotkey.bind({ "cmd", "shift" }, "v", function()
 	update_choices()
 	chooser:show()
