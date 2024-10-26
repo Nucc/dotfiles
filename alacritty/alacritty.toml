@@ -28,6 +28,7 @@ dynamic_padding = false
 opacity = 0.9 
 blur = true
 
+
 [window.padding]
 x = 15 
 y = 15
@@ -340,9 +341,9 @@ shape = "block"
 # {key = 'I', mods = 'Control|Command|Shift', chars = '􀐱'}, # U+100431: \xF4\x80\x90\xB1
 # {key = 'J', mods = 'Control|Command|Shift', chars = '􀐲'}, # U+100432: \xF4\x80\x90\xB2
 # {key = 'K', mods = 'Control|Command|Shift', chars = '􀐳'}, # U+100433: \xF4\x80\x90\xB3
-# {key = 'L', mods = 'Control|Command|Shift', chars = '􀐴'}, # U+100434: \xF4\x80\x90\xB4
+{key = 'L', mods = 'Control|Command|Shift', chars = '􀐴'}, # U+100434: \xF4\x80\x90\xB4
 # {key = 'M', mods = 'Control|Command|Shift', chars = '􀐵'}, # U+100435: \xF4\x80\x90\xB5
-# {key = 'N', mods = 'Control|Command|Shift', chars = '􀐶'}, # U+100436: \xF4\x80\x90\xB6
+{key = 'N', mods = 'Control|Command|Shift', chars = '􀐶'}, # U+100436: \xF4\x80\x90\xB6
 # {key = 'O', mods = 'Control|Command|Shift', chars = '􀐷'}, # U+100437: \xF4\x80\x90\xB7
 {key = 'P', mods = 'Control|Command|Shift', chars = '􀐸'}, # U+100438: \xF4\x80\x90\xB8
 # {key = 'Q', mods = 'Control|Command|Shift', chars = '􀐹'}, # U+100439: \xF4\x80\x90\xB9
@@ -579,7 +580,7 @@ shape = "block"
 # {key = 'F13', mods = 'Alt|Command', chars = '􀢬'}, # U+1008AC: \xF4\x80\xA2\xAC
 # {key = 'Tab', mods = 'Alt|Command', chars = '􀢭'}, # U+1008AD: \xF4\x80\xA2\xAD
 # {key = 'Escape', mods = 'Alt|Command', chars = '􀢮'}, # U+1008AE: \xF4\x80\xA2\xAE
-# {key = 'Up', mods = 'Alt|Command', chars = '􀢯'}, # U+1008AF: \xF4\x80\xA2\xAF
+{key = 'Up', mods = 'Alt|Command', chars = '􀢯'}, # U+1008AF: \xF4\x80\xA2\xAF
 {key = 'Down', mods = 'Alt|Command', chars = '􀢰'}, # U+1008B0: \xF4\x80\xA2\xB0
 # {key = 'Left', mods = 'Alt|Command', chars = '􀢱'}, # U+1008B1: \xF4\x80\xA2\xB1
 # {key = 'Right', mods = 'Alt|Command', chars = '􀢲'}, # U+1008B2: \xF4\x80\xA2\xB2
