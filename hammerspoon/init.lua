@@ -45,7 +45,7 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "2", function()
 	hs.spaces.gotoSpace(2)
 end)
 
-hs.hotkey.bind({ "cmd", "shift" }, "c", function()
+hs.hotkey.bind({ "control", "cmd", "shift" }, "c", function()
 	hs.eventtap.keyStroke({ "cmd" }, "c")
 	copy = hs.pasteboard.getContents()
 	for index = 8, 0, -1 do
