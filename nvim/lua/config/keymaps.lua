@@ -55,3 +55,5 @@ bind_all("\xF4\x80\xA2\xB0", "<cmd>Telescope lsp_definitions<CR>", { noremap = t
 map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "Go to definition", noremap = true })
 
 bind_all("\xF4\x80\xA2\xAF", "<cmd>Telescope lsp_references<CR>")
+bind_all("\xF4\x80\xA2\xB1", "<C-O>")
+bind_all("\xF4\x80\xA2\xB2", "<C-I>")

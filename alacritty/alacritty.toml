@@ -582,8 +582,8 @@ shape = "block"
 # {key = 'Escape', mods = 'Alt|Command', chars = '􀢮'}, # U+1008AE: \xF4\x80\xA2\xAE
 {key = 'Up', mods = 'Alt|Command', chars = '􀢯'}, # U+1008AF: \xF4\x80\xA2\xAF
 {key = 'Down', mods = 'Alt|Command', chars = '􀢰'}, # U+1008B0: \xF4\x80\xA2\xB0
-# {key = 'Left', mods = 'Alt|Command', chars = '􀢱'}, # U+1008B1: \xF4\x80\xA2\xB1
-# {key = 'Right', mods = 'Alt|Command', chars = '􀢲'}, # U+1008B2: \xF4\x80\xA2\xB2
+{key = 'Left', mods = 'Alt|Command', chars = '􀢱'}, # U+1008B1: \xF4\x80\xA2\xB1
+{key = 'Right', mods = 'Alt|Command', chars = '􀢲'}, # U+1008B2: \xF4\x80\xA2\xB2
 # {key = 'CapsLock', mods = 'Alt|Command', chars = '􀢳'}, # U+1008B3: \xF4\x80\xA2\xB3
 # {key = 'Shift', mods = 'Alt|Command', chars = '􀢴'}, # U+1008B4: \xF4\x80\xA2\xB4
 # {key = 'Control', mods = 'Alt|Command', chars = '􀢵'}, # U+1008B5: \xF4\x80\xA2\xB5
