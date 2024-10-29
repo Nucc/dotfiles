@@ -78,16 +78,6 @@
             ],
             "name": "Default profile",
             "selected": true,
-            "simple_modifications": [
-                {
-                    "from": { "key_code": "home" },
-                    "to": [{ "key_code": "delete_forward" }]
-                },
-                {
-                    "from": { "key_code": "delete_forward" },
-                    "to": [{ "key_code": "home" }]
-                }
-            ],
             "virtual_hid_keyboard": {
                 "country_code": 0,
                 "indicate_sticky_modifier_keys_state": false,
