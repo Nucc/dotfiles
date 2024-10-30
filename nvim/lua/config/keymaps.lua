@@ -2,6 +2,8 @@ require("config.keymaps.keymap-helper")
 require("config.keymaps.neotree-keymaps")
 require("config.keymaps.cmp-keymaps")
 
+vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+
 vim.api.nvim_set_keymap("n", "¤[1;116L", "^", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<M-Left>", "b", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<M-Right>", "w", { noremap = true, silent = true })
