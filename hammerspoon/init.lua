@@ -95,3 +95,9 @@ hs.hotkey.bind({ "cmd", "shift" }, "v", function()
 	update_choices()
 	chooser:show()
 end)
+
+-- Move windows to the middle by default
+windowFilter = hs.window.filter.new()
+windowFilter:subscribe(hs.window.filter.windowCreated, function(win)
+	wm.moveWindowToPosition(wm.screenPositions.middle, win)
+end)
