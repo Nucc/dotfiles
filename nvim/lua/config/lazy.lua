@@ -205,3 +205,20 @@ require("bufferline").setup({
     show_tab_indicators = false, -- Disable tab indicators
   },
 })
+
+require("conform").setup({
+  formatters_by_ft = {
+    ruby = {
+      "rubocop", -- Add RuboCop as a formatter/linter for Ruby
+    },
+    format_on_events = false,
+  },
+})
+
+-- Run the linter/formatter on save
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.rb",
+  callback = function()
+    require("conform").format({ async = true })
+  end,
+})
