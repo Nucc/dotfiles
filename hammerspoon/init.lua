@@ -99,5 +99,46 @@ end)
 -- Move windows to the middle by default
 windowFilter = hs.window.filter.new()
 windowFilter:subscribe(hs.window.filter.windowCreated, function(win)
+	local windowTitle = win:title()
+	if windowTitle:match("Menu window") then
+		return
+	end
 	wm.moveWindowToPosition(wm.screenPositions.middle, win)
+end)
+
+function startVPN()
+	hs.alert.show("VPN connecting!")
+	hs.execute("/opt/homebrew/bin/zetup vpn connect", true)
+	hs.alert.show("VPN connected!")
+end
+hs.hotkey.bind({ "ctrl", "cmd", "shift" }, "v", startVPN)
+
+hs.hotkey.bind({ "ctrl", "cmd", "shift" }, "S", function()
+	local app = hs.application.find("Slack")
+	if app then
+		app:activate()
+	else
+		hs.alert.show("Slack is not running!")
+	end
+end)
+
+-- Define a hotkey to focus on the default browser
+hs.hotkey.bind({ "ctrl", "cmd", "shift" }, "D", function()
+	local browserAppName = "Arc"
+	local app = hs.application.find(browserAppName)
+	if app then
+		app:activate()
+	else
+		hs.alert.show(browserAppName .. " is not running!")
+	end
+end)
+
+-- Define a hotkey to focus on the default browser
+hs.hotkey.bind({ "ctrl", "cmd", "shift" }, "A", function()
+	local app = hs.application.find("Alacritty")
+	if app then
+		app:activate()
+	else
+		hs.alert.show("Alacritty is not running!")
+	end
 end)
