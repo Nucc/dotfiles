@@ -5,6 +5,47 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Change right-cmd to cmd if pressed with other keys, to enter if pressed alone",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_command",
+                                        "modifiers": []
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "return_or_enter",
+                                        "modifiers": []
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Send 'z' on short press, and cmd-shift-ctrl-z on hold (>500ms)",
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "z" },
+                                "parameters": { "basic.to_if_alone_timeout_milliseconds": 1000 },
+                                "to_if_alone": [{ "key_code": "z" }],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "z",
+                                        "modifiers": ["left_command", "left_shift", "left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Change caps_lock to control if pressed with other keys, to escape if pressed alone",
                         "manipulators": [
                             {
@@ -80,12 +121,12 @@
             "selected": true,
             "simple_modifications": [
                 {
-                    "from": { "key_code": "home" },
-                    "to": [{ "key_code": "delete_forward" }]
-                },
-                {
                     "from": { "key_code": "delete_forward" },
                     "to": [{ "key_code": "home" }]
+                },
+                {
+                    "from": { "key_code": "home" },
+                    "to": [{ "key_code": "delete_forward" }]
                 }
             ],
             "virtual_hid_keyboard": {
