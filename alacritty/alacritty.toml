@@ -1,4 +1,4 @@
-live_config_reload = true
+general.live_config_reload = true
 
 [env]
 TERM = "xterm-256color"
@@ -285,8 +285,8 @@ shape = "block"
 # {key = 'F13', mods = 'Command|Shift', chars = '􀄄'}, # U+100104: \xF4\x80\x84\x84
 # {key = 'Tab', mods = 'Command|Shift', chars = '􀄅'}, # U+100105: \xF4\x80\x84\x85
 # {key = 'Escape', mods = 'Command|Shift', chars = '􀄆'}, # U+100106: \xF4\x80\x84\x86
-# {key = 'Up', mods = 'Command|Shift', chars = '􀄇'}, # U+100107: \xF4\x80\x84\x87
-# {key = 'Down', mods = 'Command|Shift', chars = '􀄈'}, # U+100108: \xF4\x80\x84\x88
+{key = 'Up', mods = 'Command|Shift', chars = '􀄇'}, # U+100107: \xF4\x80\x84\x87
+{key = 'Down', mods = 'Command|Shift', chars = '􀄈'}, # U+100108: \xF4\x80\x84\x88
 # {key = 'Left', mods = 'Command|Shift', chars = '􀄉'}, # U+100109: \xF4\x80\x84\x89
 # {key = 'Right', mods = 'Command|Shift', chars = '􀄊'}, # U+10010A: \xF4\x80\x84\x8A
 # {key = 'CapsLock', mods = 'Command|Shift', chars = '􀄋'}, # U+10010B: \xF4\x80\x84\x8B
