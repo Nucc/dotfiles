@@ -82,3 +82,5 @@ bind_all("\xF4\x80\xA2\xB0", "<cmd>Telescope lsp_definitions<CR>", { noremap = t
 bind_all("\xF4\x80\xA2\xAF", "<cmd>Telescope lsp_references<CR>")
 bind_all("\xF4\x80\xA2\xB1", "<C-O>")
 bind_all("\xF4\x80\xA2\xB2", "<C-I>")
+
+bind_all("\xF4\x80\x81\xA6", "/")
