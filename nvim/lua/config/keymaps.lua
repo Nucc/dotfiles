@@ -2,7 +2,29 @@ require("config.keymaps.keymap-helper")
 require("config.keymaps.neotree-keymaps")
 require("config.keymaps.cmp-keymaps")
 
-vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+function GoToDefinitionWithFallback()
+  local status_ok, telescope_builtin = pcall(require, "telescope.builtin")
+  if status_ok then
+    telescope_builtin.lsp_definitions({
+      results_title = "LSP Definitions",
+      on_input_filter_cb = function(prompt_bufnr)
+        local action_state = require("telescope.actions.state")
+        local picker = action_state.get_current_picker(prompt_bufnr)
+        if picker and picker:get_num_results() == 0 then
+          -- Close Telescope if no results and fallback to `vim.lsp.buf.definition()`
+          require("telescope.actions").close(prompt_bufnr)
+          vim.cmd("tags " .. vim.fn.expand("<cword>"))
+        end
+      end,
+    })
+  else
+    -- Fallback directly to `gd` if Telescope fails or isn't available
+    vim.lsp.buf.definition()
+  end
+end
+
+-- Map the function to a key (e.g., `gd`)
+vim.api.nvim_set_keymap("n", "gd", "<cmd>lua GoToDefinitionWithFallback()<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("n", "¤[1;116L", "^", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<M-Left>", "b", { noremap = true, silent = true })
@@ -31,8 +53,8 @@ bind_all("¤[1;52Z", "<cmd>redo<CR>") -- CMD-SHIFT-Z
 bind_all("􀁄", '"-yy"-p') -- CMD-SHIFT-D {key = 'D', mods = 'Command|Shift', chars = '􀁄'}, # U+100044: \xF4\x80\x81\x84
 bind_all("¤[1;102{", ":bp<CR>") -- CMD-{
 bind_all("¤[1;103}", ":bnext<CR>") -- CMD-}
-bind_all("¤[1;104<", "<<") -- CMD-SHIFT-<
-bind_all("¤[1;105>", ">>") -- CMD-SHIFT->
+bind_niv("¤[1;104<", "<<", "<Esc><<", "<") -- CMD-SHIFT-<
+bind_niv("¤[1;105>", ">>", "<Esc>>>", ">") -- CMD-SHIFT->
 bind_niv("¤[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
 bind_all("\xF4\x80\x83\x9F", "gg") -- CMD-Down
 bind_all("\xF4\x80\x83\xA0", "G") -- CMD-Up
@@ -54,7 +76,7 @@ map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command(
 map("n", "<C-CR>", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>', { noremap = true })
 
 bind_all("\xF4\x80\xA2\xB0", "<cmd>Telescope lsp_definitions<CR>", { noremap = true })
-map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "Go to definition", noremap = true })
+-- map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "Go to definition", noremap = true })
 
 bind_all("\xF4\x80\xA2\xAF", "<cmd>Telescope lsp_references<CR>")
 bind_all("\xF4\x80\xA2\xB1", "<C-O>")
