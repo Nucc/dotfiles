@@ -56,8 +56,8 @@ bind_all("¤[1;103}", ":bnext<CR>") -- CMD-}
 bind_niv("¤[1;104<", "<<", "<Esc><<", "<") -- CMD-SHIFT-<
 bind_niv("¤[1;105>", ">>", "<Esc>>>", ">") -- CMD-SHIFT->
 bind_niv("¤[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
-bind_all("\xF4\x80\x83\x9F", "gg") -- CMD-Down
-bind_all("\xF4\x80\x83\xA0", "G") -- CMD-Up
+bind_niv("\xF4\x80\x83\x9F", "gg", "<Esc>gg", "gg") -- CMD-Down
+bind_niv("\xF4\x80\x83\xA0", "G", "<Esc>G", "G") -- CMD-Up
 bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
 bind_all("¤[1;20T", ":Telescope buffers<CR>") -- CMD-T
 bind_all("¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-SHIFT-O
