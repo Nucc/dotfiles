@@ -30,6 +30,7 @@
                     },
                     {
                         "description": "Send 'z' on short press, and cmd-shift-ctrl-z on hold (>500ms)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": { "key_code": "z" },
