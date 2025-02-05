@@ -70,6 +70,7 @@ bind_all("\xF4\x80\x81\x90", ":Telescope commands<CR>") -- {key = 'P', mods = 'C
 bind_all("\xF4\x80\x81\x94", ":vsplit<CR>:enew<CR>") --
 bind_all("\xF4\x80\x93\x87", "<C-u>")
 bind_all("\xF4\x80\x93\x88", "<C-d>")
+bind_all("\xF4\x80\x81\x87", ":LazyGit<CR>")
 
 map("n", "¤[1;117", ":silent !tmux split-window -h<CR>", { noremap = true, silent = true })
 map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command()<CR>')

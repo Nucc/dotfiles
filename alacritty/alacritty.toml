@@ -79,7 +79,7 @@ shape = "block"
     # { key = "D", mods = "Command|Shift", chars = "\u00a4[1;30D" },
     { key = "E", mods = "Command|Shift", chars = "\u00a4[1;31E" },
     { key = "F", mods = "Command|Shift", chars = "\u00a4[1;32F" },
-    { key = "G", mods = "Command|Shift", chars = "\u00a4[1;33G" },
+    # { key = "G", mods = "Command|Shift", chars = "\u00a4[1;33G" },
     { key = "H", mods = "Command|Shift", chars = "\u00a4[1;34H" },
     { key = "I", mods = "Command|Shift", chars = "\u00a4[1;35I" },
     { key = "J", mods = "Command|Shift", chars = "\u00a4[1;36J" },
@@ -171,7 +171,7 @@ shape = "block"
 {key = 'D', mods = 'Command|Shift', chars = '􀁄'}, # U+100044: \xF4\x80\x81\x84
 # {key = 'E', mods = 'Command|Shift', chars = '􀁅'}, # U+100045: \xF4\x80\x81\x85
 # {key = 'F', mods = 'Command|Shift', chars = '􀁆'}, # U+100046: \xF4\x80\x81\x86
-# {key = 'G', mods = 'Command|Shift', chars = '􀁇'}, # U+100047: \xF4\x80\x81\x87
+{key = 'G', mods = 'Command|Shift', chars = '􀁇'}, # U+100047: \xF4\x80\x81\x87
 # {key = 'H', mods = 'Command|Shift', chars = '􀁈'}, # U+100048: \xF4\x80\x81\x88
 # {key = 'I', mods = 'Command|Shift', chars = '􀁉'}, # U+100049: \xF4\x80\x81\x89
 # {key = 'J', mods = 'Command|Shift', chars = '􀁊'}, # U+10004A: \xF4\x80\x81\x8A
