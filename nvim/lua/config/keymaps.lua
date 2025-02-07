@@ -44,8 +44,8 @@ bind_niv("¤[1;53/", "gcc", "<Esc>gcc", "gc", { noremap = false }) -- CMD-/
 bind_niv("\xF4\x80\x81\xA3", "yy", "<Esc>yy", "mzy`z") -- CMD-C
 bind_niv("¤[1;4D", '"_dd', '<Esc>"_dd', '"_d') -- CMD-D
 bind_all("¤[1;14N", ":enew<CR>") -- CMD-N
-bind_all("¤[1;16P", ":Telescope find_files<CR>") -- CMD-P
-bind_all("¤[1;23W", ":bd<CR>") -- CMD-W
+bind_all("\xF4\x80\x81\xB0", ":Telescope find_files<CR>") -- CMD-P
+bind_all("\xF4\x80\x81\xB7", ":bd<CR>") -- CMD-W
 bind_all("¤[1;32F", ":Telescope live_grep<CR>") -- CMD-SHIFT-F
 bind_all("¤[1;45S", ":Telescope grep_string<CR>") -- CMD-SHIFT-S
 bind_all("¤[1;26Z", "u") -- CMD-Z
@@ -60,7 +60,7 @@ bind_niv("\xF4\x80\x83\x9F", "gg", "<Esc>gg", "gg") -- CMD-Down
 bind_niv("\xF4\x80\x83\xA0", "G", "<Esc>G", "G") -- CMD-Up
 bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
 bind_all("¤[1;20T", ":Telescope buffers<CR>") -- CMD-T
-bind_all("¤[1;41O", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-SHIFT-O
+bind_all("\xF4\x80\x81\x8F", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-SHIFT-O
 bind_all("¤[1;29C", '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>', { keep_mode = true }) -- Cmd-Shift-C
 bind_all("¤[1;110E", "o", { noremap = false }) -- CMD-O
 bind_all("¤[1;111E", "O", { noremap = false }) -- CMD-SHIFT-O
