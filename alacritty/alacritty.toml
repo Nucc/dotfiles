@@ -97,7 +97,7 @@ shape = "block"
     # { key = "T", mods = "Command|Shift", chars = "\u00a4[1;46T" },
     { key = "U", mods = "Command|Shift", chars = "\u00a4[1;47U" },
     { key = "V", mods = "Command|Shift", chars = "\u00a4[1;48V" },
-    { key = "W", mods = "Command|Shift", chars = "\u00a4[1;49W" },
+    # { key = "W", mods = "Command|Shift", chars = "\u00a4[1;49W" },
     { key = "X", mods = "Command|Shift", chars = "\u00a4[1;50X" },
     { key = "Y", mods = "Command|Shift", chars = "\u00a4[1;51Y" },
     { key = "Z", mods = "Command|Shift", chars = "\u00a4[1;52Z" },
@@ -187,7 +187,7 @@ shape = "block"
 {key = 'T', mods = 'Command|Shift', chars = '􀁔'}, # U+100054: \xF4\x80\x81\x94
 # {key = 'U', mods = 'Command|Shift', chars = '􀁕'}, # U+100055: \xF4\x80\x81\x95
 # {key = 'V', mods = 'Command|Shift', chars = '􀁖'}, # U+100056: \xF4\x80\x81\x96
-# {key = 'W', mods = 'Command|Shift', chars = '􀁗'}, # U+100057: \xF4\x80\x81\x97
+{key = 'W', mods = 'Command|Shift', chars = '􀁗'}, # U+100057: \xF4\x80\x81\x97
 # {key = 'X', mods = 'Command|Shift', chars = '􀁘'}, # U+100058: \xF4\x80\x81\x98
 # {key = 'Y', mods = 'Command|Shift', chars = '􀁙'}, # U+100059: \xF4\x80\x81\x99
 # {key = 'Z', mods = 'Command|Shift', chars = '􀁚'}, # U+10005A: \xF4\x80\x81\x9A
