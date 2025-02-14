@@ -142,3 +142,12 @@ hs.hotkey.bind({ "ctrl", "cmd", "shift" }, "A", function()
 		hs.alert.show("Alacritty is not running!")
 	end
 end)
+
+hs.hotkey.bind({ "cmd", "ctrl", "shift" }, "M", function()
+	local output, status, type, rc = hs.execute("blueutil --connect 28-ff-3c-e7-9d-8b", true)
+	if status then
+		hs.notify.new({ title = "Magic Mouse", informativeText = "Reconnected successfully!" }):send()
+	else
+		hs.notify.new({ title = "Magic Mouse", informativeText = "Failed to reconnect." }):send()
+	end
+end)
