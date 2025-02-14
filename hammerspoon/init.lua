@@ -144,10 +144,13 @@ hs.hotkey.bind({ "ctrl", "cmd", "shift" }, "A", function()
 end)
 
 hs.hotkey.bind({ "cmd", "ctrl", "shift" }, "M", function()
-	local output, status, type, rc = hs.execute("blueutil --connect 28-ff-3c-e7-9d-8b", true)
+	hs.alert.show("Trackpad connecting...")
+	local output, status, type, rc = hs.execute("/opt/homebrew/bin/blueutil --connect '28:ff:3c:e7:9d:8b'", false)
+	-- hs.alert.show("Trackpad connecting...")
+
 	if status then
-		hs.notify.new({ title = "Magic Mouse", informativeText = "Reconnected successfully!" }):send()
+		hs.notify.new({ title = "Trackpad", informativeText = "Reconnected successfully!" }):send()
 	else
-		hs.notify.new({ title = "Magic Mouse", informativeText = "Failed to reconnect." }):send()
+		hs.notify.new({ title = "Trackpad", informativeText = "Failed to reconnect." }):send()
 	end
 end)
