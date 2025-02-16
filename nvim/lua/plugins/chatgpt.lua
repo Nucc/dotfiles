@@ -4,6 +4,15 @@ return {
     event = "VeryLazy",
     config = function()
       local config = {
+        openai_params = {
+          model = "gpt-4o-2024-11-20",
+          frequency_penalty = 0,
+          presence_penalty = 0,
+          max_tokens = 4095,
+          temperature = 0.5,
+          top_p = 0.1,
+          n = 1,
+        },
         -- api_host_cmd = 'echo -n ""',
         -- api_key_cmd = "pass azure-openai-key",
         -- api_type_cmd = "echo azure",
