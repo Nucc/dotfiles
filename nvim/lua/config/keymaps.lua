@@ -72,7 +72,7 @@ bind_all("\xF4\x80\x93\x87", "<C-u>")
 bind_all("\xF4\x80\x93\x88", "<C-d>")
 bind_all("\xF4\x80\x81\x87", ":LazyGit<CR>")
 bind_all("\xF4\x80\x81\x97", ":bufdo bd<CR>") -- Cmd-Shift-W
-bind_all("\xF4\x80\x80\xBF", ":ChatGPT<CR>") -- Cmd-Shift-?
+bind_niv("\xF4\x80\x80\xBF", ":ChatGPT<CR>", "<Esc>:ChatGPT<CR>", ":'<,'>ChatGPTRun explain_code<CR>") -- Cmd-Shift-?
 bind_all("\xF4\x80\x81\x85", ":ChatGPTEditWithInstructions<CR>") -- Cmd-Shift-E
 
 map("n", "¤[1;117", ":silent !tmux split-window -h<CR>", { noremap = true, silent = true })
