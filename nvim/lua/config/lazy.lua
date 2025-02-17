@@ -67,6 +67,17 @@ require("lazy").setup({
   },
 })
 
+local persistence = require("persistence")
+-- for _, arg in ipairs(vim.v.argv) do
+--   if arg == "-R" then
+--     print("Neovim started in read-only mode!")
+--   end
+-- end
+
+if vim.fn.argc() == 1 and vim.v.argv[3] == "." then
+  persistence.load()
+end
+
 -- require("catppuccin").setup()
 -- vim.cmd.colorscheme("catppuccin")
 -- vim.cmd.colorscheme("github")
