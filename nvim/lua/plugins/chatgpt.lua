@@ -13,6 +13,10 @@ return {
           top_p = 0.1,
           n = 1,
         },
+        keymaps = {
+          toggle_session = "<C-i>", -- Change this to your desired shortcut
+        },
+
         -- api_host_cmd = 'echo -n ""',
         -- api_key_cmd = "pass azure-openai-key",
         -- api_type_cmd = "echo azure",
