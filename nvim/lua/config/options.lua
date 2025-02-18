@@ -4,3 +4,4 @@
 
 vim.g.lazyvim_ruby_formatter = "rubocop"
 -- vim.o.completeopt = "menu,menuone,noselect"
+vim.opt.clipboard = ""

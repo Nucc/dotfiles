@@ -41,7 +41,7 @@ bind_all("¤[1;38L", ":lua ToggleLineNumbers()<CR>", { keep_mode = true }) -- CM
 bind_all("¤[1;1A", "ggVG") -- # CMD-A
 bind_niv("¤[1;19S", ":w<CR>", "<Esc>:w<CR>l", "<Esc>:w<CR>") -- CMD-S
 bind_niv("¤[1;53/", "gcc", "<Esc>gcc", "gc", { noremap = false }) -- CMD-/
-bind_niv("\xF4\x80\x81\xA3", "yy", "<Esc>yy", "mzy`z") -- CMD-C
+bind_niv("\xF4\x80\x81\xA3", '"+yy', '<Esc>"+yy', 'mz"+y`z') -- CMD-C
 bind_niv("¤[1;4D", '"_dd', '<Esc>"_dd', '"_d') -- CMD-D
 bind_all("¤[1;14N", ":enew<CR>") -- CMD-N
 bind_all("\xF4\x80\x81\xB0", ":FzfLua files<CR>") -- CMD-P
