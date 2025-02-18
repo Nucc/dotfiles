@@ -23,15 +23,15 @@ require("mason-lspconfig").setup({
 local lspconfig = require("lspconfig")
 
 -- Default capabilities for completion
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- TypeScript (tsserver) config
-lspconfig.tsserver.setup({
-  capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    -- Additional TypeScript-specific actions if needed
-  end,
-})
+-- lspconfig.tsserver.setup({
+--  capabilities = capabilities,
+--   on_attach = function(client, bufnr)
+--    -- Additional TypeScript-specific actions if needed
+--   end,
+--})
 
 -- Tailwind CSS
 lspconfig.tailwindcss.setup({

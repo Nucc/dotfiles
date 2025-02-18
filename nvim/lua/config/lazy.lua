@@ -15,11 +15,12 @@ require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+
     -- import any extras modules here
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.ruby" },
+    { import = "lazyvim.plugins.extras.coding.nvim-cmp" },
     -- { import = "lazyvim.plugins.extras.coding.snippets" },
     {
 
@@ -66,23 +67,8 @@ require("lazy").setup({
     },
   },
 })
+vim.cmd.colorscheme("nord")
 
-local persistence = require("persistence")
--- for _, arg in ipairs(vim.v.argv) do
---   if arg == "-R" then
---     print("Neovim started in read-only mode!")
---   end
--- end
-
-if vim.fn.argc() == 1 and vim.v.argv[3] == "." then
-  persistence.load()
-end
-
--- require("catppuccin").setup()
--- vim.cmd.colorscheme("catppuccin")
--- vim.cmd.colorscheme("github")
-
--- vim.cmd("colorscheme github_dark")
 require("telescope").setup({
   defaults = {
     layout_strategy = "horizontal",
@@ -92,23 +78,7 @@ require("telescope").setup({
   },
   extensions = {
     ["ui-select"] = {
-      require("telescope.themes").get_dropdown({
-        -- even more opts
-      }),
-
-      -- pseudo code / specification for writing custom displays, like the one
-      -- for "codeactions"
-      -- specific_opts = {
-      --   [kind] = {
-      --     make_indexed = function(items) -> indexed_items, width,
-      --     make_displayer = function(widths) -> displayer
-      --     make_display = function(displayer) -> function(e)
-      --     make_ordinal = function(e) -> string
-      --   },
-      --   -- for example to disable the custom builtin "codeactions" display
-      --      do the following
-      --   codeactions = false,
-      -- }
+      require("telescope.themes").get_dropdown({}),
     },
   },
 })
@@ -117,6 +87,31 @@ require("telescope").setup({
 require("telescope").load_extension("ui-select")
 
 require("lspconfig").solargraph.setup({})
+
+require("lspconfig").lua_ls.setup({
+  settings = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT",
+      },
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false, -- for neodev users
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+})
+
+local persistence = require("persistence")
+if vim.fn.argc() == 1 and vim.v.argv[3] == "." then
+  persistence.load()
+end
 
 require("neo-tree").setup({
   source_selector = {
@@ -164,7 +159,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
-vim.cmd.colorscheme("nord")
 -- vim.o.fillchars = "vert:|,horiz:━"
 
 -- vim.g.neotree_icons = {
@@ -208,6 +202,12 @@ vim.g.minipairs_disable = true
 --   ':lua require("custom.tmux_commands").up_enter()<CR>',
 --   { noremap = true, silent = true }
 -- )
+
+-- require("echasnovski/mini.indentscope").setup({
+--   opts = {
+--     draw = { animation = require("mini.indentscope").gen_animation.none() },
+--   },
+-- })
 
 require("bufferline").setup({
   options = {
