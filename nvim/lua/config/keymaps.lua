@@ -35,6 +35,9 @@ vim.api.nvim_set_keymap("n", "<C-M-Down>", ":m .+1<CR>==", { desc = "Move select
 vim.api.nvim_set_keymap("v", "<C-M-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selection Down", noremap = true })
 vim.api.nvim_set_keymap("v", "<C-M-Up>", ":m '<-2<CR>gv=gv", { desc = "Move selection Up", noremap = true })
 
+vim.api.nvim_set_keymap("n", "\xF4\x80\x84\x87", "<C-u>", { noremap = true }) -- Cmd-Shift-Up
+vim.api.nvim_set_keymap("n", "\xF4\x80\x84\x88", "<C-d>", { noremap = true }) -- Cmd-Shift-Down
+
 bind_niv("<Del>", '"_x', nil, '"_d') -- Delete
 bind_niv("<BS>", '"_X', nil, '"_d') -- Backspace
 bind_all("¤[1;38L", ":lua ToggleLineNumbers()<CR>", { keep_mode = true }) -- CMD-SHIFT-L
@@ -68,8 +71,6 @@ bind_niv("¤[1;112B", '"_d^', '<Esc>l"_di', nil, { noremap = false }) -- CMD-Bac
 bind_niv("¤[1;114D", '"_d$', '<Esc>l"_d$a', nil, { noremap = false }) -- CMD-Backspace
 bind_all("\xF4\x80\x81\x90", ":FzfLua commands<CR>") -- {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
 bind_all("\xF4\x80\x81\x94", ":vsplit<CR>:enew<CR>") --
-bind_all("\xF4\x80\x93\x87", "<C-u>")
-bind_all("\xF4\x80\x93\x88", "<C-d>")
 bind_all("\xF4\x80\x81\x87", ":LazyGit<CR>")
 bind_all("\xF4\x80\x81\x97", ":bufdo bd<CR>") -- Cmd-Shift-W
 bind_niv("\xF4\x80\x80\xBF", ":ChatGPT<CR>", "<Esc>:ChatGPT<CR>", ":'<,'>ChatGPTRun explain_code<CR>") -- Cmd-Shift-?
