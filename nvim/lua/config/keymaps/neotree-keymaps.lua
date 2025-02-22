@@ -8,7 +8,13 @@ end
 local function set_neotree_keybindings()
   if is_neotree_buffer() then
     vim.api.nvim_buf_set_keymap(0, "n", "\xF4\x80\x81\x8F", "<Cmd>Neotree close<CR>", { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(0, "n", "¤[1;110E", "<Cmd>Neotree action=split<CR>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "\xF4\x80\x83\x88",
+      "<Cmd>Neotree action=split<CR>",
+      { noremap = true, silent = true }
+    )
   end
 end
 

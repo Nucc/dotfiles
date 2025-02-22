@@ -26,7 +26,7 @@ end
 -- Map the function to a key (e.g., `gd`)
 vim.api.nvim_set_keymap("n", "gd", "<cmd>lua GoToDefinitionWithFallback()<CR>", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("n", "¤[1;116L", "^", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "\xF4\x80\x83\xA1", "^", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<M-Left>", "b", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<M-Right>", "w", { noremap = true, silent = true })
 
@@ -40,35 +40,40 @@ vim.api.nvim_set_keymap("n", "\xF4\x80\x84\x88", "<C-d>", { noremap = true }) --
 
 bind_niv("<Del>", '"_x', nil, '"_d') -- Delete
 bind_niv("<BS>", '"_X', nil, '"_d') -- Backspace
-bind_all("¤[1;38L", ":lua ToggleLineNumbers()<CR>", { keep_mode = true }) -- CMD-SHIFT-L
-bind_all("¤[1;1A", "ggVG") -- # CMD-A
-bind_niv("¤[1;19S", ":w<CR>", "<Esc>:w<CR>l", "<Esc>:w<CR>") -- CMD-S
-bind_niv("¤[1;53/", "gcc", "<Esc>gcc", "gc", { noremap = false }) -- CMD-/
+bind_all("\xF4\x80\x81\x8C", ":lua ToggleLineNumbers()<CR>", { keep_mode = true }) -- CMD-SHIFT-L
+bind_all("\xF4\x80\x81\xA1", "ggVG") -- # CMD-A
+bind_niv("\xF4\x80\x81\xB3", ":w<CR>", "<Esc>:w<CR>l", "<Esc>:w<CR>") -- CMD-S
+bind_niv("\xF4\x80\x80\xAF", "gcc", "<Esc>gcc", "gc", { noremap = false }) -- CMD-/
 bind_niv("\xF4\x80\x81\xA3", '"+yy', '<Esc>"+yy', 'mz"+y`z') -- CMD-C
-bind_niv("¤[1;4D", '"_dd', '<Esc>"_dd', '"_d') -- CMD-D
-bind_all("¤[1;14N", ":enew<CR>") -- CMD-N
+bind_niv("\xF4\x80\x81\xA4", '"_dd', '<Esc>"_dd', '"_d') -- CMD-D
+bind_all("\xF4\x80\x81\xAE", ":enew<CR>") -- CMD-N
 bind_all("\xF4\x80\x81\xB0", ":FzfLua files<CR>") -- CMD-P
 bind_all("\xF4\x80\x81\xB7", ":bd<CR>") -- CMD-W
-bind_all("¤[1;32F", ":FzfLua live_grep<CR>") -- CMD-SHIFT-F
-bind_all("¤[1;45S", ":FzfLua grep_cword<CR>") -- CMD-SHIFT-S
-bind_all("¤[1;26Z", "u") -- CMD-Z
-bind_all("¤[1;52Z", "<cmd>redo<CR>") -- CMD-SHIFT-Z
-bind_all("􀁄", '"-yy"-p') -- CMD-SHIFT-D {key = 'D', mods = 'Command|Shift', chars = '􀁄'}, # U+100044: \xF4\x80\x81\x84
-bind_all("¤[1;102{", ":bp<CR>") -- CMD-{
-bind_all("¤[1;103}", ":bnext<CR>") -- CMD-}
-bind_niv("¤[1;104<", "<<", "<Esc><<", "<") -- CMD-SHIFT-<
-bind_niv("¤[1;105>", ">>", "<Esc>>>", ">") -- CMD-SHIFT->
-bind_niv("¤[1;106D", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
+bind_all("\xF4\x80\x81\x86", ":FzfLua live_grep<CR>") -- CMD-SHIFT-F
+bind_all("\xF4\x80\x81\x93", ":FzfLua grep_cword<CR>") -- CMD-SHIFT-S
+bind_all("\xF4\x80\x81\xBA", "u") -- CMD-Z
+bind_all("\xF4\x80\x81\x9A", "<cmd>redo<CR>") -- CMD-SHIFT-Z
+bind_all("\xF4\x80\x81\x84", '"-yy"-p') -- CMD-SHIFT-D {key = 'D', mods = 'Command|Shift', chars = '􀁄'}, # U+100044: \xF4\x80\x81\x84
+bind_all("\xF4\x80\x81\xBB", ":bp<CR>") -- CMD-{
+bind_all("\xF4\x80\x81\xBD", ":bnext<CR>") -- CMD-}
+bind_niv("\xF4\x80\x80\xBC", "<<", "<Esc><<", "<") -- CMD-SHIFT-<
+bind_niv("\xF4\x80\x80\xBE", ">>", "<Esc>>>", ">") -- CMD-SHIFT->
+bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
 bind_niv("\xF4\x80\x83\x9F", "gg", "<Esc>gg", "gg") -- CMD-Down
 bind_niv("\xF4\x80\x83\xA0", "G", "<Esc>G", "G") -- CMD-Up
-bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
-bind_all("¤[1;20T", ":Telescope buffers<CR>") -- CMD-T
+-- bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
+bind_all("\xF4\x80\x81\xB4", ":FzfLua buffers<CR>") -- CMD-T
 bind_all("\xF4\x80\x81\x8F", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-SHIFT-O
-bind_all("¤[1;29C", '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>', { keep_mode = true }) -- Cmd-Shift-C
-bind_all("¤[1;110E", "o", { noremap = false }) -- CMD-O
-bind_all("¤[1;111E", "O", { noremap = false }) -- CMD-SHIFT-O
-bind_niv("¤[1;112B", '"_d^', '<Esc>l"_di', nil, { noremap = false }) -- CMD-Backspace
-bind_niv("¤[1;114D", '"_d$', '<Esc>l"_d$a', nil, { noremap = false }) -- CMD-Backspace
+bind_all(
+  "\xF4\x80\x81\x83",
+  '<cmd>let @+ = substitute(expand("%:p"), getcwd() .. "/", "", "")<CR>',
+  { keep_mode = true }
+) -- Cmd-Shift-C
+bind_all("\xF4\x80\x83\x88", "o", { noremap = false }) -- CMD-Enter
+bind_all("\xF4\x80\x83\xB0", "O", { noremap = false }) -- CMD-Shift-Enter
+bind_all("\xF4\x80\x81\x8F", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-SHIFT-O
+bind_niv("\xF4\x80\x83\x89", '"_d^', '<Esc>l"_di', nil, { noremap = false }) -- CMD-Backspace
+bind_niv("\xF4\x80\x83\x8A", '"_d$', '<Esc>l"_d$a', nil, { noremap = false }) -- CMD-Backspace
 bind_all("\xF4\x80\x81\x90", ":FzfLua commands<CR>") -- {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
 bind_all("\xF4\x80\x81\x94", ":vsplit<CR>:enew<CR>") --
 bind_all("\xF4\x80\x81\x87", ":LazyGit<CR>")
@@ -76,12 +81,12 @@ bind_all("\xF4\x80\x81\x97", ":bufdo bd<CR>") -- Cmd-Shift-W
 bind_niv("\xF4\x80\x80\xBF", ":ChatGPT<CR>", "<Esc>:ChatGPT<CR>", ":'<,'>ChatGPTRun explain_code<CR>") -- Cmd-Shift-?
 bind_all("\xF4\x80\x81\x85", ":ChatGPTEditWithInstructions<CR>") -- Cmd-Shift-E
 
-map("n", "¤[1;117", ":silent !tmux split-window -h<CR>", { noremap = true, silent = true })
-map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command()<CR>')
-map("n", "<C-CR>", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>', { noremap = true })
+-- map("n", "¤[1;117", ":silent !tmux split-window -h<CR>", { noremap = true, silent = true })
+-- map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command()<CR>')
+-- map("n", "<C-CR>", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>', { noremap = true })
 
 bind_all("\xF4\x80\xA2\xB0", "<cmd>FzfLua lsp_definitions<CR>", { noremap = true })
-map("n", "gd", "<cmd>FzfLua lsp_definitions<CR>", { desc = "Go to definition", noremap = true })
+-- map("n", "gd", "<cmd>FzfLua lsp_definitions<CR>", { desc = "Go to definition", noremap = true })
 
 bind_all("\xF4\x80\xA2\xAF", "<cmd>FzfLua lsp_references<CR>")
 bind_all("\xF4\x80\xA2\xB1", "<C-O>")
