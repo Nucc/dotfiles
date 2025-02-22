@@ -69,22 +69,22 @@ require("lazy").setup({
 })
 vim.cmd.colorscheme("nord")
 
-require("telescope").setup({
-  defaults = {
-    layout_strategy = "horizontal",
-    layout_config = { prompt_position = "top" },
-    sorting_strategy = "ascending",
-    winblend = 0,
-  },
-  extensions = {
-    ["ui-select"] = {
-      require("telescope.themes").get_dropdown({}),
-    },
-  },
-})
--- To get ui-select loaded and working with telescope, you need to call
--- load_extension, somewhere after setup function:
-require("telescope").load_extension("ui-select")
+-- require("telescope").setup({
+--   defaults = {
+--     layout_strategy = "horizontal",
+--     layout_config = { prompt_position = "top" },
+--     sorting_strategy = "ascending",
+--     winblend = 0,
+--   },
+--   extensions = {
+--     ["ui-select"] = {
+--       require("telescope.themes").get_dropdown({}),
+--     },
+--   },
+-- })
+-- -- To get ui-select loaded and working with telescope, you need to call
+-- -- load_extension, somewhere after setup function:
+-- require("telescope").load_extension("ui-select")
 
 require("lspconfig").solargraph.setup({})
 
@@ -108,17 +108,13 @@ require("lspconfig").lua_ls.setup({
   },
 })
 
-local persistence = require("persistence")
-if vim.fn.argc() == 1 and vim.v.argv[3] == "." then
-  persistence.load()
-end
-
+-- local persistence = require("persistence")
+-- if vim.fn.argc() == 1 and vim.v.argv[3] == "." then
+--   persistence.load()
+-- end
+--
 require("neo-tree").setup({
-  source_selector = {
-    -- winbar = true,
-    -- statusline = true,
-    -- content_layout = "tabline",
-  },
+  source_selector = {},
   sources = {
     "filesystem",
     "buffers",
@@ -126,23 +122,20 @@ require("neo-tree").setup({
     "document_symbols",
   },
 
-  event_handlers = {
-    {
-      event = "after_render",
-      handler = function()
-        local state = require("neo-tree.sources.manager").get_state("filesystem")
-        if not require("neo-tree.sources.common.preview").is_active() then
-          state.config = { use_float = false } -- or whatever your config is
-          state.commands.toggle_preview(state)
-        end
-      end,
-    },
-  },
-
   config = function()
     vim.g.neo_tree_remove_legacy_commands = 1
     vim.g.neo_tree_auto_open = 0
   end,
+})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    local state = require("neo-tree.sources.manager").get_state("filesystem")
+    if state and not require("neo-tree.sources.common.preview").is_active() then
+      pcall(state.commands.toggle_preview, state)
+    end
+  end,
+  once = true,
 })
 
 local neotree_augroup = vim.api.nvim_create_augroup("NeoTreeAutocmds", { clear = true })
@@ -158,18 +151,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
-
--- vim.o.fillchars = "vert:|,horiz:━"
-
--- vim.g.neotree_icons = {
---   default = "x",
---   folder = {
---     default = "▸",
---     open = "",
---     empty = "",
---     symlink_open = "",
---   },
---
 
 vim.g.minipairs_disable = true
 
@@ -209,15 +190,15 @@ vim.g.minipairs_disable = true
 --   },
 -- })
 
-require("bufferline").setup({
-  options = {
-    show_buffer_icons = false, -- Disable icons
-    show_buffer_close_icons = false, -- Disable close icons
-    show_close_icon = false, -- Disable close icon on the right side
-    show_tab_indicators = false, -- Disable tab indicators
-  },
-})
-
+-- require("bufferline").setup({
+--   options = {
+--     show_buffer_icons = false, -- Disable icons
+--     show_buffer_close_icons = false, -- Disable close icons
+--     show_close_icon = false, -- Disable close icon on the right side
+--     show_tab_indicators = false, -- Disable tab indicators
+--   },
+-- })
+--
 require("conform").setup({
   formatters_by_ft = {
     ruby = {
@@ -234,3 +215,9 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     require("conform").format({ async = true })
   end,
 })
+
+-- require("fzf-lua").setup({
+--   winopts = {
+--     help = "", -- Disable help line
+--   },
+-- })
