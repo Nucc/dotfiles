@@ -89,7 +89,7 @@ shape = "block"
 # {key = 'M', mods = 'Command|Shift', chars = '􀁍'}, # U+10004D: \xF4\x80\x81\x8D
 # {key = 'N', mods = 'Command|Shift', chars = '􀁎'}, # U+10004E: \xF4\x80\x81\x8E
 {key = 'O', mods = 'Command|Shift', chars = '􀁏'}, # U+10004F: \xF4\x80\x81\x8F
-# {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
+{key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
 # {key = 'Q', mods = 'Command|Shift', chars = '􀁑'}, # U+100051: \xF4\x80\x81\x91
 # {key = 'R', mods = 'Command|Shift', chars = '􀁒'}, # U+100052: \xF4\x80\x81\x92
 {key = 'S', mods = 'Command|Shift', chars = '􀁓'}, # U+100053: \xF4\x80\x81\x93
