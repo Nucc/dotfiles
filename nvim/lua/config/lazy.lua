@@ -87,6 +87,8 @@ vim.cmd.colorscheme("nord")
 -- require("telescope").load_extension("ui-select")
 
 require("lspconfig").solargraph.setup({})
+require("lspconfig").vtsls.setup({})
+require("lspconfig").pyright.setup({})
 
 require("lspconfig").lua_ls.setup({
   settings = {
