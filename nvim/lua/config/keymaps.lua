@@ -48,6 +48,7 @@ bind_niv("\xF4\x80\x81\xA3", '"+yy', '<Esc>"+yy', 'mz"+y`z') -- CMD-C
 bind_niv("\xF4\x80\x81\xA4", '"_dd', '<Esc>"_dd', '"_d') -- CMD-D
 bind_all("\xF4\x80\x81\xAE", ":enew<CR>") -- CMD-N
 bind_all("\xF4\x80\x81\xB0", ":FzfLua files<CR>") -- CMD-P
+bind_all("\xF4\x80\x81\x90", ":FzfLua commands<CR>") -- CMD-Shift-P
 bind_all("\xF4\x80\x81\xB7", ":bd<CR>") -- CMD-W
 bind_all("\xF4\x80\x81\x86", ":FzfLua live_grep<CR>") -- CMD-SHIFT-F
 bind_all("\xF4\x80\x81\x93", ":FzfLua grep_cword<CR>") -- CMD-SHIFT-S
