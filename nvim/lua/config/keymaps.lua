@@ -75,7 +75,7 @@ bind_all("\xF4\x80\x81\x8F", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-S
 bind_niv("\xF4\x80\x83\x89", '"_d^', '<Esc>l"_di', nil, { noremap = false }) -- CMD-Backspace
 bind_niv("\xF4\x80\x83\x8A", '"_d$', '<Esc>l"_d$a', nil, { noremap = false }) -- CMD-Backspace
 bind_all("\xF4\x80\x81\x90", ":FzfLua commands<CR>") -- {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
-bind_all("\xF4\x80\x81\x94", ":vsplit<CR>:enew<CR>") --
+bind_all("\xF4\x80\x81\x94", ":vsplit<CR>:enew<CR>") -- Cmd-Shift-T
 bind_all("\xF4\x80\x81\x87", ":LazyGit<CR>")
 bind_all("\xF4\x80\x81\x97", ":bufdo bd<CR>") -- Cmd-Shift-W
 bind_niv("\xF4\x80\x80\xBF", ":ChatGPT<CR>", "<Esc>:ChatGPT<CR>", ":'<,'>ChatGPTRun explain_code<CR>") -- Cmd-Shift-?
