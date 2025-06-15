@@ -96,14 +96,46 @@ hs.hotkey.bind({ "cmd", "shift" }, "v", function()
 	chooser:show()
 end)
 
--- Move windows to the middle by default
+-- Move windows to the middle by default (but exclude modal windows)
 windowFilter = hs.window.filter.new()
 windowFilter:subscribe(hs.window.filter.windowCreated, function(win)
 	local windowTitle = win:title()
-	if windowTitle:match("Menu window") then
+	local appName = win:application():name()
+	local subrole = win:subrole()
+	local role = win:role()
+	
+	-- Skip modal windows, dialogs, and UI elements that should stay in place
+	if windowTitle:match("Menu window") 
+		or subrole == "AXDialog" 
+		or subrole == "AXSheet"
+		or subrole == "AXDrawer"
+		or subrole == "AXHelpTag"
+		or subrole == "AXPopover"
+		or role == "AXPopUpButton"
+		or role == "AXMenu"
+		or windowTitle == ""
+		or windowTitle:match("^$")
+		or windowTitle:match("Overlay")
+		or windowTitle:match("Panel")
+		or windowTitle:match("Palette")
+		or windowTitle:match("Toolbar")
+		or windowTitle:match("Inspector")
+		or windowTitle:match("Preferences")
+		or windowTitle:match("Settings")
+		or (appName == "Arc" and (windowTitle:match("Tab") or windowTitle:match("Spaces")))
+		or (appName == "Zoom" and windowTitle:match("Annotation"))
+		or appName:match("VPN")
+		or appName:match("Tunnelblick")
+		or appName:match("Private Internet Access")
+		or win:isMinimized()
+		or not win:isStandard() then
 		return
 	end
-	wm.moveWindowToPosition(wm.screenPositions.middle, win)
+	
+	-- Only move standard application windows
+	if win:isStandard() and subrole == "AXStandardWindow" then
+		wm.moveWindowToPosition(wm.screenPositions.middle, win)
+	end
 end)
 
 function startVPN()
