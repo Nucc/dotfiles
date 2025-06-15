@@ -1,3 +1,6 @@
+---@diagnostic disable-next-line: undefined-global
+local hs = hs
+
 -- hs.loadSpoon("SpoonInstall")
 
 require("auto-reload")
