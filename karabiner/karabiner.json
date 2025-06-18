@@ -6,6 +6,7 @@
                 "rules": [
                     {
                         "description": "Change right-cmd to cmd if pressed with other keys, to enter if pressed alone",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -51,12 +52,12 @@
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "right_shift",
+                                    "key_code": "right_command",
                                     "modifiers": { "optional": ["any"] }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_shift",
+                                        "key_code": "right_command",
                                         "modifiers": []
                                     }
                                 ],
