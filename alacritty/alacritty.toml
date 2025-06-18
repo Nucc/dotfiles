@@ -25,12 +25,12 @@ style = "Medium"
 [window]
 decorations = "buttonless"
 dynamic_padding = false
-opacity = 0.9 
+opacity = 0.9
 blur = true
 
 
 [window.padding]
-x = 15 
+x = 15
 y = 15
 
 [scrolling]
@@ -158,7 +158,7 @@ shape = "block"
 # {key = 'F12', mods = 'Command', chars = '􀃛'}, # U+1000DB: \xF4\x80\x83\x9B
 # {key = 'F13', mods = 'Command', chars = '􀃜'}, # U+1000DC: \xF4\x80\x83\x9C
 # {key = 'Tab', mods = 'Command', chars = '􀃝'}, # U+1000DD: \xF4\x80\x83\x9D
-# {key = 'Escape', mods = 'Command', chars = '􀃞'}, # U+1000DE: \xF4\x80\x83\x9E
+{key = 'Escape', mods = 'Command', chars = '􀃞'}, # U+1000DE: \xF4\x80\x83\x9E
 {key = 'Up', mods = 'Command', chars = '􀃟'}, # U+1000DF: \xF4\x80\x83\x9F
 {key = 'Down', mods = 'Command', chars = '􀃠'}, # U+1000E0: \xF4\x80\x83\xA0
 {key = 'Left', mods = 'Command', chars = '􀃡'}, # U+1000E1: \xF4\x80\x83\xA1
