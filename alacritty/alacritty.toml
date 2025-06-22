@@ -81,7 +81,7 @@ shape = "block"
 {key = 'E', mods = 'Command|Shift', chars = '􀁅'}, # U+100045: \xF4\x80\x81\x85
 {key = 'F', mods = 'Command|Shift', chars = '􀁆'}, # U+100046: \xF4\x80\x81\x86
 {key = 'G', mods = 'Command|Shift', chars = '􀁇'}, # U+100047: \xF4\x80\x81\x87
-# {key = 'H', mods = 'Command|Shift', chars = '􀁈'}, # U+100048: \xF4\x80\x81\x88
+{key = 'H', mods = 'Command|Shift', chars = '􀁈'}, # U+100048: \xF4\x80\x81\x88
 # {key = 'I', mods = 'Command|Shift', chars = '􀁉'}, # U+100049: \xF4\x80\x81\x89
 # {key = 'J', mods = 'Command|Shift', chars = '􀁊'}, # U+10004A: \xF4\x80\x81\x8A
 # {key = 'K', mods = 'Command|Shift', chars = '􀁋'}, # U+10004B: \xF4\x80\x81\x8B

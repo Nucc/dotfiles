@@ -51,6 +51,7 @@ bind_all("\xF4\x80\x81\xB0", ":FzfLua files<CR>") -- CMD-P
 bind_all("\xF4\x80\x81\x90", ":FzfLua commands<CR>") -- CMD-Shift-P
 bind_all("\xF4\x80\x81\xB7", ":bd<CR>") -- CMD-W
 bind_all("\xF4\x80\x81\x86", ":FzfLua live_grep<CR>") -- CMD-SHIFT-F
+bind_all("\xF4\x80\x81\x88", ":%s///g<Left><Left><Left>") -- CMD-SHIFT-H
 bind_all("\xF4\x80\x81\x93", ":FzfLua grep_cword<CR>") -- CMD-SHIFT-S
 bind_all("\xF4\x80\x81\xBA", "u") -- CMD-Z
 bind_all("\xF4\x80\x81\x9A", "<cmd>redo<CR>") -- CMD-SHIFT-Z
@@ -93,6 +94,6 @@ bind_all("\xF4\x80\xA2\xAF", "<cmd>FzfLua lsp_references<CR>")
 bind_all("\xF4\x80\xA2\xB1", "<C-O>")
 bind_all("\xF4\x80\xA2\xB2", "<C-I>")
 
-bind_all("\xF4\x80\x81\xA6", "/")
+bind_all("\xF4\x80\x81\xA6", "/") -- CMD-F
 bind_all("\xF4\x80\x80\xA7", ":vsplit<CR>") -- CMD-'
 bind_all("\xF4\x80\x80\xBB", ":split<CR>") -- CMD-;
