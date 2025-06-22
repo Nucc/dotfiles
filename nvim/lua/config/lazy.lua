@@ -119,7 +119,7 @@ require("neo-tree").setup({
   source_selector = {},
   sources = {
     "filesystem",
-    "buffers",
+    "buffers", 
     "git_status",
     "document_symbols",
   },
@@ -130,17 +130,35 @@ require("neo-tree").setup({
   end,
 })
 
-vim.api.nvim_create_autocmd("VimEnter", {
+local neotree_augroup = vim.api.nvim_create_augroup("NeoTreeAutocmds", { clear = true })
+
+-- Enable preview mode when neo-tree buffer is entered
+vim.api.nvim_create_autocmd("FileType", {
+  group = neotree_augroup,
+  pattern = "neo-tree",
   callback = function()
-    local state = require("neo-tree.sources.manager").get_state("filesystem")
-    if state and not require("neo-tree.sources.common.preview").is_active() then
-      pcall(state.commands.toggle_preview, state)
-    end
+    vim.defer_fn(function()
+      local state = require("neo-tree.sources.manager").get_state("filesystem")
+      if state and not require("neo-tree.sources.common.preview").is_active() then
+        pcall(state.commands.toggle_preview, state)
+      end
+    end, 100)
   end,
-  once = true,
 })
 
-local neotree_augroup = vim.api.nvim_create_augroup("NeoTreeAutocmds", { clear = true })
+-- Clean up preview when leaving neo-tree
+vim.api.nvim_create_autocmd("BufLeave", {
+  group = neotree_augroup,
+  pattern = "*",
+  callback = function()
+    if vim.bo.filetype == "neo-tree" then
+      local preview = require("neo-tree.sources.common.preview")
+      if preview.is_active() then
+        preview.hide()
+      end
+    end
+  end,
+})
 
 -- Create an autocmd to close NeoTree when a file is opened
 vim.api.nvim_create_autocmd("BufEnter", {
