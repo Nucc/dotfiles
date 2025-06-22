@@ -94,3 +94,5 @@ bind_all("\xF4\x80\xA2\xB1", "<C-O>")
 bind_all("\xF4\x80\xA2\xB2", "<C-I>")
 
 bind_all("\xF4\x80\x81\xA6", "/")
+bind_all("\xF4\x80\x80\xA7", ":vsplit<CR>") -- CMD-'
+bind_all("\xF4\x80\x80\xBB", ":split<CR>") -- CMD-;
