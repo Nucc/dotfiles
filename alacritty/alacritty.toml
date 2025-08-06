@@ -245,7 +245,7 @@ shape = "block"
 # {key = 'D', mods = 'Control|Command|Shift', chars = '􀐬'}, # U+10042C: \xF4\x80\x90\xAC
 # {key = 'E', mods = 'Control|Command|Shift', chars = '􀐭'}, # U+10042D: \xF4\x80\x90\xAD
 # {key = 'F', mods = 'Control|Command|Shift', chars = '􀐮'}, # U+10042E: \xF4\x80\x90\xAE
-# {key = 'G', mods = 'Control|Command|Shift', chars = '􀐯'}, # U+10042F: \xF4\x80\x90\xAF
+{key = 'G', mods = 'Control|Command|Shift', chars = '􀐯'}, # U+10042F: \xF4\x80\x90\xAF
 # {key = 'H', mods = 'Control|Command|Shift', chars = '􀐰'}, # U+100430: \xF4\x80\x90\xB0
 # {key = 'I', mods = 'Control|Command|Shift', chars = '􀐱'}, # U+100431: \xF4\x80\x90\xB1
 # {key = 'J', mods = 'Control|Command|Shift', chars = '􀐲'}, # U+100432: \xF4\x80\x90\xB2
