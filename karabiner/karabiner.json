@@ -5,6 +5,36 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Cmd-Ctrl short press to Cmd-Ctrl-`, long press to Cmd-Ctrl",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": {
+                                        "mandatory": ["left_control"],
+                                        "optional": []
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 400
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "grave_accent_and_tilde",
+                                        "modifiers": ["left_command", "left_control"]
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "left_command",
+                                        "modifiers": ["left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Change right-cmd to cmd if pressed with other keys, to enter if pressed alone",
                         "enabled": false,
                         "manipulators": [
@@ -41,6 +71,23 @@
                                     {
                                         "key_code": "z",
                                         "modifiers": ["left_command", "left_shift", "left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "End key acts as Cmd-Ctrl for tmux pane switching",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "end"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_command",
+                                        "modifiers": ["left_control"]
                                     }
                                 ],
                                 "type": "basic"
