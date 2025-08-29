@@ -223,15 +223,15 @@ shape = "block"
 # {key = '.', mods = 'Control|Command', chars = '􀐖'}, # U+100416: \xF4\x80\x90\x96
 # {key = '/', mods = 'Control|Command', chars = '􀐗'}, # U+100417: \xF4\x80\x90\x97
 # {key = '0', mods = 'Control|Command', chars = '􀐘'}, # U+100418: \xF4\x80\x90\x98
-# {key = '1', mods = 'Control|Command', chars = '􀐙'}, # U+100419: \xF4\x80\x90\x99
-# {key = '2', mods = 'Control|Command', chars = '􀐚'}, # U+10041A: \xF4\x80\x90\x9A
-# {key = '3', mods = 'Control|Command', chars = '􀐛'}, # U+10041B: \xF4\x80\x90\x9B
-# {key = '4', mods = 'Control|Command', chars = '􀐜'}, # U+10041C: \xF4\x80\x90\x9C
-# {key = '5', mods = 'Control|Command', chars = '􀐝'}, # U+10041D: \xF4\x80\x90\x9D
-# {key = '6', mods = 'Control|Command', chars = '􀐞'}, # U+10041E: \xF4\x80\x90\x9E
-# {key = '7', mods = 'Control|Command', chars = '􀐟'}, # U+10041F: \xF4\x80\x90\x9F
-# {key = '8', mods = 'Control|Command', chars = '􀐠'}, # U+100420: \xF4\x80\x90\xA0
-# {key = '9', mods = 'Control|Command', chars = '􀐡'}, # U+100421: \xF4\x80\x90\xA1
+{key = '1', mods = 'Control|Command', chars = '􀐙'}, # U+100419: \xF4\x80\x90\x99
+{key = '2', mods = 'Control|Command', chars = '􀐚'}, # U+10041A: \xF4\x80\x90\x9A
+{key = '3', mods = 'Control|Command', chars = '􀐛'}, # U+10041B: \xF4\x80\x90\x9B
+{key = '4', mods = 'Control|Command', chars = '􀐜'}, # U+10041C: \xF4\x80\x90\x9C
+{key = '5', mods = 'Control|Command', chars = '􀐝'}, # U+10041D: \xF4\x80\x90\x9D
+{key = '6', mods = 'Control|Command', chars = '􀐞'}, # U+10041E: \xF4\x80\x90\x9E
+{key = '7', mods = 'Control|Command', chars = '􀐟'}, # U+10041F: \xF4\x80\x90\x9F
+{key = '8', mods = 'Control|Command', chars = '􀐠'}, # U+100420: \xF4\x80\x90\xA0
+{key = '9', mods = 'Control|Command', chars = '􀐡'}, # U+100421: \xF4\x80\x90\xA1
 {key = ':', mods = 'Control|Command|Shift', chars = '􀐢'}, # U+100422: \xF4\x80\x90\xA2
 # {key = ';', mods = 'Control|Command', chars = '􀐣'}, # U+100423: \xF4\x80\x90\xA3
 # {key = '<', mods = 'Control|Command|Shift', chars = '􀐤'}, # U+100424: \xF4\x80\x90\xA4
@@ -270,7 +270,7 @@ shape = "block"
 # {key = ']', mods = 'Control|Command', chars = '􀑅'}, # U+100445: \xF4\x80\x91\x85
 {key = '^', mods = 'Control|Command|Shift', chars = '􀑆'}, # U+100446: \xF4\x80\x91\x86
 # {key = '_', mods = 'Control|Command|Shift', chars = '􀑇'}, # U+100447: \xF4\x80\x91\x87
-# {key = '`', mods = 'Control|Command', chars = '􀑈'}, # U+100448: \xF4\x80\x91\x88
+{key = '`', mods = 'Control|Command', chars = '􀑈'}, # U+100448: \xF4\x80\x91\x88
 # {key = 'a', mods = 'Control|Command', chars = '􀑉'}, # U+100449: \xF4\x80\x91\x89
 # {key = 'b', mods = 'Control|Command', chars = '􀑊'}, # U+10044A: \xF4\x80\x91\x8A
 # {key = 'c', mods = 'Control|Command', chars = '􀑋'}, # U+10044B: \xF4\x80\x91\x8B
