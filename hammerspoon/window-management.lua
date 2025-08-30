@@ -62,9 +62,9 @@ screenPositions.bottomRight = {
 }
 
 screenPositions.middle = {
-	x = HALF_GRID_SIZE / 3,
+	x = HALF_GRID_SIZE / 5,
 	y = GRID_SIZE / 10,
-	w = HALF_GRID_SIZE * 1.33,
+	w = HALF_GRID_SIZE * 1.6,
 	h = HALF_GRID_SIZE * 1.6,
 }
 
