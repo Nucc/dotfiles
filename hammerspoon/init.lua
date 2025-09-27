@@ -99,6 +99,54 @@ hs.hotkey.bind({ "cmd", "shift" }, "v", function()
 	chooser:show()
 end)
 
+-- Handle system wake events to restore window positions
+hs.caffeinate.watcher.new(function(eventType)
+	if eventType == hs.caffeinate.watcher.systemDidWake then
+		-- Multiple attempts with increasing delays to catch stubborn windows
+		local function repositionBrowserWindows(attempt)
+			local windows = hs.window.allWindows()
+			local repositioned = 0
+
+			for _, win in ipairs(windows) do
+				if win and win:application() then
+					local success, appName = pcall(function() return win:application():name() end)
+					if success and appName then
+						local subrole = win:subrole()
+
+						-- Target browser windows, especially Arc
+						if (appName == "Arc" or appName == "Safari" or appName == "Chrome" or appName == "Firefox")
+							and subrole == "AXStandardWindow"
+							and win:isStandard()
+							and not win:isMinimized()
+							and win:isVisible() then
+
+							-- For later attempts, also check if window is mispositioned at bottom
+							if attempt == 1 or (attempt > 1 and win:frame().y > (win:screen():frame().h * 0.7)) then
+								wm.moveWindowToPosition(wm.screenPositions.middle, win)
+								repositioned = repositioned + 1
+							end
+						end
+					end
+				end
+			end
+
+			if repositioned > 0 then
+				hs.notify.new({
+					title = "Window Positioning",
+					informativeText = "Attempt " .. attempt .. ": Repositioned " .. repositioned .. " windows"
+				}):send()
+			end
+		end
+
+		-- First attempt after 2 seconds
+		hs.timer.doAfter(2, function() repositionBrowserWindows(1) end)
+		-- Second attempt after 4 seconds
+		hs.timer.doAfter(4, function() repositionBrowserWindows(2) end)
+		-- Final attempt after 6 seconds for really stubborn windows
+		hs.timer.doAfter(6, function() repositionBrowserWindows(3) end)
+	end
+end):start()
+
 -- Move windows to the middle by default (but exclude modal windows)
 windowFilter = hs.window.filter.new()
 windowFilter:subscribe(hs.window.filter.windowCreated, function(win)
