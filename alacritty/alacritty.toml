@@ -123,7 +123,7 @@ shape = "block"
 {key = 'o', mods = 'Command', chars = '􀁯'}, # U+10006F: \xF4\x80\x81\xAF
 {key = 'p', mods = 'Command', chars = '􀁰'}, # U+100070: \xF4\x80\x81\xB0
 # {key = 'q', mods = 'Command', chars = '􀁱'}, # U+100071: \xF4\x80\x81\xB1
-# {key = 'r', mods = 'Command', chars = '􀁲'}, # U+100072: \xF4\x80\x81\xB2
+{key = 'r', mods = 'Command', chars = '􀁲'}, # U+100072: \xF4\x80\x81\xB2
 {key = 's', mods = 'Command', chars = '􀁳'}, # U+100073: \xF4\x80\x81\xB3
 {key = 't', mods = 'Command', chars = '􀁴'}, # U+100074: \xF4\x80\x81\xB4
 # {key = 'u', mods = 'Command', chars = '􀁵'}, # U+100075: \xF4\x80\x81\xB5
@@ -256,7 +256,7 @@ shape = "block"
 # {key = 'O', mods = 'Control|Command|Shift', chars = '􀐷'}, # U+100437: \xF4\x80\x90\xB7
 {key = 'P', mods = 'Control|Command|Shift', chars = '􀐸'}, # U+100438: \xF4\x80\x90\xB8
 # {key = 'Q', mods = 'Control|Command|Shift', chars = '􀐹'}, # U+100439: \xF4\x80\x90\xB9
-# {key = 'R', mods = 'Control|Command|Shift', chars = '􀐺'}, # U+10043A: \xF4\x80\x90\xBA
+{key = 'R', mods = 'Control|Command|Shift', chars = '􀐺'}, # U+10043A: \xF4\x80\x90\xBA
 {key = 'S', mods = 'Control|Command|Shift', chars = '􀐻'}, # U+10043B: \xF4\x80\x90\xBB
 {key = 'T', mods = 'Control|Command|Shift', chars = '􀐼'}, # U+10043C: \xF4\x80\x90\xBC
 # {key = 'U', mods = 'Control|Command|Shift', chars = '􀐽'}, # U+10043D: \xF4\x80\x90\xBD
