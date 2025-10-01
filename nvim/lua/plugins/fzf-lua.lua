@@ -10,6 +10,9 @@ return {
       winopts = {
         help = "", -- Disable help line
       },
+      fzf_opts = {
+        ["--tiebreak"] = "length,begin,index",
+      },
     })
   end,
 }
