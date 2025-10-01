@@ -337,7 +337,7 @@ shape = "block"
 # {key = 'Pause', mods = 'Control|Command', chars = '􀓒'}, # U+1004D2: \xF4\x80\x93\x92
 # {key = 'NumLock', mods = 'Control|Command', chars = '􀓓'}, # U+1004D3: \xF4\x80\x93\x93
 # {key = 'Enter', mods = 'Control|Command|Shift', chars = '􀓘'}, # U+1004D8: \xF4\x80\x93\x98
-# {key = 'Backspace', mods = 'Control|Command|Shift', chars = '􀓙'}, # U+1004D9: \xF4\x80\x93\x99
+{key = 'Backspace', mods = 'Control|Command|Shift', chars = '􀓙'}, # U+1004D9: \xF4\x80\x93\x99
 # {key = 'Delete', mods = 'Control|Command|Shift', chars = '􀓚'}, # U+1004DA: \xF4\x80\x93\x9A
 # {key = 'Insert', mods = 'Control|Command|Shift', chars = '􀓛'}, # U+1004DB: \xF4\x80\x93\x9B
 # {key = 'PageUp', mods = 'Control|Command|Shift', chars = '􀓜'}, # U+1004DC: \xF4\x80\x93\x9C
