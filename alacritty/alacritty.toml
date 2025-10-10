@@ -237,7 +237,7 @@ shape = "block"
 # {key = '<', mods = 'Control|Command|Shift', chars = '􀐤'}, # U+100424: \xF4\x80\x90\xA4
 # {key = '=', mods = 'Control|Command', chars = '􀐥'}, # U+100425: \xF4\x80\x90\xA5
 # {key = '>', mods = 'Control|Command|Shift', chars = '􀐦'}, # U+100426: \xF4\x80\x90\xA6
-# {key = '?', mods = 'Control|Command|Shift', chars = '􀐧'}, # U+100427: \xF4\x80\x90\xA7
+{key = '?', mods = 'Control|Command|Shift', chars = '􀐧'}, # U+100427: \xF4\x80\x90\xA7
 {key = '@', mods = 'Control|Command|Shift', chars = '􀐨'}, # U+100428: \xF4\x80\x90\xA8
 # {key = 'A', mods = 'Control|Command|Shift', chars = '􀐩'}, # U+100429: \xF4\x80\x90\xA9
 {key = 'B', mods = 'Control|Command|Shift', chars = '􀐪'}, # U+10042A: \xF4\x80\x90\xAA
