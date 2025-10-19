@@ -237,3 +237,16 @@ hs.hotkey.bind({ "cmd", "ctrl", "shift" }, "M", function()
 		hs.notify.new({ title = "Trackpad", informativeText = "Failed to reconnect." }):send()
 	end
 end)
+
+hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "O", function()
+	-- List of URLs to open
+	local urls = {
+		"https://news.ycombinator.com",
+		"https://github.com",
+		"https://calendar.google.com",
+	}
+
+	for _, url in ipairs(urls) do
+		hs.urlevent.openURL(url)
+	end
+end)

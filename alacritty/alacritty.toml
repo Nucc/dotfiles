@@ -25,8 +25,36 @@ style = "Medium"
 [window]
 decorations = "buttonless"
 dynamic_padding = false
-opacity = 0.9
+opacity = 1
 blur = true
+
+# Nord theme background color to match nvim
+# [window.background]
+# opacity = 1.0
+
+[colors.primary]
+background = "#292929"
+foreground = "#D8DEE9"
+
+[colors.normal]
+black = "#3B4252"
+red = "#BF616A"
+green = "#A3BE8C"
+yellow = "#EBCB8B"
+blue = "#5E81AC"
+magenta = "#B48EAD"
+cyan = "#88C0D0"
+white = "#E5E9F0"
+
+[colors.bright]
+black = "#4C566A"
+red = "#BF616A"
+green = "#A3BE8C"
+yellow = "#EBCB8B"
+blue = "#81A1C1"
+magenta = "#B48EAD"
+cyan = "#8FBCBB"
+white = "#ECEFF4"
 
 
 [window.padding]
@@ -701,6 +729,6 @@ shape = "block"
 # {key = 'ScrollLock', mods = 'Control|Alt|Command|Shift', chars = '􀳉'}, # U+100CC9: \xF4\x80\xB3\x89
 # {key = 'Pause', mods = 'Control|Alt|Command|Shift', chars = '􀳊'}, # U+100CCA: \xF4\x80\xB3\x8A
 # {key = 'NumLock', mods = 'Control|Alt|Command|Shift', chars = '􀳋'}, # U+100CCB: \xF4\x80\xB3\x8B
-
+{key = 'Space', mods = 'Command|Shift', chars = '􀳌'}, # U+100CCC: \xF4\x80\xB3\x8C
 ]
 

@@ -110,6 +110,9 @@ require("lspconfig").lua_ls.setup({
   },
 })
 
+require("lspconfig").vtsls.setup({})
+require("lspconfig").pyright.setup({})
+
 -- local persistence = require("persistence")
 -- if vim.fn.argc() == 1 and vim.v.argv[3] == "." then
 --   persistence.load()
