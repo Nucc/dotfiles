@@ -4,7 +4,7 @@
 current_mode=$(tmux show-option -gv @session-filter-mode 2>/dev/null || echo "all")
 current_session=$(tmux display-message -p '#S')
 
-# Toggle between work and personal (skip "all")
+# Cycle through all three modes: work → personal → all (others) → work
 case "$current_mode" in
 work)
   new_mode="personal"
@@ -12,12 +12,11 @@ work)
   target_suffix="[P]"
   ;;
 personal)
-  new_mode="work"
-  message="Session filter: Work"
-  target_suffix="[W]"
+  new_mode="all"
+  message="Session filter: Others"
+  target_suffix=""
   ;;
 all | *)
-  # If currently "all" or unknown, default to work
   new_mode="work"
   message="Session filter: Work"
   target_suffix="[W]"
@@ -39,7 +38,13 @@ all_sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | sort)
 while IFS= read -r session; do
   [[ -z "$session" ]] && continue
 
-  if [[ "$session" == *"$target_suffix" ]]; then
+  if [ "$new_mode" = "all" ]; then
+    # For "all" mode, find session without [W] or [P]
+    if [[ "$session" != *"[W]" && "$session" != *"[P]" ]]; then
+      target_session="$session"
+      break
+    fi
+  elif [[ "$session" == *"$target_suffix" ]]; then
     target_session="$session"
     break
   fi
