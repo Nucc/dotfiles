@@ -7,6 +7,9 @@ direction="${1:-forward}"
 current_mode=$(tmux show-option -gv @session-filter-mode 2>/dev/null || echo "all")
 current_session=$(tmux display-message -p '#S')
 
+# Store the current session as the last active for this mode
+tmux set-option -g "@session-last-${current_mode}" "$current_session"
+
 # Cycle through modes based on direction
 if [ "$direction" = "forward" ]; then
   # Forward: work → personal → all (others) → work
@@ -57,23 +60,42 @@ tmux refresh-client -S
 # Find a session matching the new filter
 target_session=""
 
-# Get all sessions matching the new filter
-all_sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | sort)
+# First, try to restore the last active session for this mode
+last_session=$(tmux show-option -gv "@session-last-${new_mode}" 2>/dev/null)
 
-while IFS= read -r session; do
-  [[ -z "$session" ]] && continue
+# Check if the last session still exists and matches the filter
+if [ -n "$last_session" ]; then
+  session_exists=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | grep -Fx "$last_session")
 
-  if [ "$new_mode" = "all" ]; then
-    # For "all" mode, find session without [W] or [P]
-    if [[ "$session" != *"[W]" && "$session" != *"[P]" ]]; then
+  if [ -n "$session_exists" ]; then
+    # Verify it still matches the filter
+    if [ "$new_mode" = "all" ]; then
+      [[ "$last_session" != *"[W]" && "$last_session" != *"[P]" ]] && target_session="$last_session"
+    elif [[ "$last_session" == *"$target_suffix" ]]; then
+      target_session="$last_session"
+    fi
+  fi
+fi
+
+# If no last session found, get the first matching session
+if [ -z "$target_session" ]; then
+  all_sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | sort)
+
+  while IFS= read -r session; do
+    [[ -z "$session" ]] && continue
+
+    if [ "$new_mode" = "all" ]; then
+      # For "all" mode, find session without [W] or [P]
+      if [[ "$session" != *"[W]" && "$session" != *"[P]" ]]; then
+        target_session="$session"
+        break
+      fi
+    elif [[ "$session" == *"$target_suffix" ]]; then
       target_session="$session"
       break
     fi
-  elif [[ "$session" == *"$target_suffix" ]]; then
-    target_session="$session"
-    break
-  fi
-done <<<"$all_sessions"
+  done <<<"$all_sessions"
+fi
 
 # Switch to target session if found and different from current
 if [ -n "$target_session" ] && [ "$target_session" != "$current_session" ]; then

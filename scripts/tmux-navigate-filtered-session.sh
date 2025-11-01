@@ -94,6 +94,8 @@ fi
 # Switch to target session
 if [ -n "$target_session" ]; then
     tmux switch-client -t "$target_session"
+    # Store this as the last active session for this filter mode
+    tmux set-option -g "@session-last-${filter_mode}" "$target_session"
     tmux refresh-client -S
 else
     tmux display-message "No target session found"
