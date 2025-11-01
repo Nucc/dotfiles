@@ -22,15 +22,18 @@ fi
 
 cd "$git_root" || exit 1
 
-# Get worktrees directory (parent of git root)
-worktrees_base=$(dirname "$git_root")
+# Get worktrees directory (inside git root)
+worktrees_base="${git_root}/worktrees"
+
+# Create worktrees directory if it doesn't exist
+mkdir -p "$worktrees_base"
 
 echo "Repository: $repo_name"
 echo "Current location: $git_root"
 echo ""
 
-# Get list of branches (local and remote)
-branches=$(git branch -a --format='%(refname:short)' | sed 's|^origin/||' | grep -v '^HEAD' | sort -u)
+# Get list of branches (local only)
+branches=$(git branch --format='%(refname:short)' | sort -u)
 
 # Get existing worktrees to filter them out
 existing_worktrees=$(git worktree list --porcelain | grep "^branch" | sed 's/^branch refs\/heads\///' | sort -u)
@@ -89,8 +92,8 @@ fi
 # Sanitize branch name for directory (replace / with -)
 dir_name=$(echo "$branch_name" | sed 's/\//-/g')
 
-# Worktree path
-worktree_path="${worktrees_base}/${repo_name}-${dir_name}"
+# Worktree path (just branch name, no repo prefix)
+worktree_path="${worktrees_base}/${dir_name}"
 
 # Check if worktree path already exists
 if [ -d "$worktree_path" ]; then
@@ -107,8 +110,8 @@ echo ""
 
 # Create the worktree
 if [ "$create_new" = true ]; then
-    # Create new branch and worktree
-    if git worktree add -b "$branch_name" "$worktree_path"; then
+    # Create new branch and worktree, forking from main
+    if git worktree add -b "$branch_name" "$worktree_path" main; then
         echo "✓ Worktree created successfully"
     else
         echo "✗ Failed to create worktree"
