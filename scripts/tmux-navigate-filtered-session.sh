@@ -34,7 +34,10 @@ while IFS= read -r session; do
             fi
             ;;
         all)
-            filtered_sessions="${filtered_sessions}${session}"$'\n'
+            # Show only sessions without [W] or [P]
+            if [[ "$session" != *"[W]" && "$session" != *"[P]" ]]; then
+                filtered_sessions="${filtered_sessions}${session}"$'\n'
+            fi
             ;;
     esac
 done <<< "$all_sessions"

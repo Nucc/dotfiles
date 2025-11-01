@@ -3,23 +3,23 @@
 # Get current filter mode
 current_mode=$(tmux show-option -gv @session-filter-mode 2>/dev/null || echo "all")
 
-# Cycle through modes: all → work → personal → all
+# Cycle through modes: all (others) → work → personal → all (others)
 case "$current_mode" in
     all)
         new_mode="work"
-        message="Session filter: Work only"
+        message="Session filter: Work"
         ;;
     work)
         new_mode="personal"
-        message="Session filter: Personal only"
+        message="Session filter: Personal"
         ;;
     personal)
         new_mode="all"
-        message="Session filter: All sessions"
+        message="Session filter: Others"
         ;;
     *)
         new_mode="all"
-        message="Session filter: All sessions"
+        message="Session filter: Others"
         ;;
 esac
 
