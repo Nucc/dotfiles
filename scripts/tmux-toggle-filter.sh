@@ -26,8 +26,8 @@ esac
 # Set the new filter mode
 tmux set-option -g @session-filter-mode "$new_mode"
 
-# Refresh the status bar
-tmux refresh-client -S
-
 # Display message to user
 tmux display-message "$message"
+
+# Refresh the status bar immediately
+tmux refresh-client -S
