@@ -12,12 +12,12 @@ path_length=${#path}
 # Target width (minimum 20 characters)
 target_width=20
 
-# If path is longer than target, just return it
+# If path is longer than target, just return it with 3 spaces padding
 if [ $path_length -ge $target_width ]; then
-    echo "$path"
+    echo "${path}   "
 else
-    # Calculate padding needed
-    padding=$((target_width - path_length))
+    # Calculate padding needed (add 3 extra for consistent spacing)
+    padding=$((target_width - path_length + 3))
 
     # Create padding spaces
     padding_str=$(printf '%*s' "$padding" '')
