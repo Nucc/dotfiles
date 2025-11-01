@@ -10,7 +10,12 @@ filter_mode=$(tmux show-option -gv @session-filter-mode 2>/dev/null || echo "all
 current_session=$(tmux display-message -p '#S')
 
 # Get all sessions
-all_sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | sort)
+all_sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null)
+
+if [ -z "$all_sessions" ]; then
+    tmux display-message "No sessions found"
+    exit 0
+fi
 
 # Filter sessions based on current mode
 filtered_sessions=""
@@ -34,17 +39,29 @@ while IFS= read -r session; do
     esac
 done <<< "$all_sessions"
 
-# Remove trailing newline
-filtered_sessions=$(echo "$filtered_sessions" | sed '/^$/d')
+# Remove trailing newline and sort
+filtered_sessions=$(echo "$filtered_sessions" | sed '/^$/d' | sort)
 
 # If no filtered sessions, exit
 if [ -z "$filtered_sessions" ]; then
-    tmux display-message "No sessions found in current filter"
+    tmux display-message "No sessions in $filter_mode filter"
     exit 0
 fi
 
 # Convert to array
-IFS=$'\n' read -r -d '' -a sessions_array <<< "$filtered_sessions"
+mapfile -t sessions_array <<< "$filtered_sessions"
+
+# Check if we have sessions
+if [ ${#sessions_array[@]} -eq 0 ]; then
+    tmux display-message "No sessions available"
+    exit 0
+fi
+
+# If only one session, stay on it
+if [ ${#sessions_array[@]} -eq 1 ]; then
+    tmux display-message "Only one session in $filter_mode filter"
+    exit 0
+fi
 
 # Find current session index
 current_index=-1
@@ -55,17 +72,21 @@ for i in "${!sessions_array[@]}"; do
     fi
 done
 
-# Calculate next/previous index
-total_sessions=${#sessions_array[@]}
-
-if [ "$direction" = "next" ]; then
-    next_index=$(( (current_index + 1) % total_sessions ))
+# If current session not found in filtered list, go to first session
+if [ $current_index -eq -1 ]; then
+    target_session="${sessions_array[0]}"
 else
-    next_index=$(( (current_index - 1 + total_sessions) % total_sessions ))
-fi
+    # Calculate next/previous index
+    total_sessions=${#sessions_array[@]}
 
-# Get target session
-target_session="${sessions_array[$next_index]}"
+    if [ "$direction" = "next" ]; then
+        next_index=$(( (current_index + 1) % total_sessions ))
+    else
+        next_index=$(( (current_index - 1 + total_sessions) % total_sessions ))
+    fi
+
+    target_session="${sessions_array[$next_index]}"
+fi
 
 # Switch to target session
 if [ -n "$target_session" ]; then

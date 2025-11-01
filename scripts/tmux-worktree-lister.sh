@@ -26,7 +26,7 @@ done <<< "$windows"
 
 # Output formatted windows
 if [ $count -eq 0 ]; then
-    echo "#[fg=red]No windows found"
+    echo ""
 else
-    echo "#[fg=#A3BE8C]Windows:#[fg=#D8DEE9] ${formatted_windows}"
+    echo "${formatted_windows}"
 fi
