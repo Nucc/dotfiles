@@ -184,8 +184,17 @@ fi
 
 # Create the worktree using absolute paths
 if [ "$create_new" = true ]; then
+    # Fetch latest changes from remote before creating new branch
+    echo "Fetching latest changes from remote..."
+    if git -C "$bare_repo_dir" fetch origin; then
+        echo "✓ Fetch completed"
+    else
+        echo "⚠ Warning: Failed to fetch from remote, continuing anyway..."
+    fi
+    echo ""
+
     # Create new branch and worktree, forking from default branch
-    if git -C "$bare_repo_dir" worktree add -b "$branch_name" "$worktree_path" "$default_branch"; then
+    if git -C "$bare_repo_dir" worktree add -b "$branch_name" "$worktree_path" "origin/$default_branch"; then
         echo "✓ Worktree created successfully"
     else
         echo "✗ Failed to create worktree"

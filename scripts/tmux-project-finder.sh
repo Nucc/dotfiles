@@ -138,7 +138,8 @@ if [ -n "$SELECTED_DISPLAY" ]; then
       tmux switch-client -t "$SESSION_NAME"
     else
       # Create new session and execute the clone workflow
-      tmux new-session -d -s "$SESSION_NAME" -c "$HOME/Code"
+      # Name the first window after the default branch
+      tmux new-session -d -s "$SESSION_NAME" -n "$DEFAULT_BRANCH" -c "$HOME/Code"
 
       # Build the command to execute in the tmux session
       CLONE_COMMAND="echo 'Cloning bare repository...' && "
