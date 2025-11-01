@@ -75,8 +75,29 @@ if [ -n "$SELECTED_DISPLAY" ]; then
     IS_CLONE=true
   fi
 
-  # Get the project name for the window name
+  # Get the project name for the session name
   PROJECT_NAME=$(basename "$SELECTED_DIR")
+
+  # Prompt for work/personal designation
+  echo ""
+  echo "Is this a work or personal project?"
+  echo "1) Work"
+  echo "2) Personal"
+  read -n 1 -r -p "Select (1/2): " DESIGNATION
+  echo ""
+
+  case "$DESIGNATION" in
+    1)
+      SESSION_NAME="${PROJECT_NAME}[W]"
+      ;;
+    2)
+      SESSION_NAME="${PROJECT_NAME}[P]"
+      ;;
+    *)
+      # Default to work if no valid selection
+      SESSION_NAME="${PROJECT_NAME}[W]"
+      ;;
+  esac
 
   if [ "$IS_CLONE" = true ]; then
     # Determine the GitHub repo URL
@@ -93,16 +114,29 @@ if [ -n "$SELECTED_DISPLAY" ]; then
     PARENT_DIR=$(dirname "$SELECTED_DIR")
     mkdir -p "$PARENT_DIR"
 
-    # Create new window and clone (shallow clone with depth 1 for speed)
-    tmux new-window -n "$PROJECT_NAME" -c "$PARENT_DIR"
-    tmux send-keys -t ":" "gh repo clone $GH_REPO $SELECTED_DIR -- --depth 1 && cd $SELECTED_DIR && ~/.dotfiles/scripts/tmux-window-setup.sh" C-m
-
-    echo "Cloning project: $GH_REPO to $SELECTED_DIR"
+    # Check if session already exists
+    if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+      echo "Session '$SESSION_NAME' already exists. Switching to it..."
+      tmux switch-client -t "$SESSION_NAME"
+    else
+      # Create new session and clone (shallow clone with depth 1 for speed)
+      tmux new-session -d -s "$SESSION_NAME" -c "$PARENT_DIR"
+      tmux send-keys -t "$SESSION_NAME" "gh repo clone $GH_REPO $SELECTED_DIR -- --depth 1 && cd $SELECTED_DIR && ~/.dotfiles/scripts/tmux-window-setup.sh" C-m
+      tmux switch-client -t "$SESSION_NAME"
+      echo "Cloning project: $GH_REPO to $SELECTED_DIR in session '$SESSION_NAME'"
+    fi
   else
-    # Just open existing project
-    tmux new-window -n "$PROJECT_NAME" -c "$SELECTED_DIR"
-    tmux send-keys -t ":" "~/.dotfiles/scripts/tmux-window-setup.sh" C-m
-    echo "Opened project: $SELECTED_DIR in new window"
+    # Check if session already exists
+    if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+      echo "Session '$SESSION_NAME' already exists. Switching to it..."
+      tmux switch-client -t "$SESSION_NAME"
+    else
+      # Create new session for existing project
+      tmux new-session -d -s "$SESSION_NAME" -c "$SELECTED_DIR"
+      tmux send-keys -t "$SESSION_NAME" "~/.dotfiles/scripts/tmux-window-setup.sh" C-m
+      tmux switch-client -t "$SESSION_NAME"
+      echo "Opened project: $SELECTED_DIR in session '$SESSION_NAME'"
+    fi
   fi
 else
   echo "No project selected"

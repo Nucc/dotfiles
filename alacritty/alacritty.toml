@@ -69,6 +69,7 @@ shape = "block"
 
 [keyboard]
   bindings = [
+
 # {key = ' ', mods = 'Command', chars = '􀀠'}, # U+100020: \xF4\x80\x80\xA0
 # {key = '!', mods = 'Command|Shift', chars = '􀀡'}, # U+100021: \xF4\x80\x80\xA1
 # {key = '"', mods = 'Command|Shift', chars = '􀀢'}, # U+100022: \xF4\x80\x80\xA2
@@ -172,18 +173,18 @@ shape = "block"
 # {key = 'PageDown', mods = 'Command', chars = '􀃍'}, # U+1000CD: \xF4\x80\x83\x8D
 # {key = 'Home', mods = 'Command', chars = '􀃎'}, # U+1000CE: \xF4\x80\x83\x8E
 # {key = 'End', mods = 'Command', chars = '􀃏'}, # U+1000CF: \xF4\x80\x83\x8F
-# {key = 'F1', mods = 'Command', chars = '􀃐'}, # U+1000D0: \xF4\x80\x83\x90
-# {key = 'F2', mods = 'Command', chars = '􀃑'}, # U+1000D1: \xF4\x80\x83\x91
-# {key = 'F3', mods = 'Command', chars = '􀃒'}, # U+1000D2: \xF4\x80\x83\x92
-# {key = 'F4', mods = 'Command', chars = '􀃓'}, # U+1000D3: \xF4\x80\x83\x93
-# {key = 'F5', mods = 'Command', chars = '􀃔'}, # U+1000D4: \xF4\x80\x83\x94
-# {key = 'F6', mods = 'Command', chars = '􀃕'}, # U+1000D5: \xF4\x80\x83\x95
-# {key = 'F7', mods = 'Command', chars = '􀃖'}, # U+1000D6: \xF4\x80\x83\x96
-# {key = 'F8', mods = 'Command', chars = '􀃗'}, # U+1000D7: \xF4\x80\x83\x97
-# {key = 'F9', mods = 'Command', chars = '􀃘'}, # U+1000D8: \xF4\x80\x83\x98
-# {key = 'F10', mods = 'Command', chars = '􀃙'}, # U+1000D9: \xF4\x80\x83\x99
-# {key = 'F11', mods = 'Command', chars = '􀃚'}, # U+1000DA: \xF4\x80\x83\x9A
-# {key = 'F12', mods = 'Command', chars = '􀃛'}, # U+1000DB: \xF4\x80\x83\x9B
+{key = 'F1', mods = 'Command', chars = '\x1bOP'}, # F1 with Command
+{key = 'F2', mods = 'Command', chars = '\x1bOQ'}, # F2 with Command
+{key = 'F3', mods = 'Command', chars = '\x1bOR'}, # F3 with Command
+{key = 'F4', mods = 'Command', chars = '\x1bOS'}, # F4 with Command
+{key = 'F5', mods = 'Command', chars = '\x1b[15~'}, # F5 with Command
+{key = 'F6', mods = 'Command', chars = '\x1b[17~'}, # F6 with Command
+{key = 'F7', mods = 'Command', chars = '\x1b[18~'}, # F7 with Command
+{key = 'F8', mods = 'Command', chars = '\x1b[19~'}, # F8 with Command
+{key = 'F9', mods = 'Command', chars = '\x1b[20~'}, # F9 with Command
+{key = 'F10', mods = 'Command', chars = '\x1b[21~'}, # F10 with Command
+{key = 'F11', mods = 'Command', chars = '\x1b[23~'}, # F11 with Command
+{key = 'F12', mods = 'Command', chars = '\x1b[24~'}, # F12 with Command
 # {key = 'F13', mods = 'Command', chars = '􀃜'}, # U+1000DC: \xF4\x80\x83\x9C
 # {key = 'Tab', mods = 'Command', chars = '􀃝'}, # U+1000DD: \xF4\x80\x83\x9D
 {key = 'Escape', mods = 'Command', chars = '􀃞'}, # U+1000DE: \xF4\x80\x83\x9E
@@ -275,7 +276,7 @@ shape = "block"
 # {key = 'F', mods = 'Control|Command|Shift', chars = '􀐮'}, # U+10042E: \xF4\x80\x90\xAE
 {key = 'G', mods = 'Control|Command|Shift', chars = '􀐯'}, # U+10042F: \xF4\x80\x90\xAF
 # {key = 'H', mods = 'Control|Command|Shift', chars = '􀐰'}, # U+100430: \xF4\x80\x90\xB0
-# {key = 'I', mods = 'Control|Command|Shift', chars = '􀐱'}, # U+100431: \xF4\x80\x90\xB1
+{key = 'I', mods = 'Control|Command|Shift', chars = '􀐱'}, # U+100431: \xF4\x80\x90\xB1
 # {key = 'J', mods = 'Control|Command|Shift', chars = '􀐲'}, # U+100432: \xF4\x80\x90\xB2
 # {key = 'K', mods = 'Control|Command|Shift', chars = '􀐳'}, # U+100433: \xF4\x80\x90\xB3
 {key = 'L', mods = 'Control|Command|Shift', chars = '􀐴'}, # U+100434: \xF4\x80\x90\xB4
@@ -730,5 +731,20 @@ shape = "block"
 # {key = 'Pause', mods = 'Control|Alt|Command|Shift', chars = '􀳊'}, # U+100CCA: \xF4\x80\xB3\x8A
 # {key = 'NumLock', mods = 'Control|Alt|Command|Shift', chars = '􀳋'}, # U+100CCB: \xF4\x80\xB3\x8B
 {key = 'Space', mods = 'Command|Shift', chars = '􀳌'}, # U+100CCC: \xF4\x80\xB3\x8C
+
+
+# Standard F-keys (no modifiers) - for Fn+F1, Fn+F2, etc.
+{key = 'F1', chars = '\x1bOP'},
+{key = 'F2', chars = '\x1bOQ'},
+{key = 'F3', chars = '\x1bOR'},
+{key = 'F4', chars = '\x1bOS'},
+{key = 'F5', chars = '\x1b[15~'},
+{key = 'F6', chars = '\x1b[17~'},
+{key = 'F7', chars = '\x1b[18~'},
+{key = 'F8', chars = '\x1b[19~'},
+{key = 'F9', chars = '\x1b[20~'},
+{key = 'F10', chars = '\x1b[21~'},
+{key = 'F11', chars = '\x1b[23~'},
+{key = 'F12', chars = '\x1b[24~'},
 ]
 
