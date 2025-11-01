@@ -110,20 +110,53 @@ if [ -n "$SELECTED_DISPLAY" ]; then
       GH_REPO=$(gh repo list --limit 1000 --json nameWithOwner --jq '.[].nameWithOwner' | grep "/$REPO_NAME$" | head -1)
     fi
 
-    # Create parent directory if needed
-    PARENT_DIR=$(dirname "$SELECTED_DIR")
-    mkdir -p "$PARENT_DIR"
+    # Extract owner and repo name from GH_REPO (format: owner/repo)
+    OWNER=$(echo "$GH_REPO" | cut -d'/' -f1)
+    REPO=$(echo "$GH_REPO" | cut -d'/' -f2)
+
+    # Get the default branch name
+    DEFAULT_BRANCH=$(gh repo view "$GH_REPO" --json defaultBranchRef --jq '.defaultBranchRef.name')
+
+    if [ -z "$DEFAULT_BRANCH" ]; then
+      echo "Failed to detect default branch. Using 'main' as fallback."
+      DEFAULT_BRANCH="main"
+    fi
+
+    # Define paths
+    BARE_REPO_DIR="$HOME/Code/repositories/$OWNER/$REPO"
+    WORKTREE_DIR="$HOME/Code/worktrees/$OWNER/$REPO-$DEFAULT_BRANCH"
+    SYMLINK_PATH="$HOME/Code/$OWNER/$REPO"
+
+    # Create parent directories
+    mkdir -p "$(dirname "$BARE_REPO_DIR")"
+    mkdir -p "$(dirname "$WORKTREE_DIR")"
+    mkdir -p "$(dirname "$SYMLINK_PATH")"
 
     # Check if session already exists
     if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
       echo "Session '$SESSION_NAME' already exists. Switching to it..."
       tmux switch-client -t "$SESSION_NAME"
     else
-      # Create new session and clone (shallow clone with depth 1 for speed)
-      tmux new-session -d -s "$SESSION_NAME" -c "$PARENT_DIR"
-      tmux send-keys -t "$SESSION_NAME" "gh repo clone $GH_REPO $SELECTED_DIR -- --depth 1 && cd $SELECTED_DIR && ~/.dotfiles/scripts/tmux-window-setup.sh" C-m
+      # Create new session and execute the clone workflow
+      tmux new-session -d -s "$SESSION_NAME" -c "$HOME/Code"
+
+      # Build the command to execute in the tmux session
+      CLONE_COMMAND="echo 'Cloning bare repository...' && "
+      CLONE_COMMAND+="git clone --bare https://github.com/$GH_REPO.git '$BARE_REPO_DIR' && "
+      CLONE_COMMAND+="echo 'Creating worktree for $DEFAULT_BRANCH branch...' && "
+      CLONE_COMMAND+="git -C '$BARE_REPO_DIR' worktree add '$WORKTREE_DIR' '$DEFAULT_BRANCH' && "
+      CLONE_COMMAND+="echo 'Creating symlink...' && "
+      CLONE_COMMAND+="ln -s '$WORKTREE_DIR' '$SYMLINK_PATH' && "
+      CLONE_COMMAND+="echo 'Setup complete!' && "
+      CLONE_COMMAND+="cd '$WORKTREE_DIR' && "
+      CLONE_COMMAND+="~/.dotfiles/scripts/tmux-window-setup.sh"
+
+      tmux send-keys -t "$SESSION_NAME" "$CLONE_COMMAND" C-m
       tmux switch-client -t "$SESSION_NAME"
-      echo "Cloning project: $GH_REPO to $SELECTED_DIR in session '$SESSION_NAME'"
+      echo "Cloning bare repository: $GH_REPO"
+      echo "Bare repo: $BARE_REPO_DIR"
+      echo "Worktree: $WORKTREE_DIR"
+      echo "Symlink: $SYMLINK_PATH"
     fi
   else
     # Check if session already exists
