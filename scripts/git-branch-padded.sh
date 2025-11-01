@@ -10,9 +10,9 @@ else
     branch=""
 fi
 
-# If no branch, return empty with padding
+# If no branch, return 3 spaces
 if [ -z "$branch" ]; then
-    echo "   "
+    printf '%*s' 3 ''
     exit 0
 fi
 
@@ -22,16 +22,16 @@ branch_length=${#branch}
 # Target width (minimum 20 characters)
 target_width=20
 
-# If branch is longer than target, just return it with 3 spaces before
+# Always return 3 spaces minimum
+min_padding=3
+
+# If branch is longer than target, return minimum padding
 if [ $branch_length -ge $target_width ]; then
-    echo "   ${branch}"
+    printf '%*s' "$min_padding" ''
 else
-    # Calculate padding needed (add 3 extra for consistent spacing)
-    padding=$((target_width - branch_length + 3))
+    # Calculate padding needed
+    padding=$((target_width - branch_length + min_padding))
 
-    # Create padding spaces
-    padding_str=$(printf '%*s' "$padding" '')
-
-    # Output padding before branch
-    echo "${padding_str}${branch}"
+    # Return padding spaces only
+    printf '%*s' "$padding" ''
 fi
