@@ -6,6 +6,9 @@ path="${1:-$PWD}"
 # Replace home with ~
 path="${path/#$HOME/\~}"
 
+# Remove worktrees/$NAME from the path
+path=$(echo "$path" | sed -E 's|/worktrees/[^/]+||')
+
 # Get the length
 path_length=${#path}
 
