@@ -53,9 +53,9 @@ while IFS= read -r session; do
   fi
 
   if [ "$session" = "$current_session" ]; then
-    formatted_sessions+="#[fg=black,bg=yellow,bold] ${count}| ${display_name} #[fg=#D8DEE9,bg=#292929,nobold] "
+    formatted_sessions+="#[fg=black,bg=yellow,bold] ${count} | ${display_name} #[fg=#D8DEE9,bg=#292929,nobold] "
   else
-    formatted_sessions+="#[fg=white,bg=brightblack] ${count}| ${display_name} #[fg=#D8DEE9,bg=#292929] "
+    formatted_sessions+="#[fg=white,bg=brightblack] ${count} | ${display_name} #[fg=#D8DEE9,bg=#292929] "
   fi
 done <<<"$filtered_sessions"
 
