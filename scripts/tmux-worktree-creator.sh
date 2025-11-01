@@ -32,40 +32,29 @@ echo "Repository: $repo_name"
 echo "Current location: $git_root"
 echo ""
 
-# Get list of branches (local only)
-branches=$(git branch --format='%(refname:short)' | sort -u)
+# Get existing worktrees
+worktree_list=$(git worktree list --porcelain | grep "^branch" | sed 's/^branch refs\/heads\///' | sort -u)
 
-# Get existing worktrees to filter them out
-existing_worktrees=$(git worktree list --porcelain | grep "^branch" | sed 's/^branch refs\/heads\///' | sort -u)
+# Add option to create new worktree
+options="[NEW WORKTREE]\n${worktree_list}"
 
-# Filter out branches that already have worktrees
-available_branches=""
-while IFS= read -r branch; do
-    if ! echo "$existing_worktrees" | grep -q "^${branch}$"; then
-        available_branches="${available_branches}${branch}\n"
-    fi
-done <<< "$branches"
-
-# Add option to create new branch
-options="[NEW BRANCH]\n${available_branches}"
-
-# Use fzf to select branch or create new one
+# Use fzf to select worktree or create new one
 selected=$(echo -e "$options" | fzf \
     --height=100% \
     --reverse \
     --border \
-    --prompt="Select branch or create new: " \
-    --preview="if [ '{}' = '[NEW BRANCH]' ]; then echo 'Create a new branch and worktree'; else git log --oneline --graph --color=always {} 2>/dev/null | head -50; fi" \
+    --prompt="Select worktree or create new: " \
+    --preview="if [ '{}' = '[NEW WORKTREE]' ]; then echo 'Create a new worktree with a new branch'; else git log --oneline --graph --color=always {} 2>/dev/null | head -50; fi" \
     --preview-window=right:60%:wrap \
     --header="↑↓ to navigate, Enter to select, Esc to cancel")
 
 if [ -z "$selected" ]; then
-    echo "No branch selected"
+    echo "No worktree selected"
     exit 0
 fi
 
-# Handle new branch creation
-if [ "$selected" = "[NEW BRANCH]" ]; then
+# Handle new worktree creation
+if [ "$selected" = "[NEW WORKTREE]" ]; then
     echo ""
     read -p "Enter new branch name: " new_branch_name
 
@@ -85,8 +74,33 @@ if [ "$selected" = "[NEW BRANCH]" ]; then
     branch_name="$new_branch_name"
     create_new=true
 else
+    # Selected an existing worktree - just switch to it
     branch_name="$selected"
-    create_new=false
+
+    # Get current session name
+    session_name=$(tmux display-message -p '#S')
+
+    # Check if window with this name already exists
+    if tmux list-windows -t "$session_name" -F "#{window_name}" 2>/dev/null | grep -q "^${branch_name}$"; then
+        echo "Switching to existing window '$branch_name'..."
+        tmux select-window -t "${session_name}:${branch_name}"
+    else
+        # Get worktree path
+        dir_name=$(echo "$branch_name" | sed 's/\//-/g')
+        worktree_path="${worktrees_base}/${dir_name}"
+
+        # Create new window for the existing worktree
+        echo "Creating tmux window '$branch_name'..."
+        tmux new-window -t "$session_name" -n "$branch_name" -c "$worktree_path"
+
+        # Run window setup if it exists
+        if [ -f "$HOME/.dotfiles/scripts/tmux-window-setup.sh" ]; then
+            tmux send-keys -t "${session_name}:${branch_name}" "~/.dotfiles/scripts/tmux-window-setup.sh" C-m
+        fi
+    fi
+
+    echo "✓ Done! Switched to worktree window."
+    exit 0
 fi
 
 # Sanitize branch name for directory (replace / with -)
