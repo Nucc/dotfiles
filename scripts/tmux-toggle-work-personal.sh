@@ -1,27 +1,52 @@
 #!/usr/bin/env bash
 
+# Get direction from argument (forward or backward)
+direction="${1:-forward}"
+
 # Get current filter mode
 current_mode=$(tmux show-option -gv @session-filter-mode 2>/dev/null || echo "all")
 current_session=$(tmux display-message -p '#S')
 
-# Cycle through all three modes: work → personal → all (others) → work
-case "$current_mode" in
-work)
-  new_mode="personal"
-  message="Session filter: Personal"
-  target_suffix="[P]"
-  ;;
-personal)
-  new_mode="all"
-  message="Session filter: Others"
-  target_suffix=""
-  ;;
-all | *)
-  new_mode="work"
-  message="Session filter: Work"
-  target_suffix="[W]"
-  ;;
-esac
+# Cycle through modes based on direction
+if [ "$direction" = "forward" ]; then
+  # Forward: work → personal → all (others) → work
+  case "$current_mode" in
+  work)
+    new_mode="personal"
+    message="Session filter: Personal"
+    target_suffix="[P]"
+    ;;
+  personal)
+    new_mode="all"
+    message="Session filter: Others"
+    target_suffix=""
+    ;;
+  all | *)
+    new_mode="work"
+    message="Session filter: Work"
+    target_suffix="[W]"
+    ;;
+  esac
+else
+  # Backward: work → all (others) → personal → work
+  case "$current_mode" in
+  work)
+    new_mode="all"
+    message="Session filter: Others"
+    target_suffix=""
+    ;;
+  all)
+    new_mode="personal"
+    message="Session filter: Personal"
+    target_suffix="[P]"
+    ;;
+  personal | *)
+    new_mode="work"
+    message="Session filter: Work"
+    target_suffix="[W]"
+    ;;
+  esac
+fi
 
 # Set the new filter mode
 tmux set-option -g @session-filter-mode "$new_mode"
