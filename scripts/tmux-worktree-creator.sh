@@ -72,21 +72,81 @@ echo ""
 # Get existing worktrees (use -C to run git commands against bare repo)
 worktree_list=$(git -C "$bare_repo_dir" worktree list --porcelain | grep "^branch" | sed 's/^branch refs\/heads\///' | sort -u)
 
-# Add option to create new worktree
-options="[NEW WORKTREE]\n${worktree_list}"
+# Get all local branches
+all_local_branches=$(git -C "$bare_repo_dir" branch --format='%(refname:short)' | sort -u)
+
+# Get local branches without worktrees
+local_branches_no_worktree=$(comm -23 <(echo "$all_local_branches") <(echo "$worktree_list"))
+
+# Get remote branches (excluding HEAD)
+remote_branches=$(git -C "$bare_repo_dir" branch -r --format='%(refname:short)' | grep -v 'HEAD' | sed 's/^origin\///' | sort -u)
+
+# Remove branches that are already in local branches
+remote_only_branches=$(comm -23 <(echo "$remote_branches") <(echo "$all_local_branches"))
+
+# Build options list with headers
+options="[NEW WORKTREE]"
+
+# Add local worktrees section
+if [ -n "$worktree_list" ]; then
+    options="${options}\n\n── LOCAL WORKTREES ──"
+    while IFS= read -r branch; do
+        [ -n "$branch" ] && options="${options}\n${branch}"
+    done <<< "$worktree_list"
+fi
+
+# Add local branches section
+if [ -n "$local_branches_no_worktree" ]; then
+    options="${options}\n\n── LOCAL BRANCHES ──"
+    while IFS= read -r branch; do
+        [ -n "$branch" ] && options="${options}\n${branch}"
+    done <<< "$local_branches_no_worktree"
+fi
+
+# Add remote branches section
+if [ -n "$remote_only_branches" ]; then
+    options="${options}\n\n── REMOTE BRANCHES ──"
+    while IFS= read -r branch; do
+        [ -n "$branch" ] && options="${options}\n${branch}"
+    done <<< "$remote_only_branches"
+fi
 
 # Use fzf to select worktree or create new one
+# Filter out header lines and empty lines from selection, but keep them visible
 selected=$(echo -e "$options" | fzf \
     --height=100% \
     --reverse \
     --border \
-    --prompt="Select worktree or create new: " \
-    --preview="if [ '{}' = '[NEW WORKTREE]' ]; then echo 'Create a new worktree with a new branch'; else git log --oneline --graph --color=always {} 2>/dev/null | head -50; fi" \
+    --prompt="Select branch: " \
+    --bind='enter:accept' \
+    --preview="
+        if [ '{}' = '[NEW WORKTREE]' ]; then
+            echo 'Create a new worktree with a new branch'
+        elif echo '{}' | grep -q '^──'; then
+            echo 'Section header - not selectable'
+        elif echo '{}' | grep -q '^[[:space:]]*$'; then
+            echo ''
+        else
+            # Check if this is a remote branch by checking if it exists locally
+            if git -C '$bare_repo_dir' show-ref --verify --quiet 'refs/heads/{}' 2>/dev/null; then
+                # Local branch - show local commits
+                git -C '$bare_repo_dir' log --oneline --graph --color=always '{}' 2>/dev/null | head -50
+            else
+                # Remote branch - show remote commits
+                git -C '$bare_repo_dir' log --oneline --graph --color=always 'origin/{}' 2>/dev/null | head -50
+            fi
+        fi" \
     --preview-window=right:60%:wrap \
-    --header="↑↓ to navigate, Enter to select, Esc to cancel")
+    --header="Local Worktrees → Local Branches → Remote Branches | ↑↓ navigate, Enter select, Esc cancel")
 
 if [ -z "$selected" ]; then
     echo "No worktree selected"
+    exit 0
+fi
+
+# Skip header lines and empty lines
+if echo "$selected" | grep -q '^──' || echo "$selected" | grep -q '^[[:space:]]*$'; then
+    echo "Invalid selection"
     exit 0
 fi
 
@@ -113,6 +173,29 @@ if [ "$selected" = "[NEW WORKTREE]" ]; then
 else
     # Selected an existing branch - check if worktree exists
     branch_name="$selected"
+
+    # Check if this is a remote-only branch
+    is_remote_only=false
+    if ! git -C "$bare_repo_dir" show-ref --verify --quiet "refs/heads/$branch_name" 2>/dev/null; then
+        if git -C "$bare_repo_dir" show-ref --verify --quiet "refs/remotes/origin/$branch_name" 2>/dev/null; then
+            is_remote_only=true
+            echo ""
+            echo "Branch '$branch_name' is a remote branch."
+            echo "Creating local tracking branch..."
+            echo ""
+
+            # Fetch latest changes to ensure we have the branch
+            git -C "$bare_repo_dir" fetch origin "$branch_name" 2>/dev/null
+
+            # Create local tracking branch
+            if ! git -C "$bare_repo_dir" branch --track "$branch_name" "origin/$branch_name" 2>/dev/null; then
+                echo "✗ Failed to create local tracking branch"
+                read -n 1 -s -r -p "Press any key to close..."
+                exit 1
+            fi
+            echo "✓ Local tracking branch created"
+        fi
+    fi
 
     # Get worktree path using new structure: ~/Code/worktrees/owner/repo-branch
     dir_name=$(echo "$branch_name" | sed 's/\//-/g')
