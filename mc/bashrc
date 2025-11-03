@@ -1,0 +1,18 @@
+# Midnight Commander bash integration
+
+# Function to change directory when exiting mc
+mc() {
+  local mc_pwd_file="${TMPDIR-/tmp}/mc-$USER/mc.pwd.$$"
+  /opt/homebrew/bin/mc -P "$mc_pwd_file" "$@"
+  if [ -r "$mc_pwd_file" ]; then
+    MC_PWD=$(cat "$mc_pwd_file")
+    if [ "$MC_PWD" != "$PWD" ] && [ -d "$MC_PWD" ]; then
+      cd "$MC_PWD"
+    fi
+    rm -f "$mc_pwd_file"
+  fi
+}
+
+# Set up color support
+export MC_SKIN="$HOME/.mc/skins/dark.ini"
+
