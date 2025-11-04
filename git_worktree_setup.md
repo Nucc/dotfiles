@@ -11,9 +11,12 @@ This document describes the git worktree setup used in this dotfiles repository,
 ├── repositories/           # Bare git repositories
 │   └── {owner}/
 │       └── {repo}/        # Bare repo (core.bare=true)
-└── worktrees/             # Working tree checkouts
+├── worktrees/             # Working tree checkouts
+│   └── {owner}/
+│       └── {repo}-{branch}/ # Each branch in its own directory
+└── shared/                # Shared files across worktrees
     └── {owner}/
-        └── {repo}-{branch}/ # Each branch in its own directory
+        └── {repo}/        # Files shared across all worktrees
 ```
 
 **Example:**
@@ -21,6 +24,7 @@ This document describes the git worktree setup used in this dotfiles repository,
 ~/Code/repositories/nucc/dotfiles/          (bare repo)
 ~/Code/worktrees/nucc/dotfiles-main/        (main branch)
 ~/Code/worktrees/nucc/dotfiles-test/        (test branch)
+~/Code/shared/nucc/dotfiles/.env            (shared across all worktrees)
 ~/Code/nucc/dotfiles/                       (symlink -> active worktree)
 ```
 
@@ -46,7 +50,45 @@ This document describes the git worktree setup used in this dotfiles repository,
 - Slashes in branch names are replaced with dashes
 - Example: `dotfiles-feature-authentication` (from branch `feature/authentication`)
 
-### 3. Tmux Integration Scripts
+### 3. Shared Files Directory
+
+**Location:** `~/Code/shared/{owner}/{repo}/`
+
+- Central location for files shared across all worktrees
+- Only files are symlinked, not directories
+- Directory structure is preserved when symlinking
+- Automatically linked when creating new worktrees
+- Can be manually re-linked with `tmux-worktree-relink-shared.sh`
+
+**Common Use Cases:**
+- Environment files (`.env`, `.env.local`)
+- Configuration files that should be identical across branches
+- Lockfiles (`package-lock.json`, `composer.lock`)
+- Certificates and credentials (use with caution)
+
+**How It Works:**
+1. Place files in `~/Code/shared/{owner}/{repo}/`
+2. When creating a worktree, the script automatically symlinks all files
+3. Directories are created as needed, but only files are symlinked
+4. Existing files in worktree are replaced with symlinks
+
+**Example:**
+```bash
+# Shared directory structure
+~/Code/shared/myorg/myapp/
+├── .env
+└── config/
+    └── database.yml
+
+# Results in each worktree
+~/Code/worktrees/myorg/myapp-main/
+├── .env -> ~/Code/shared/myorg/myapp/.env
+└── config/
+    ├── database.yml -> ~/Code/shared/myorg/myapp/config/database.yml
+    └── app.yml (worktree-specific file, not touched)
+```
+
+### 4. Tmux Integration Scripts
 
 #### a) `tmux-worktree-creator.sh`
 
@@ -96,18 +138,56 @@ Lists all tmux windows in current session with visual formatting.
 - Used for tmux status line display
 - Formats output with tmux color codes
 
+#### d) `tmux-worktree-link-shared.sh`
+
+**Location:** `scripts/tmux-worktree-link-shared.sh`
+
+Links shared files from `~/Code/shared/{owner}/{repo}/` to a worktree.
+
+**Features:**
+- Takes a worktree path as argument (or uses current directory)
+- Recursively finds all files in shared directory
+- Creates symlinks preserving directory structure
+- Replaces existing files with symlinks
+- Never touches directories, only files
+- Automatically called when creating worktrees
+
+**Usage:**
+```bash
+# Called automatically by tmux-worktree-creator.sh
+# Or run manually:
+~/.dotfiles/scripts/tmux-worktree-link-shared.sh ~/Code/worktrees/myorg/myapp-main
+```
+
+#### e) `tmux-worktree-relink-shared.sh`
+
+**Location:** `scripts/tmux-worktree-relink-shared.sh`
+
+Interactive tool to re-link shared files for the current worktree.
+
+**Features:**
+- Must be run from within a worktree directory
+- Re-links all shared files from the shared directory
+- Useful after adding new files to the shared directory
+- Shows summary of linked/replaced/skipped files
+
+**Usage:**
+Run from any worktree directory in the project
+
 ## Workflow
 
 1. **Bare repo exists** at `~/Code/repositories/{owner}/{repo}/`
 2. **Worktrees are created** at `~/Code/worktrees/{owner}/{repo}-{branch}/`
-3. **Each worktree gets a tmux window** named after the branch
-4. **Switch between branches** by switching tmux windows (no checkout needed)
+3. **Shared files are symlinked** from `~/Code/shared/{owner}/{repo}/` (optional)
+4. **Each worktree gets a tmux window** named after the branch
+5. **Switch between branches** by switching tmux windows (no checkout needed)
 
 ## Benefits
 
 - **No branch switching overhead:** Each branch is always checked out
 - **Parallel work:** Work on multiple branches simultaneously
 - **Clean separation:** Each branch has its own build artifacts and dependencies
+- **Shared configuration:** Common files can be shared across all worktrees via symlinks
 - **Tmux integration:** Quick navigation between branches via window switching
 - **Disk efficiency:** Shares git objects between worktrees via the bare repository
 
@@ -211,6 +291,10 @@ git status
 3. **Remote tracking:** Always fetch from the bare repo to update all worktrees
 4. **Disk space:** Monitor worktree directories as each has its own working files
 5. **Tmux sessions:** Create project-specific tmux sessions for better organization
+6. **Shared files:** Use `~/Code/shared/{owner}/{repo}/` for files that should be identical across all worktrees
+7. **Share selectively:** Only share files that truly need to be identical (configs, credentials)
+8. **Avoid sharing state:** Don't share databases, build artifacts, or worktree-specific state
+9. **Re-link after updates:** Run `tmux-worktree-relink-shared.sh` after adding files to shared directory
 
 ## Troubleshooting
 
@@ -225,3 +309,12 @@ git status
 ### Missing tmux windows
 - Run `tmux-worktree-window-creator.sh` to recreate all windows
 - Verify tmux session is active
+
+### Shared files not linking
+- Verify shared directory exists at `~/Code/shared/{owner}/{repo}/`
+- Run `tmux-worktree-relink-shared.sh` from within the worktree
+- Check symlinks with `ls -la` in the worktree directory
+
+### Symlink conflicts
+- Delete conflicting files manually before re-linking
+- Check if files are already correct symlinks (script will skip them)

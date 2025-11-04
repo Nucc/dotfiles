@@ -211,6 +211,12 @@ else
         # Create the worktree for this existing branch
         if git -C "$bare_repo_dir" worktree add "$worktree_path" "$branch_name"; then
             echo "✓ Worktree created successfully"
+
+            # Link shared files
+            echo ""
+            if [ -f "$HOME/.dotfiles/scripts/tmux-worktree-link-shared.sh" ]; then
+                "$HOME/.dotfiles/scripts/tmux-worktree-link-shared.sh" "$worktree_path"
+            fi
         else
             echo "✗ Failed to create worktree"
             read -n 1 -s -r -p "Press any key to close..."
@@ -366,6 +372,12 @@ else
         read -n 1 -s -r -p "Press any key to close..."
         exit 1
     fi
+fi
+
+# Link shared files
+echo ""
+if [ -f "$HOME/.dotfiles/scripts/tmux-worktree-link-shared.sh" ]; then
+    "$HOME/.dotfiles/scripts/tmux-worktree-link-shared.sh" "$worktree_path"
 fi
 
 # Get current session name
