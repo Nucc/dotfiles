@@ -732,6 +732,20 @@ shape = "block"
 # {key = 'NumLock', mods = 'Control|Alt|Command|Shift', chars = '􀳋'}, # U+100CCB: \xF4\x80\xB3\x8B
 {key = 'Space', mods = 'Command|Shift', chars = '􀳌'}, # U+100CCC: \xF4\x80\xB3\x8C
 
+# Ctrl-Tab for tmux window switching
+{key = 'Tab', mods = 'Control', chars = '􀳍'}, # U+100CCD: \xF4\x80\xB3\x8D
+
+# Ctrl-Number for tmux window selection
+{key = '0', mods = 'Control', chars = '􀳎'}, # U+100CCE: \xF4\x80\xB3\x8E
+{key = '1', mods = 'Control', chars = '􀳏'}, # U+100CCF: \xF4\x80\xB3\x8F
+{key = '2', mods = 'Control', chars = '􀳐'}, # U+100CD0: \xF4\x80\xB3\x90
+{key = '3', mods = 'Control', chars = '􀳑'}, # U+100CD1: \xF4\x80\xB3\x91
+{key = '4', mods = 'Control', chars = '􀳒'}, # U+100CD2: \xF4\x80\xB3\x92
+{key = '5', mods = 'Control', chars = '􀳓'}, # U+100CD3: \xF4\x80\xB3\x93
+{key = '6', mods = 'Control', chars = '􀳔'}, # U+100CD4: \xF4\x80\xB3\x94
+{key = '7', mods = 'Control', chars = '􀳕'}, # U+100CD5: \xF4\x80\xB3\x95
+{key = '8', mods = 'Control', chars = '􀳖'}, # U+100CD6: \xF4\x80\xB3\x96
+{key = '9', mods = 'Control', chars = '􀳗'}, # U+100CD7: \xF4\x80\xB3\x97
 
 # Standard F-keys (no modifiers) - for Fn+F1, Fn+F2, etc.
 {key = 'F1', chars = '\x1bOP'},
