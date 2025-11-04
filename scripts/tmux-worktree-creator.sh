@@ -259,25 +259,98 @@ echo "  Branch: $branch_name"
 echo "  Path: $worktree_path"
 echo ""
 
+# Ensure remote branches are fetched
+echo "Fetching latest changes from remote..."
+if git -C "$bare_repo_dir" fetch origin; then
+    echo "✓ Fetch completed"
+else
+    echo "⚠ Warning: Failed to fetch from remote"
+    echo ""
+fi
+echo ""
+
 # Get the default branch to fork from
 default_branch=$(git -C "$bare_repo_dir" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+
+# If default branch is not set, try to determine it from available branches
 if [ -z "$default_branch" ]; then
-    default_branch="main"
+    # Try common default branch names in order
+    for branch in main master develop; do
+        if git -C "$bare_repo_dir" show-ref --verify --quiet "refs/remotes/origin/$branch" 2>/dev/null; then
+            default_branch="$branch"
+            break
+        fi
+    done
+
+    # If still not found, check for refs/heads/* (local branches in bare repo)
+    if [ -z "$default_branch" ]; then
+        for branch in main master develop; do
+            if git -C "$bare_repo_dir" show-ref --verify --quiet "refs/heads/$branch" 2>/dev/null; then
+                default_branch="$branch"
+                echo "⚠ Using local branch (no remotes configured): $default_branch"
+                echo ""
+                break
+            fi
+        done
+    fi
+
+    # If still not found, use the first available branch (remote or local)
+    if [ -z "$default_branch" ]; then
+        # Try remote branches first
+        default_branch=$(git -C "$bare_repo_dir" branch -r --format='%(refname:short)' | grep -v 'HEAD' | sed 's/^origin\///' | head -1)
+
+        # If no remote branches, try local branches
+        if [ -z "$default_branch" ]; then
+            default_branch=$(git -C "$bare_repo_dir" branch --format='%(refname:short)' | head -1)
+        fi
+    fi
+
+    # If still empty, fail with error
+    if [ -z "$default_branch" ]; then
+        echo "Error: Could not determine default branch"
+        echo ""
+        echo "Debug info:"
+        echo "  Bare repo: $bare_repo_dir"
+        echo ""
+        echo "Remote branches:"
+        git -C "$bare_repo_dir" branch -r 2>&1 | sed 's/^/  /'
+        echo ""
+        echo "Local branches:"
+        git -C "$bare_repo_dir" branch 2>&1 | sed 's/^/  /'
+        echo ""
+        read -n 1 -s -r -p "Press any key to close..."
+        exit 1
+    fi
+
+    echo "⚠ Default branch not configured, using: $default_branch"
+    echo ""
+fi
+
+# Verify the default branch exists (either remote or local)
+base_ref="origin/$default_branch"
+if ! git -C "$bare_repo_dir" show-ref --verify --quiet "refs/remotes/origin/$default_branch" 2>/dev/null; then
+    # Try local branch instead
+    if git -C "$bare_repo_dir" show-ref --verify --quiet "refs/heads/$default_branch" 2>/dev/null; then
+        base_ref="$default_branch"
+        echo "⚠ Using local branch as base: $base_ref"
+        echo ""
+    else
+        echo "Error: Default branch '$default_branch' does not exist (neither remote nor local)"
+        echo ""
+        echo "Available remote branches:"
+        git -C "$bare_repo_dir" branch -r --format='%(refname:short)' | grep -v 'HEAD' | sed 's/^origin\///' | sed 's/^/  - /'
+        echo ""
+        echo "Available local branches:"
+        git -C "$bare_repo_dir" branch --format='%(refname:short)' | sed 's/^/  - /'
+        read -n 1 -s -r -p "Press any key to close..."
+        exit 1
+    fi
 fi
 
 # Create the worktree using absolute paths
 if [ "$create_new" = true ]; then
-    # Fetch latest changes from remote before creating new branch
-    echo "Fetching latest changes from remote..."
-    if git -C "$bare_repo_dir" fetch origin; then
-        echo "✓ Fetch completed"
-    else
-        echo "⚠ Warning: Failed to fetch from remote, continuing anyway..."
-    fi
-    echo ""
-
-    # Create new branch and worktree, forking from default branch
-    if git -C "$bare_repo_dir" worktree add -b "$branch_name" "$worktree_path" "origin/$default_branch"; then
+    # Create new branch and worktree, forking from base branch
+    if git -C "$bare_repo_dir" worktree add -b "$branch_name" "$worktree_path" "$base_ref"; then
         echo "✓ Worktree created successfully"
     else
         echo "✗ Failed to create worktree"
