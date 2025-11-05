@@ -117,22 +117,33 @@ export const render = ({ output }) => {
     return null; // Don't show anything if no windows
   }
 
-  const windows = output
-    .trim()
-    .split("\n")
-    .filter(line => line)
+  const lines = output.trim().split("\n").filter(line => line);
+
+  // First line is ACTIVE_SESSION|session_name
+  let activeSession = "";
+  let windowLines = lines;
+
+  if (lines[0] && lines[0].startsWith("ACTIVE_SESSION|")) {
+    activeSession = lines[0].split("|")[1];
+    windowLines = lines.slice(1);
+  }
+
+  const windows = windowLines
     .map(line => {
-      const [index, name, info, active, claudeState] = line.split("|");
+      const [index, session, name, info, active, claudeState] = line.split("|");
       // Replace underscores with spaces in branch/worktree names
       const formattedInfo = info.replace(/[_-]/g, " ");
       return {
         index,
+        session,
         name,
         info: formattedInfo,
         active: active === "1",
+        isActiveSession: session === activeSession,
         claudeState: claudeState || "inactive"
       };
-    });
+    })
+    .filter(window => window.session === activeSession);
 
   return (
     <div className="bookmark-container">
