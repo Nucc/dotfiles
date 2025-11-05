@@ -2,12 +2,9 @@
 # Script to update tmux window branches info for Übersicht widget
 
 TMP_FILE="/tmp/tmux-branches-${USER}.txt"
-INTERACTION_FLAG="/tmp/claude-needs-interaction-${USER}.txt"
-RUNNING_FLAG="/tmp/claude-running-${USER}.txt"
-FINISHED_FLAG="/tmp/claude-finished-${USER}.txt"
 
-# Clear the file
-> "$TMP_FILE"
+# Create a temporary file for the new content
+NEW_CONTENT=$(mktemp)
 
 # Get current session name
 SESSION=$(tmux display-message -p '#S')
@@ -41,17 +38,17 @@ tmux list-windows -t "$SESSION" -F "#{window_index}:#{window_name}:#{pane_curren
     worktree_info="$short_path"
   fi
 
-  # Determine Claude state
-  # Priority: needs_interaction > running > finished > inactive
+  # Get existing Claude state for this window if it exists
   claude_state="inactive"
-
-  if [ -f "$INTERACTION_FLAG" ] && grep -qF "${SESSION}:${index}" "$INTERACTION_FLAG" 2>/dev/null; then
-    claude_state="needs_interaction"
-  elif [ -f "$RUNNING_FLAG" ] && grep -qF "${SESSION}:${index}" "$RUNNING_FLAG" 2>/dev/null; then
-    claude_state="running"
-  elif [ -f "$FINISHED_FLAG" ] && grep -qF "${SESSION}:${index}" "$FINISHED_FLAG" 2>/dev/null; then
-    claude_state="finished"
+  if [ -f "$TMP_FILE" ]; then
+    existing_state=$(awk -v idx="$index" -F'|' '$1==idx {print $5}' "$TMP_FILE")
+    if [ -n "$existing_state" ]; then
+      claude_state="$existing_state"
+    fi
   fi
 
-  echo "$index|$name|$worktree_info|$active|$claude_state" >> "$TMP_FILE"
+  echo "$index|$name|$worktree_info|$active|$claude_state" >> "$NEW_CONTENT"
 done
+
+# Replace the old file with the new content
+mv "$NEW_CONTENT" "$TMP_FILE"
