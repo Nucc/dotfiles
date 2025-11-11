@@ -86,7 +86,26 @@ vim.cmd.colorscheme("nord")
 -- -- load_extension, somewhere after setup function:
 -- require("telescope").load_extension("ui-select")
 
-require("lspconfig").solargraph.setup({})
+require("lspconfig").solargraph.setup({
+  root_dir = require("lspconfig").util.root_pattern("Gemfile", ".git"),
+  settings = {
+    solargraph = {
+      diagnostics = true,
+      completion = true,
+      hover = true,
+      symbols = true,
+      definitions = true,
+      references = true,
+      rename = true,
+      formatting = false,
+      useBundler = true,
+    },
+  },
+  on_attach = function(client, bufnr)
+    -- Enable completion
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  end,
+})
 require("lspconfig").vtsls.setup({})
 require("lspconfig").pyright.setup({})
 

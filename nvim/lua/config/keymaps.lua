@@ -2,21 +2,18 @@ require("config.keymaps.keymap-helper")
 require("config.keymaps.neotree-keymaps")
 require("config.keymaps.cmp-keymaps")
 
-function GoToDefinitionWithFallback()
-  local status_ok, fzf_lua = pcall(require, "fzf-lua")
-  if status_ok then
-    fzf_lua.lsp_definitions({
-      jump_to_single_result = true,
-      ignore_current_line = true,
-    })
-  else
-    -- Fallback directly to built-in LSP if FZF fails
-    vim.lsp.buf.definition()
+-- Function to jump to definition with LSP check
+function _G.safe_lsp_definition()
+  local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+  if #clients == 0 then
+    vim.notify("No LSP client attached", vim.log.levels.WARN)
+    return
   end
+  require("fzf-lua").lsp_definitions()
 end
 
--- Map the function to a key (e.g., `gd`)
-vim.api.nvim_set_keymap("n", "gd", "<cmd>lua GoToDefinitionWithFallback()<CR>", { noremap = true, silent = true })
+-- Map gd to LSP definitions with safety check
+vim.api.nvim_set_keymap("n", "gd", "<cmd>lua _G.safe_lsp_definition()<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("n", "\xF4\x80\x83\xA1", "^", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<M-Left>", "b", { noremap = true, silent = true })
@@ -52,10 +49,10 @@ bind_all("\xF4\x80\x81\xBB", ":bp<CR>") -- CMD-{
 bind_all("\xF4\x80\x81\xBD", ":bnext<CR>") -- CMD-}
 bind_niv("\xF4\x80\x80\xBC", "<<", "<Esc><<", "<") -- CMD-SHIFT-<
 bind_niv("\xF4\x80\x80\xBE", ">>", "<Esc>>>", ">") -- CMD-SHIFT->
-bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
+bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua _G.safe_lsp_definition()<CR>", nil, nil) -- CMD-OPT-Down
 bind_niv("\xF4\x80\x83\x9F", "gg", "<Esc>gg", "gg") -- CMD-Down
 bind_niv("\xF4\x80\x83\xA0", "G", "<Esc>G", "G") -- CMD-Up
--- bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua vim.lsp.buf.definition()<CR>", nil, nil) -- CMD-OPT-Down
+-- bind_niv("\xF4\x80\xA2\xB0", "<cmd>lua _G.safe_lsp_definition()<CR>", nil, nil) -- CMD-OPT-Down
 bind_all("\xF4\x80\x81\xB4", ":FzfLua buffers<CR>") -- CMD-T
 bind_all("\xF4\x80\x81\x8F", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-SHIFT-O
 bind_all(
@@ -78,9 +75,6 @@ bind_all("\xF4\x80\x81\x85", ":ChatGPTEditWithInstructions<CR>") -- Cmd-Shift-E
 -- map("n", "¤[1;117", ":silent !tmux split-window -h<CR>", { noremap = true, silent = true })
 -- map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command()<CR>')
 -- map("n", "<C-CR>", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>', { noremap = true })
-
-bind_all("\xF4\x80\xA2\xB0", "<cmd>FzfLua lsp_definitions<CR>", { noremap = true })
--- map("n", "gd", "<cmd>FzfLua lsp_definitions<CR>", { desc = "Go to definition", noremap = true })
 
 bind_all("\xF4\x80\xA2\xAF", "<cmd>FzfLua lsp_references<CR>")
 bind_all("\xF4\x80\xA2\xB1", "<C-O>")
