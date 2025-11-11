@@ -12,6 +12,16 @@ function _G.safe_lsp_definition()
   require("fzf-lua").lsp_definitions()
 end
 
+-- Function to find references with LSP check
+function _G.safe_lsp_references()
+  local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+  if #clients == 0 then
+    vim.notify("No LSP client attached", vim.log.levels.WARN)
+    return
+  end
+  require("fzf-lua").lsp_references()
+end
+
 -- Map gd to LSP definitions with safety check
 vim.api.nvim_set_keymap("n", "gd", "<cmd>lua _G.safe_lsp_definition()<CR>", { noremap = true, silent = true })
 
@@ -76,9 +86,9 @@ bind_all("\xF4\x80\x81\x85", ":ChatGPTEditWithInstructions<CR>") -- Cmd-Shift-E
 -- map("n", "¤[1;18R", ':w<CR>:lua require("custom.tmux_commands").repeat_command()<CR>')
 -- map("n", "<C-CR>", ':w<CR>:lua require("custom.tmux_commands").up_enter()<CR>', { noremap = true })
 
-bind_all("\xF4\x80\xA2\xAF", "<cmd>FzfLua lsp_references<CR>")
-bind_all("\xF4\x80\xA2\xB1", "<C-O>")
-bind_all("\xF4\x80\xA2\xB2", "<C-I>")
+bind_all("\xF4\x80\xA2\xAF", "<cmd>lua _G.safe_lsp_references()<CR>") -- CMD-OPT-Up
+bind_all("\xF4\x80\xA2\xB1", "<C-O>") -- CMD-OPT-Left (back)
+bind_all("\xF4\x80\xA2\xB2", "<C-I>") -- CMD-OPT-Right (forward)
 
 bind_all("\xF4\x80\x81\xA6", "/") -- CMD-F
 bind_all("\xF4\x80\x80\xA7", ":vsplit<CR>") -- CMD-'

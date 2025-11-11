@@ -13,6 +13,10 @@ return {
       fzf_opts = {
         ["--tiebreak"] = "length,begin,index",
       },
+      lsp = {
+        -- Increase timeout for slow LSP servers like Solargraph
+        async_or_timeout = 30000, -- 30 seconds
+      },
     })
   end,
 }

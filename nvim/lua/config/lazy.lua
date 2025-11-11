@@ -88,6 +88,9 @@ vim.cmd.colorscheme("nord")
 
 require("lspconfig").solargraph.setup({
   root_dir = require("lspconfig").util.root_pattern("Gemfile", ".git"),
+  flags = {
+    debounce_text_changes = 150,
+  },
   settings = {
     solargraph = {
       diagnostics = true,
@@ -104,6 +107,9 @@ require("lspconfig").solargraph.setup({
   on_attach = function(client, bufnr)
     -- Enable completion
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    -- Increase timeout for slow operations
+    client.config.flags = client.config.flags or {}
+    client.config.flags.debounce_text_changes = 150
   end,
 })
 require("lspconfig").vtsls.setup({})
