@@ -3,22 +3,14 @@ require("config.keymaps.neotree-keymaps")
 require("config.keymaps.cmp-keymaps")
 
 function GoToDefinitionWithFallback()
-  local status_ok, telescope_builtin = pcall(require, "telescope.builtin")
+  local status_ok, fzf_lua = pcall(require, "fzf-lua")
   if status_ok then
-    telescope_builtin.lsp_definitions({
-      results_title = "LSP Definitions",
-      on_input_filter_cb = function(prompt_bufnr)
-        local action_state = require("telescope.actions.state")
-        local picker = action_state.get_current_picker(prompt_bufnr)
-        if picker and picker:get_num_results() == 0 then
-          -- Close Telescope if no results and fallback to `vim.lsp.buf.definition()`
-          require("telescope.actions").close(prompt_bufnr)
-          vim.cmd("tags " .. vim.fn.expand("<cword>"))
-        end
-      end,
+    fzf_lua.lsp_definitions({
+      jump_to_single_result = true,
+      ignore_current_line = true,
     })
   else
-    -- Fallback directly to `gd` if Telescope fails or isn't available
+    -- Fallback directly to built-in LSP if FZF fails
     vim.lsp.buf.definition()
   end
 end
