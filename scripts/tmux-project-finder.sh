@@ -45,8 +45,12 @@ if [ -n "$GITHUB_REPOS" ]; then
   done <<< "$GITHUB_REPOS" >> "$TEMP_DISPLAY"
 fi
 
-DISPLAY_PROJECTS=$(cat "$TEMP_DISPLAY" | sort -u)
-rm -f "$TEMP_DISPLAY"
+# Add "[Create New Project]" option at the top
+echo "[Create New Project]" > "$TEMP_DISPLAY.final"
+cat "$TEMP_DISPLAY" | sort -u >> "$TEMP_DISPLAY.final"
+
+DISPLAY_PROJECTS=$(cat "$TEMP_DISPLAY.final")
+rm -f "$TEMP_DISPLAY" "$TEMP_DISPLAY.final"
 
 # If no projects found, exit
 if [ -z "$DISPLAY_PROJECTS" ]; then
@@ -66,6 +70,88 @@ SELECTED_DISPLAY=$(echo "$DISPLAY_PROJECTS" | fzf \
   --header="Use ↑↓ to navigate, Enter to open/clone, Esc to cancel")
 
 if [ -n "$SELECTED_DISPLAY" ]; then
+  # Check if user selected "Create New Project"
+  if [ "$SELECTED_DISPLAY" = "[Create New Project]" ]; then
+    # Prompt for project name in username/project format
+    echo ""
+    read -r -p "Enter project name (username/project): " NEW_PROJECT_NAME
+    echo ""
+
+    # Validate format
+    if [[ ! "$NEW_PROJECT_NAME" =~ ^[^/]+/[^/]+$ ]]; then
+      echo "Invalid format. Use: username/project"
+      read -n 1 -s -r -p "Press any key to continue..."
+      exit 1
+    fi
+
+    OWNER=$(echo "$NEW_PROJECT_NAME" | cut -d'/' -f1)
+    REPO=$(echo "$NEW_PROJECT_NAME" | cut -d'/' -f2)
+
+    # Define paths
+    BARE_REPO_DIR="$HOME/Code/repositories/$OWNER/$REPO"
+    WORKTREE_DIR="$HOME/Code/worktrees/$OWNER/$REPO-main"
+    SYMLINK_PATH="$HOME/Code/$OWNER/$REPO"
+
+    # Check if project already exists
+    if [ -d "$BARE_REPO_DIR" ]; then
+      echo "Project already exists: $BARE_REPO_DIR"
+      read -n 1 -s -r -p "Press any key to continue..."
+      exit 1
+    fi
+
+    # Prompt for work/personal designation
+    echo "Is this a work or personal project?"
+    echo "1) Work"
+    echo "2) Personal"
+    read -n 1 -r -p "Select (1/2): " DESIGNATION
+    echo ""
+
+    case "$DESIGNATION" in
+      1)
+        SESSION_NAME="${REPO}[W]"
+        ;;
+      2)
+        SESSION_NAME="${REPO}[P]"
+        ;;
+      *)
+        SESSION_NAME="${REPO}[W]"
+        ;;
+    esac
+
+    # Create directories
+    mkdir -p "$(dirname "$BARE_REPO_DIR")"
+    mkdir -p "$(dirname "$WORKTREE_DIR")"
+    mkdir -p "$(dirname "$SYMLINK_PATH")"
+
+    # Create new session and initialize repo
+    if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+      echo "Session '$SESSION_NAME' already exists. Switching to it..."
+      tmux switch-client -t "$SESSION_NAME"
+    else
+      tmux new-session -d -s "$SESSION_NAME" -n "main" -c "$HOME/Code"
+
+      # Build initialization command
+      INIT_COMMAND="echo 'Creating bare repository...' && "
+      INIT_COMMAND+="git init --bare '$BARE_REPO_DIR' && "
+      INIT_COMMAND+="echo 'Creating main worktree...' && "
+      INIT_COMMAND+="git --git-dir='$BARE_REPO_DIR' worktree add -b main '$WORKTREE_DIR' && "
+      INIT_COMMAND+="cd '$WORKTREE_DIR' && "
+      INIT_COMMAND+="git commit --allow-empty -m 'Initial commit' && "
+      INIT_COMMAND+="echo 'Creating symlink...' && "
+      INIT_COMMAND+="ln -s '$WORKTREE_DIR' '$SYMLINK_PATH' && "
+      INIT_COMMAND+="echo 'Project created successfully!' && "
+      INIT_COMMAND+="~/.dotfiles/scripts/tmux-window-setup.sh"
+
+      tmux send-keys -t "$SESSION_NAME" "$INIT_COMMAND" C-m
+      tmux switch-client -t "$SESSION_NAME"
+      echo "Creating new project: $NEW_PROJECT_NAME"
+      echo "Bare repo: $BARE_REPO_DIR"
+      echo "Worktree: $WORKTREE_DIR"
+      echo "Symlink: $SYMLINK_PATH"
+    fi
+    exit 0
+  fi
+
   # Convert back to full path
   SELECTED_DIR=${SELECTED_DISPLAY/#~/$HOME}
 
