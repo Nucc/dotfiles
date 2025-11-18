@@ -1,5 +1,6 @@
 return {
   {
-    "smartinellimarco/nvcheatsheet.nvim",
+    "Zeioth/nvcheatsheet.nvim",
+    event = "VeryLazy",
   },
 }
