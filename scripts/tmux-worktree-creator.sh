@@ -119,6 +119,29 @@ selected=$(echo -e "$options" | fzf \
     --border \
     --prompt="Select branch: " \
     --bind='enter:accept' \
+    --bind="ctrl-f:reload(
+        echo 'Fetching latest remote branches...' >&2;
+        git -C '$bare_repo_dir' fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune 2>&1 | sed 's/^/  /' >&2;
+        echo '' >&2;
+        worktree_list=\$(git -C '$bare_repo_dir' worktree list --porcelain | grep '^branch' | sed 's/^branch refs\/heads\///' | sort -u);
+        all_local_branches=\$(git -C '$bare_repo_dir' branch --format='%(refname:short)' | sort -u);
+        local_branches_no_worktree=\$(comm -23 <(echo \"\$all_local_branches\") <(echo \"\$worktree_list\"));
+        remote_branches=\$(git -C '$bare_repo_dir' branch -r --format='%(refname:short)' | grep -v 'HEAD' | sed 's/^origin\///' | sort -u);
+        remote_only_branches=\$(comm -23 <(echo \"\$remote_branches\") <(echo \"\$all_local_branches\"));
+        printf '%s\n' '[NEW WORKTREE]';
+        if [ -n \"\$worktree_list\" ]; then
+            printf '\n%s\n' '── LOCAL WORKTREES ──';
+            echo \"\$worktree_list\";
+        fi;
+        if [ -n \"\$local_branches_no_worktree\" ]; then
+            printf '\n%s\n' '── LOCAL BRANCHES ──';
+            echo \"\$local_branches_no_worktree\";
+        fi;
+        if [ -n \"\$remote_only_branches\" ]; then
+            printf '\n%s\n' '── REMOTE BRANCHES ──';
+            echo \"\$remote_only_branches\";
+        fi
+    )" \
     --preview="
         if [ '{}' = '[NEW WORKTREE]' ]; then
             echo 'Create a new worktree with a new branch'
@@ -137,7 +160,7 @@ selected=$(echo -e "$options" | fzf \
             fi
         fi" \
     --preview-window=right:60%:wrap \
-    --header="Local Worktrees → Local Branches → Remote Branches | ↑↓ navigate, Enter select, Esc cancel")
+    --header="Local Worktrees → Local Branches → Remote Branches | Ctrl-F fetch, ↑↓ navigate, Enter select, Esc cancel")
 
 if [ -z "$selected" ]; then
     echo "No worktree selected"
@@ -185,10 +208,11 @@ else
             echo ""
 
             # Fetch latest changes to ensure we have the branch
-            git -C "$bare_repo_dir" fetch origin "$branch_name" 2>/dev/null
+            git -C "$bare_repo_dir" fetch origin "$branch_name:$branch_name" 2>/dev/null || \
+            git -C "$bare_repo_dir" fetch origin "refs/heads/$branch_name:refs/heads/$branch_name" 2>/dev/null
 
-            # Create local tracking branch
-            if ! git -C "$bare_repo_dir" branch --track "$branch_name" "origin/$branch_name" 2>/dev/null; then
+            # Verify the local branch was created
+            if ! git -C "$bare_repo_dir" show-ref --verify --quiet "refs/heads/$branch_name" 2>/dev/null; then
                 echo "✗ Failed to create local tracking branch"
                 read -n 1 -s -r -p "Press any key to close..."
                 exit 1
