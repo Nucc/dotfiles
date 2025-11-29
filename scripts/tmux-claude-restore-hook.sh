@@ -41,8 +41,8 @@ while IFS='|' read -r pane_spec session_id current_path; do
 
     # Find the current pane ID for this pane spec
     # Use awk for more reliable matching instead of grep
-    new_pane_id=$(tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_id}' | \
-        awk -v spec="$pane_spec" '$1 == spec {print $2}')
+    new_pane_id=$(tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}|#{pane_id}' | \
+        awk -F'|' -v spec="$pane_spec" '$1 == spec {print $2}')
 
     if [ -z "$new_pane_id" ]; then
         log "  Could not find pane for spec: $pane_spec"
@@ -59,7 +59,7 @@ while IFS='|' read -r pane_spec session_id current_path; do
 
     if [[ "$current_command" =~ bash|zsh ]] && [[ ! "$current_command" =~ claude ]]; then
         log "  Sending claude command to pane $new_pane_id"
-        tmux send-keys -t "$new_pane_id" "claude -r $session_id" C-m
+        tmux send-keys -t "$new_pane_id" "claude -c" C-m
         log "  ✓ Command sent successfully"
     else
         log "  Skipping: pane not ready (command: $current_command)"

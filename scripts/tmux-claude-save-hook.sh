@@ -12,10 +12,22 @@ mkdir -p "$(dirname "$CLAUDE_SAVE_FILE")"
 > "$CLAUDE_SAVE_FILE"
 
 # Get all panes with their IDs and current commands
-tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_id} #{pane_current_path} #{pane_current_command}' | \
-while read -r pane_spec pane_id current_path current_command; do
+tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}|#{pane_id}|#{pane_current_path}|#{pane_current_command}' | \
+while IFS='|' read -r pane_spec pane_id current_path current_command; do
     # Only save panes that are actually running Claude
-    if [[ "$current_command" =~ ^claude$ ]] || [[ "$current_command" == "node" && "$(tmux display-message -p -t $pane_id '#{pane_title}')" =~ [Cc]laude ]]; then
+    # Check multiple ways to detect Claude sessions
+    is_claude=false
+    if [[ "$current_command" =~ ^claude$ ]]; then
+        is_claude=true
+    elif [[ "$current_command" == "node" ]]; then
+        # For now, assume any node process in a known project directory is Claude
+        # This is a simple heuristic - you can refine this if needed
+        if echo "$current_path" | grep -q "Code/\|\.dotfiles\|\.claude"; then
+            is_claude=true
+        fi
+    fi
+
+    if [ "$is_claude" = true ]; then
         # Get the most recent Claude session for this directory
         session_id=$(tail -200 "$HISTORY_FILE" 2>/dev/null | \
             jq -r --arg proj "$current_path" \
