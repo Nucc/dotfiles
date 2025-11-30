@@ -57,11 +57,17 @@ fi
 target_session="${sessions_array[$((target_number - 1))]}"
 
 # Switch to target session
+current_session=$(tmux display-message -p '#{session_name}')
 if [ -n "$target_session" ]; then
-    tmux switch-client -t "$target_session"
-    # Store this as the last active session for this filter mode
-    tmux set-option -g "@session-last-${filter_mode}" "$target_session"
-    tmux refresh-client -S
+    if [ "$target_session" = "$current_session" ]; then
+        tmux display-message "Already in session $target_session (${target_session})"
+    else
+        tmux switch-client -t "$target_session"
+        # Store this as the last active session for this filter mode
+        tmux set-option -g "@session-last-${filter_mode}" "$target_session"
+        tmux refresh-client -S
+        tmux display-message "Switched to session $target_number: $target_session"
+    fi
 else
-    tmux display-message "Session $target_number not found"
+    tmux display-message "Session $target_number not found (1-$total_sessions available)"
 fi
