@@ -43,7 +43,11 @@ if [ -z "$filtered_sessions" ]; then
 fi
 
 # Convert to array
-mapfile -t sessions_array <<< "$filtered_sessions"
+# Convert to array (compatible approach)
+sessions_array=()
+while IFS= read -r line; do
+    sessions_array+=("$line")
+done <<< "$filtered_sessions"
 
 # Check if target number is valid
 total_sessions=${#sessions_array[@]}
@@ -60,13 +64,13 @@ target_session="${sessions_array[$((target_number - 1))]}"
 current_session=$(tmux display-message -p '#{session_name}')
 if [ -n "$target_session" ]; then
     if [ "$target_session" = "$current_session" ]; then
-        tmux display-message "Already in session $target_session (${target_session})"
+        # Already in target session - do nothing
+        :
     else
         tmux switch-client -t "$target_session"
         # Store this as the last active session for this filter mode
         tmux set-option -g "@session-last-${filter_mode}" "$target_session"
         tmux refresh-client -S
-        tmux display-message "Switched to session $target_number: $target_session"
     fi
 else
     tmux display-message "Session $target_number not found (1-$total_sessions available)"
