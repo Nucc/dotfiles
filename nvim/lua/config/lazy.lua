@@ -147,11 +147,19 @@ require("neo-tree").setup({
   source_selector = {},
   sources = {
     "filesystem",
-    "buffers", 
+    "buffers",
     "git_status",
     "document_symbols",
   },
-
+  event_handlers = {
+    {
+      event = "file_opened",
+      handler = function(file_path)
+        -- Close neo-tree when a file is opened
+        require("neo-tree.command").execute({ action = "close" })
+      end,
+    },
+  },
   config = function()
     vim.g.neo_tree_remove_legacy_commands = 1
     vim.g.neo_tree_auto_open = 0
@@ -184,18 +192,6 @@ vim.api.nvim_create_autocmd("BufLeave", {
       if preview.is_active() then
         preview.hide()
       end
-    end
-  end,
-})
-
--- Create an autocmd to close NeoTree when a file is opened
-vim.api.nvim_create_autocmd("BufEnter", {
-  group = neotree_augroup,
-  pattern = "*",
-  callback = function()
-    local buf_ft = vim.bo.filetype
-    if buf_ft ~= "neo-tree" then
-      vim.cmd("Neotree close")
     end
   end,
 })

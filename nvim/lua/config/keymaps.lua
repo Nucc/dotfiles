@@ -72,7 +72,6 @@ bind_all(
 ) -- Cmd-Shift-C
 bind_all("\xF4\x80\x83\x88", "o", { noremap = false }) -- CMD-Enter
 bind_all("\xF4\x80\x83\xB0", "O", { noremap = false }) -- CMD-Shift-Enter
-bind_all("\xF4\x80\x81\x8F", "<cmd>Neotree filesystem reveal left<CR>") -- CMD-SHIFT-O
 bind_niv("\xF4\x80\x83\x89", '"_d^', '<Esc>l"_di', nil, { noremap = false }) -- CMD-Backspace
 bind_niv("\xF4\x80\x83\x8A", '"_d$', '<Esc>l"_d$a', nil, { noremap = false }) -- CMD-Backspace
 bind_all("\xF4\x80\x81\x90", ":FzfLua commands<CR>") -- {key = 'P', mods = 'Command|Shift', chars = '􀁐'}, # U+100050: \xF4\x80\x81\x90
