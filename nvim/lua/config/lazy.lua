@@ -163,15 +163,13 @@ require("neo-tree").setup({
       event = "neo_tree_buffer_enter",
       handler = function(args)
         -- Auto-enable preview on first enter
-        if not args.state.preview_enabled then
-          vim.defer_fn(function()
-            local state = require("neo-tree.sources.manager").get_state("filesystem")
-            if state and not require("neo-tree.sources.common.preview").is_active() then
-              pcall(state.commands.toggle_preview, state)
-              state.preview_enabled = true
-            end
-          end, 100)
-        end
+        vim.defer_fn(function()
+          local state = require("neo-tree.sources.manager").get_state("filesystem")
+          if state and not state.preview_enabled and not require("neo-tree.sources.common.preview").is_active() then
+            pcall(state.commands.toggle_preview, state)
+            state.preview_enabled = true
+          end
+        end, 100)
       end,
     },
     {
@@ -182,8 +180,10 @@ require("neo-tree").setup({
         if preview.is_active() then
           preview.hide()
         end
-        if args.state then
-          args.state.preview_enabled = false
+        -- Reset preview_enabled flag (try args.state first, then manager)
+        local state = args.state or require("neo-tree.sources.manager").get_state("filesystem")
+        if state then
+          state.preview_enabled = false
         end
       end,
     },
