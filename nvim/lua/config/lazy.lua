@@ -159,6 +159,34 @@ require("neo-tree").setup({
         require("neo-tree.command").execute({ action = "close" })
       end,
     },
+    {
+      event = "neo_tree_buffer_enter",
+      handler = function(args)
+        -- Auto-enable preview on first enter
+        if not args.state.preview_enabled then
+          vim.defer_fn(function()
+            local state = require("neo-tree.sources.manager").get_state("filesystem")
+            if state and not require("neo-tree.sources.common.preview").is_active() then
+              pcall(state.commands.toggle_preview, state)
+              state.preview_enabled = true
+            end
+          end, 100)
+        end
+      end,
+    },
+    {
+      event = "neo_tree_window_after_close",
+      handler = function(args)
+        -- Clean up preview when neo-tree closes
+        local preview = require("neo-tree.sources.common.preview")
+        if preview.is_active() then
+          preview.hide()
+        end
+        if args.state then
+          args.state.preview_enabled = false
+        end
+      end,
+    },
   },
   config = function()
     vim.g.neo_tree_remove_legacy_commands = 1
@@ -166,35 +194,6 @@ require("neo-tree").setup({
   end,
 })
 
-local neotree_augroup = vim.api.nvim_create_augroup("NeoTreeAutocmds", { clear = true })
-
--- Enable preview mode when neo-tree buffer is entered
-vim.api.nvim_create_autocmd("FileType", {
-  group = neotree_augroup,
-  pattern = "neo-tree",
-  callback = function()
-    vim.defer_fn(function()
-      local state = require("neo-tree.sources.manager").get_state("filesystem")
-      if state and not require("neo-tree.sources.common.preview").is_active() then
-        pcall(state.commands.toggle_preview, state)
-      end
-    end, 100)
-  end,
-})
-
--- Clean up preview when leaving neo-tree
-vim.api.nvim_create_autocmd("BufLeave", {
-  group = neotree_augroup,
-  pattern = "*",
-  callback = function()
-    if vim.bo.filetype == "neo-tree" then
-      local preview = require("neo-tree.sources.common.preview")
-      if preview.is_active() then
-        preview.hide()
-      end
-    end
-  end,
-})
 
 vim.g.minipairs_disable = true
 
