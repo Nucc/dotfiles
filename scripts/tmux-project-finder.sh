@@ -1,10 +1,16 @@
 #!/bin/bash
 
-# Find all local directories under ~/Code (1 level deep, excluding zendesk itself)
-# and all directories under ~/Code/zendesk (1 level deep)
+# Find all local directories under ~/Code/*/ (2 levels deep)
+# This finds all owner/repo directories
 LOCAL_PROJECTS=$({
-  ls -d ~/Code/*/ 2>/dev/null | grep -v "/zendesk/$"
-  ls -d ~/Code/zendesk/*/ 2>/dev/null
+  for owner in ~/Code/*/; do
+    if [ -d "$owner" ]; then
+      owner_clean=$(basename "$owner")
+      if [[ "$owner_clean" != "repositories" && "$owner_clean" != "worktrees" && ! "$owner_clean" =~ ^\. ]]; then
+        ls -d "$owner"/*/ 2>/dev/null
+      fi
+    fi
+  done
 } | sed 's|/$||' | sort)
 
 # Cache file for GitHub repositories
@@ -31,19 +37,14 @@ fi
 
 # Add all GitHub repos as cloneable
 if [ -n "$GITHUB_REPOS" ]; then
-  while IFS= read -r repo; do
-    if [ -n "$repo" ]; then
-      # Determine local path based on owner
-      if [[ "$repo" == zendesk/* ]]; then
-        repo_name=${repo#zendesk/}
-        echo "~/Code/zendesk/$repo_name"
-      else
-        repo_name=$(basename "$repo")
-        echo "~/Code/$repo_name"
+    while IFS= read -r repo; do
+      if [ -n "$repo" ]; then
+        OWNER=$(echo "$repo" | cut -d'/' -f1)
+        REPO_NAME=$(echo "$repo" | cut -d'/' -f2)
+        echo "~/Code/$OWNER/$REPO_NAME"
       fi
-    fi
-  done <<< "$GITHUB_REPOS" >> "$TEMP_DISPLAY"
-fi
+    done <<< "$GITHUB_REPOS" >> "$TEMP_DISPLAY"
+  fi
 
 # Add "[Create New Project]" option at the top
 echo "[Create New Project]" > "$TEMP_DISPLAY.final"
@@ -186,19 +187,10 @@ if [ -n "$SELECTED_DISPLAY" ]; then
   esac
 
   if [ "$IS_CLONE" = true ]; then
-    # Determine the GitHub repo URL
-    if [[ "$SELECTED_DIR" == "$HOME/Code/zendesk/"* ]]; then
-      REPO_NAME=$(basename "$SELECTED_DIR")
-      GH_REPO="zendesk/$REPO_NAME"
-    else
-      REPO_NAME=$(basename "$SELECTED_DIR")
-      # Get the owner from gh
-      GH_REPO=$(gh repo list --limit 1000 --json nameWithOwner --jq '.[].nameWithOwner' | grep "/$REPO_NAME$" | head -1)
-    fi
-
-    # Extract owner and repo name from GH_REPO (format: owner/repo)
-    OWNER=$(echo "$GH_REPO" | cut -d'/' -f1)
-    REPO=$(echo "$GH_REPO" | cut -d'/' -f2)
+    # Extract owner and repo name from SELECTED_DIR
+    OWNER=$(basename "$(dirname "$SELECTED_DIR")")
+    REPO=$(basename "$SELECTED_DIR")
+    GH_REPO="$OWNER/$REPO"
 
     # Get the default branch name
     DEFAULT_BRANCH=$(gh repo view "$GH_REPO" --json defaultBranchRef --jq '.defaultBranchRef.name')
