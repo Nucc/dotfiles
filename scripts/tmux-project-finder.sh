@@ -31,15 +31,9 @@ if [ -n "$LOCAL_PROJECTS" ]; then
   echo "$LOCAL_PROJECTS" | sed "s|$HOME|~|g" > "$TEMP_DISPLAY"
 fi
 
-# Add all GitHub repos as cloneable
+# Add all GitHub repos as cloneable (optimized using sed instead of while loop)
 if [ -n "$GITHUB_REPOS" ]; then
-    while IFS= read -r repo; do
-      if [ -n "$repo" ]; then
-        OWNER=$(echo "$repo" | cut -d'/' -f1)
-        REPO_NAME=$(echo "$repo" | cut -d'/' -f2)
-        echo "~/Code/$OWNER/$REPO_NAME"
-      fi
-    done <<< "$GITHUB_REPOS" >> "$TEMP_DISPLAY"
+    echo "$GITHUB_REPOS" | sed "s|^|~/Code/|" >> "$TEMP_DISPLAY"
   fi
 
 # Add "[Create New Project]" option at the top
