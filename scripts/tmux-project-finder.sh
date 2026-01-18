@@ -1,17 +1,13 @@
 #!/bin/bash
 
-# Find all local directories under ~/Code/*/ (2 levels deep)
-# This finds all owner/repo directories
+# Find all local projects in two formats:
+# 1. Flat structure: ~/Code/repo (level 1)
+# 2. Owner/repo structure: ~/Code/owner/repo (level 2)
 LOCAL_PROJECTS=$({
-  for owner in ~/Code/*/; do
-    if [ -d "$owner" ]; then
-      owner_clean=$(basename "$owner")
-      if [[ "$owner_clean" != "repositories" && "$owner_clean" != "worktrees" && ! "$owner_clean" =~ ^\. ]]; then
-        ls -d "$owner"/*/ 2>/dev/null
-      fi
-    fi
-  done
-} | sed 's|/$||' | sort)
+  find ~/Code -mindepth 1 -maxdepth 3 -name '.git' -type d | sed 's|/\.git||' | \
+    grep -v '/repositories/' | \
+    grep -v '/worktrees/'
+} | sort)
 
 # Cache file for GitHub repositories
 CACHE_FILE="$HOME/Code/.github-repos-cache"
