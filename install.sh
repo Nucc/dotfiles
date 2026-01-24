@@ -90,6 +90,54 @@ install_homebrew_packages() {
     # TODO: Add Homebrew package installation logic here
 }
 
+# Install Claude Code commands and agents
+# Copies files from dotfiles to ~/.claude, overwriting existing files with same names
+# Does NOT touch settings.json or other sensitive config
+install_claude_config() {
+    log_info "Installing Claude Code commands and agents..."
+
+    local repo_claude_dir="$(dirname "$0")/claude"
+    local target_claude_dir="$HOME/.claude"
+
+    # Check if claude directory exists in repo
+    if [[ ! -d "$repo_claude_dir" ]]; then
+        log_warning "Claude directory not found at $repo_claude_dir, skipping"
+        return 0
+    fi
+
+    # Create target directories if they don't exist
+    mkdir -p "$target_claude_dir/commands"
+    mkdir -p "$target_claude_dir/agents"
+    mkdir -p "$target_claude_dir/hooks"
+
+    # Copy commands (preserving directory structure, overwrites existing)
+    if [[ -d "$repo_claude_dir/commands" ]]; then
+        local cmd_count=$(find "$repo_claude_dir/commands" -type f -name "*.md" | wc -l | tr -d ' ')
+        log_info "Installing $cmd_count Claude command(s)..."
+        cp -R "$repo_claude_dir/commands/"* "$target_claude_dir/commands/" 2>/dev/null || true
+        log_success "Claude commands installed"
+    fi
+
+    # Copy agents (overwrites existing)
+    if [[ -d "$repo_claude_dir/agents" ]]; then
+        local agent_count=$(find "$repo_claude_dir/agents" -type f -name "*.md" | wc -l | tr -d ' ')
+        log_info "Installing $agent_count Claude agent(s)..."
+        cp -R "$repo_claude_dir/agents/"* "$target_claude_dir/agents/" 2>/dev/null || true
+        log_success "Claude agents installed"
+    fi
+
+    # Copy hooks (overwrites existing)
+    if [[ -d "$repo_claude_dir/hooks" ]]; then
+        local hook_count=$(find "$repo_claude_dir/hooks" -type f | wc -l | tr -d ' ')
+        log_info "Installing $hook_count Claude hook(s)..."
+        cp -R "$repo_claude_dir/hooks/"* "$target_claude_dir/hooks/" 2>/dev/null || true
+        log_success "Claude hooks installed"
+    fi
+
+    log_success "Claude Code configuration installed (settings.json preserved)"
+    log_warning "Note: Files with same names were overwritten"
+}
+
 # Main installation function
 main() {
     log_info "Starting dotfiles installation..."
@@ -98,6 +146,9 @@ main() {
 
     # Install fonts
     install_fonts
+
+    # Install Claude Code commands and agents
+    install_claude_config
 
     # Future installations can be added here
     # install_homebrew_packages
