@@ -15,9 +15,7 @@
                                         "optional": []
                                     }
                                 },
-                                "parameters": {
-                                    "basic.to_if_alone_timeout_milliseconds": 400
-                                },
+                                "parameters": { "basic.to_if_alone_timeout_milliseconds": 400 },
                                 "to_if_alone": [
                                     {
                                         "key_code": "grave_accent_and_tilde",
@@ -81,9 +79,7 @@
                         "description": "End key acts as Cmd-Ctrl for tmux pane switching",
                         "manipulators": [
                             {
-                                "from": {
-                                    "key_code": "end"
-                                },
+                                "from": { "key_code": "end" },
                                 "to": [
                                     {
                                         "key_code": "left_command",
@@ -160,6 +156,14 @@
                 {
                     "identifiers": {
                         "device_address": "f6-ee-3b-42-4f-b0",
+                        "is_keyboard": true,
+                        "is_pointing_device": true
+                    },
+                    "ignore": false
+                },
+                {
+                    "identifiers": {
+                        "device_address": "f6-ee-3b-42-07-d0",
                         "is_keyboard": true,
                         "is_pointing_device": true
                     },
