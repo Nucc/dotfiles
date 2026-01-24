@@ -7,10 +7,12 @@ Custom slash commands and agents for Claude Code, stored in dotfiles for portabi
 ```
 claude/
 ├── commands/           # Slash commands
-│   └── feature/
-│       └── spec.md     # /feature:spec command
-├── agents/             # Agent definitions
-│   └── feature-spec-agent.md
+│   ├── commit.md       # /commit command
+│   ├── pr.md           # /pr command
+│   ├── feature/
+│   │   └── spec.md     # /feature:spec command
+│   └── jira/
+│       └── create.md   # /jira:create command
 └── hooks/              # Hook scripts (optional)
 ```
 
@@ -33,6 +35,48 @@ This copies:
 - Existing files with different names are preserved
 
 ## Commands
+
+### /commit
+
+Create git commits from current changes.
+
+```
+/commit
+```
+
+**Behavior:**
+- Analyzes staged and unstaged changes
+- Groups related changes into logical commits
+- Uses imperative mood, focuses on "why" not "what"
+- Never mentions Claude/AI in commit messages
+
+### /pr
+
+Create a pull request using the repository's PR template.
+
+```
+/pr
+```
+
+**Behavior:**
+- Looks for PR templates in `.github/`
+- Fills in template sections based on changes
+- Creates PR via `gh pr create`
+- Returns the PR URL
+
+### /jira:create
+
+Create a Jira ticket from a prompt or conversation.
+
+```
+/jira:create <description>
+```
+
+**Behavior:**
+- Creates tickets in the TALK project
+- Can use conversation history for context
+- Uses Jira REST API with ADF format
+- Requires `JIRA_EMAIL` and `JIRA_ACCESS_TOKEN` env vars
 
 ### /feature:spec
 

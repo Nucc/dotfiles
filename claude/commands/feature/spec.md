@@ -20,7 +20,9 @@ If no feature name is provided, ask the user for one before proceeding.
 
 ### Step 2: Gather Requirements
 
-Ask clarifying questions in batches of 2-4. Cover these areas:
+Ask clarifying questions in batches of 2-4 to avoid overwhelming the user. Start by acknowledging the request and asking 2-3 initial questions. Group related questions together.
+
+Cover these areas:
 
 **Problem Statement**
 - What problem does this feature solve?
