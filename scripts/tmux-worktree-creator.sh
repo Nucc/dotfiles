@@ -40,8 +40,11 @@ repo_with_branch=$(echo "$relative_path" | cut -d'/' -f2)
 # For my-repo-feature -> need to find the actual branch
 current_branch=$(git -C "$worktree_path" rev-parse --abbrev-ref HEAD 2>/dev/null)
 
+# Sanitize branch name for directory matching (replace / with -)
+sanitized_branch=$(echo "$current_branch" | sed 's|/|-|g')
+
 # Remove -branch suffix to get repo name
-repo=$(echo "$repo_with_branch" | sed "s/-${current_branch}$//")
+repo=$(echo "$repo_with_branch" | sed "s|-${sanitized_branch}\$||")
 
 if [ -z "$owner" ] || [ -z "$repo" ]; then
     echo "Error: Could not parse repository info from path: $worktree_path"
