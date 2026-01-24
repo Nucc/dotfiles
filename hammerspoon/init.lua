@@ -4,6 +4,7 @@ local hs = hs
 -- hs.loadSpoon("SpoonInstall")
 
 require("auto-reload")
+require("zoom-transcript-bot")
 
 -- Finally, show a notification that we finished loading the config
 hs.notify.new({ title = "Hammerspoon", subTitle = "Configuration loaded" }):send()
