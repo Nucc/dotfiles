@@ -2,6 +2,10 @@
 
 Create a commit from the latest changes since the last /clear. Do not mention Claude in the commit message. You can split the changes into logical groups and create commit for the groups. Try to use minimum number of commits.
 
+## Model
+
+sonnet
+
 ## Instructions
 
 1. First, analyze the current changes:
