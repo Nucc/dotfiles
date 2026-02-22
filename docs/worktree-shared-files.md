@@ -53,26 +53,22 @@ Or bind it to a tmux key for easy access.
 
 ## Setup Example
 
-Let's say you have a repository `myorg/myapp` and want to share `.env` and `node_modules`:
+Let's say you have a repository `myorg/myapp` and want to share `.env` across worktrees:
 
-1. Create the shared directory:
+1. Run the share script from any worktree that has the files:
    ```bash
-   mkdir -p ~/Code/shared/myorg/myapp
-   ```
-
-2. Move shared files there:
-   ```bash
-   cp ~/Code/worktrees/myorg/myapp-main/.env ~/Code/shared/myorg/myapp/.env
-   ```
-
-3. Create a new worktree or re-link existing ones:
-   ```bash
-   # For existing worktrees
    cd ~/Code/worktrees/myorg/myapp-main
-   ~/.dotfiles/scripts/tmux-worktree-relink-shared.sh
+   ~/.dotfiles/scripts/tmux-worktree-share-files.sh
+   ```
+   This moves all untracked files to `~/Code/shared/myorg/myapp/` and replaces them with symlinks.
+
+2. Link the shared files in other worktrees:
+   ```bash
+   cd ~/Code/worktrees/myorg/myapp-feature-1
+   ~/.dotfiles/scripts/tmux-worktree-link-shared.sh
    ```
 
-4. Now all worktrees will have `.env` symlinked to the shared location
+3. Now all worktrees will have `.env` symlinked to the shared location
 
 ## Common Use Cases
 
@@ -114,9 +110,27 @@ Let's say you have a repository `myorg/myapp` and want to share `.env` and `node
 
 ## Scripts
 
+- `tmux-worktree-share-files.sh` - Move untracked files from a worktree into the shared folder and replace them with symlinks (reverse of link-shared)
 - `tmux-worktree-link-shared.sh` - Core linking logic (can be called standalone)
 - `tmux-worktree-relink-shared.sh` - Interactive tool to re-link from tmux
 - Integration in `tmux-worktree-creator.sh` - Automatic linking on worktree creation
+
+### Populating the Shared Folder
+
+Instead of manually copying files and re-linking, use `tmux-worktree-share-files.sh` to move untracked files from a worktree into `~/Code/shared/{owner}/{repo}/` in one step:
+
+```bash
+cd ~/Code/worktrees/myorg/myapp-main
+~/.dotfiles/scripts/tmux-worktree-share-files.sh
+```
+
+The script:
+1. Finds all untracked files in the worktree
+2. Skips files that are already symlinks
+3. Moves each file to the matching path under `~/Code/shared/{owner}/{repo}/`
+4. Creates a symlink from the original location back to the shared copy
+
+After running this, use `tmux-worktree-link-shared.sh` on other worktrees to link the newly shared files there too.
 
 ## Tips
 
