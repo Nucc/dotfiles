@@ -72,7 +72,7 @@ shape = "block"
 
 # {key = ' ', mods = 'Command', chars = '􀀠'}, # U+100020: \xF4\x80\x80\xA0
 # {key = '!', mods = 'Command|Shift', chars = '􀀡'}, # U+100021: \xF4\x80\x80\xA1
-# {key = '"', mods = 'Command|Shift', chars = '􀀢'}, # U+100022: \xF4\x80\x80\xA2
+{key = '"', mods = 'Command|Shift', chars = '􀀢'}, # U+100022: \xF4\x80\x80\xA2
 # {key = '#', mods = 'Command|Shift', chars = '􀀣'}, # U+100023: \xF4\x80\x80\xA3
 # {key = '$', mods = 'Command|Shift', chars = '􀀤'}, # U+100024: \xF4\x80\x80\xA4
 # {key = '%', mods = 'Command|Shift', chars = '􀀥'}, # U+100025: \xF4\x80\x80\xA5
@@ -565,7 +565,7 @@ shape = "block"
 # {key = 'ScrollLock', mods = 'Alt|Command|Shift', chars = '􀣡'}, # U+1008E1: \xF4\x80\xA3\xA1
 # {key = 'Pause', mods = 'Alt|Command|Shift', chars = '􀣢'}, # U+1008E2: \xF4\x80\xA3\xA2
 # {key = 'NumLock', mods = 'Alt|Command|Shift', chars = '􀣣'}, # U+1008E3: \xF4\x80\xA3\xA3
-# {key = ' ', mods = 'Control|Alt|Command', chars = '􀯘'}, # U+100BD8: \xF4\x80\xAF\x98
+{key = ' ', mods = 'Command|Shift|Alt', chars = '􀯘'}, # U+100BD8: \xF4\x80\xAF\x98
 # {key = '!', mods = 'Control|Alt|Command|Shift', chars = '􀯙'}, # U+100BD9: \xF4\x80\xAF\x99
 # {key = '"', mods = 'Control|Alt|Command|Shift', chars = '􀯚'}, # U+100BDA: \xF4\x80\xAF\x9A
 # {key = '#', mods = 'Control|Alt|Command|Shift', chars = '􀯛'}, # U+100BDB: \xF4\x80\xAF\x9B
