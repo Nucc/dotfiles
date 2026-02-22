@@ -1,0 +1,63 @@
+{
+  "items": [
+    {
+      "key": "g",
+      "type": "group",
+      "description": "git",
+      "items": [
+        { "key": "s", "type": "action", "command": "git status", "description": "Status" },
+        { "key": "a", "type": "action", "command": "git commit --amend --no-edit", "description": "Amend commit (no edit)" },
+        { "key": "d", "type": "action", "command": "git diff", "description": "Diff" },
+        { "key": "l", "type": "action", "command": "git log --oneline -20", "description": "Log (20)" },
+        { "key": "p", "type": "action", "command": "git push", "description": "Push" },
+        { "key": "P", "type": "action", "command": "git pull", "description": "Pull" },
+        { "key": "b", "type": "action", "command": "git branch -a", "description": "Branches" },
+        { "key": "c", "type": "action", "command": "git checkout", "description": "Checkout" },
+        { "key": "f", "type": "action", "command": "git fetch --all", "description": "Fetch all" },
+        { "key": "r", "type": "action", "command": "git rebase --continue", "description": "Rebase continue" }
+      ]
+    },
+    { "key": "l", "type": "action", "command": "lazygit", "description": "Lazygit" },
+    {
+      "key": "w",
+      "type": "group",
+      "description": "window",
+      "items": [
+        { "key": "v", "type": "tmux", "command": "split-window -h -c '#{pane_current_path}'", "description": "Split vertical" },
+        { "key": "s", "type": "tmux", "command": "split-window -v -c '#{pane_current_path}'", "description": "Split horizontal" },
+        { "key": "z", "type": "tmux", "command": "resize-pane -Z", "description": "Zoom toggle" },
+        { "key": "n", "type": "tmux", "command": "new-window -c '#{pane_current_path}'", "description": "New window" },
+        { "key": "c", "type": "tmux", "command": "kill-pane", "description": "Close pane" },
+        { "key": "r", "type": "script", "command": "~/.dotfiles/scripts/tmux-renumber-windows.sh", "description": "Renumber windows" }
+      ]
+    },
+    {
+      "key": "s",
+      "type": "group",
+      "description": "session",
+      "items": [
+        { "key": "n", "type": "script", "command": "~/.dotfiles/scripts/tmux-new-session-filtered.sh", "description": "New session" },
+        { "key": "r", "type": "script", "command": "~/.dotfiles/scripts/tmux-rename-session-prompt.sh", "description": "Rename session" },
+        { "key": "p", "type": "script", "command": "~/.dotfiles/scripts/tmux-navigate-filtered-session.sh previous", "description": "Previous session" },
+        { "key": "N", "type": "script", "command": "~/.dotfiles/scripts/tmux-navigate-filtered-session.sh next", "description": "Next session" },
+        { "key": "t", "type": "script", "command": "~/.dotfiles/scripts/tmux-toggle-work-personal.sh forward", "description": "Toggle work/personal" }
+      ]
+    },
+    {
+      "key": "p",
+      "type": "group",
+      "description": "project",
+      "items": [
+        { "key": "f", "type": "tmux", "command": "display-popup -E -h 35 -w 140 -y 15 '~/.dotfiles/scripts/tmux-project-finder.sh'", "description": "Find project" },
+        { "key": "w", "type": "tmux", "command": "display-popup -E -h 35 -w 140 -y 15 '~/.dotfiles/scripts/tmux-worktree-creator.sh'", "description": "Create worktree" },
+        { "key": "b", "type": "tmux", "command": "display-popup -E -h 35 -w 140 -y 15 '~/.dotfiles/scripts/tmux-bookmarks.sh list'", "description": "Bookmarks" },
+        { "key": "a", "type": "script", "command": "~/.dotfiles/scripts/tmux-bookmarks.sh add", "description": "Add bookmark" },
+        { "key": "g", "type": "tmux", "command": "display-popup -E -h 35 -w 140 -y 15 '~/.dotfiles/scripts/tmux-git-branch-switcher.sh'", "description": "Git branch switcher" }
+      ]
+    },
+    { "key": "e", "type": "action", "command": "nvim .", "description": "Open editor" },
+    { "key": "f", "type": "action", "command": "fzf_change_directory", "description": "Fuzzy find directory" },
+    { "key": "r", "type": "action", "command": "clear", "description": "Clear screen" },
+    { "key": "h", "type": "action", "command": "htop", "description": "Htop" }
+  ]
+}

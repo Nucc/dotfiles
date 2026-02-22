@@ -5,17 +5,17 @@
 set -uo pipefail
 
 PANE_ID="${1:-}"
-CONFIG_FILE="$HOME/.config/tmux-which-key.json"
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/tmux-which-key.json"
 
 # Nord theme colors
-COLOR_KEY="\033[38;2;235;203;139m"      # #EBCB8B - yellow for keys
-COLOR_GROUP="\033[38;2;136;192;208m"     # #88C0D0 - cyan for groups
-COLOR_DESC="\033[38;2;216;222;233m"      # #D8DEE9 - light gray for descriptions
-COLOR_SEP="\033[38;2;76;86;106m"         # #4C566A - dark gray for separators
-COLOR_HEADER="\033[38;2;129;161;193m"    # #81A1C1 - blue for header
-COLOR_RESET="\033[0m"
+C_KEY=$'\033[38;2;235;203;139m'       # #EBCB8B - yellow
+C_GRP=$'\033[38;2;136;192;208m'       # #88C0D0 - cyan
+C_DESC=$'\033[38;2;216;222;233m'      # #D8DEE9 - light gray
+C_SEP=$'\033[38;2;76;86;106m'         # #4C566A - dark gray
+C_HDR=$'\033[38;2;129;161;193m'       # #81A1C1 - blue
+C_R=$'\033[0m'
 
-# Validate
 if [[ -z "$PANE_ID" ]]; then
     echo "Usage: tmux-which-key.sh <pane_id>"
     exit 1
@@ -26,111 +26,79 @@ if [[ ! -f "$CONFIG_FILE" ]]; then
     exit 1
 fi
 
-if ! jq empty "$CONFIG_FILE" 2>/dev/null; then
-    echo "Invalid JSON in $CONFIG_FILE"
-    exit 1
-fi
+# Read entire config into memory once
+CONFIG=$(cat "$CONFIG_FILE")
 
-# Navigation stack (array of jq path segments)
+# Navigation stack (jq path indices)
 NAV_STACK=()
 
-get_items_path() {
+# Get current items as tab-separated lines: key\ttype\tdescription\tcommand
+# Single jq call per menu level instead of per-item
+get_current_items() {
     local path=".items"
     for idx in "${NAV_STACK[@]}"; do
         path="${path}[${idx}].items"
     done
-    echo "$path"
+    echo "$CONFIG" | jq -r "${path}[] | [.key, .type, .description, (.command // \"\")] | @tsv" 2>/dev/null
 }
 
 get_breadcrumb() {
-    local crumb="root"
     local path=".items"
+    local parts=("root")
     for idx in "${NAV_STACK[@]}"; do
-        local desc
-        desc=$(jq -r "${path}[${idx}].description" "$CONFIG_FILE")
-        crumb="${crumb} > ${desc}"
+        parts+=("$(echo "$CONFIG" | jq -r "${path}[${idx}].description")")
         path="${path}[${idx}].items"
     done
-    echo "$crumb"
+    local IFS=" > "
+    echo "${parts[*]}"
 }
 
 render_menu() {
     clear
 
-    local items_path
-    items_path=$(get_items_path)
     local breadcrumb
     breadcrumb=$(get_breadcrumb)
 
     # Header
-    printf "${COLOR_HEADER}  Which Key${COLOR_RESET}  ${COLOR_SEP}│${COLOR_RESET}  ${COLOR_DESC}%s${COLOR_RESET}\n" "$breadcrumb"
-    printf "${COLOR_SEP}"
+    printf "%s  Which Key%s  %s│%s  %s%s%s\n" "$C_HDR" "$C_R" "$C_SEP" "$C_R" "$C_DESC" "$breadcrumb" "$C_R"
+    printf "%s" "$C_SEP"
     printf '%.0s─' {1..98}
-    printf "${COLOR_RESET}\n"
+    printf "%s\n" "$C_R"
 
-    # Get items
-    local count
-    count=$(jq -r "${items_path} | length" "$CONFIG_FILE" 2>/dev/null || echo "0")
+    # Parse all items in one jq call
+    local keys=() types=() descs=()
+    while IFS=$'\t' read -r key type desc _cmd; do
+        keys+=("$key")
+        types+=("$type")
+        descs+=("$desc")
+    done < <(get_current_items)
 
-    if [[ "$count" -eq 0 ]]; then
-        printf "  ${COLOR_DESC}(empty)${COLOR_RESET}\n"
+    local total=${#keys[@]}
+    if [[ $total -eq 0 ]]; then
+        printf "  %s(empty)%s\n" "$C_DESC" "$C_R"
         return
     fi
 
-    # Build formatted lines
-    local lines=()
-    for ((i = 0; i < count; i++)); do
-        local key desc item_type
-        key=$(jq -r "${items_path}[${i}].key" "$CONFIG_FILE")
-        desc=$(jq -r "${items_path}[${i}].description" "$CONFIG_FILE")
-        item_type=$(jq -r "${items_path}[${i}].type" "$CONFIG_FILE")
-
-        if [[ "$item_type" == "group" ]]; then
-            lines+=("$(printf "${COLOR_KEY}%s${COLOR_RESET}  ${COLOR_GROUP}+%s${COLOR_RESET}" "$key" "$desc")")
-        else
-            lines+=("$(printf "${COLOR_KEY}%s${COLOR_RESET}  ${COLOR_DESC}%s${COLOR_RESET}" "$key" "$desc")")
-        fi
-    done
-
-    # Calculate column layout
-    local total=${#lines[@]}
-    local term_width=96
-    local col_width=30
-    local num_cols=$((term_width / col_width))
-    if [[ $num_cols -lt 1 ]]; then
-        num_cols=1
-    fi
-    if [[ $num_cols -gt 3 ]]; then
-        num_cols=3
-    fi
-
+    # Column layout
+    local col_width=32
+    local num_cols=3
     local num_rows=$(( (total + num_cols - 1) / num_cols ))
 
-    # Render column-major layout
     for ((row = 0; row < num_rows; row++)); do
         printf "  "
         for ((col = 0; col < num_cols; col++)); do
-            local idx=$((col * num_rows + row))
-            if [[ $idx -lt $total ]]; then
-                # Print item with padding
-                # We need to calculate visible length for padding
-                local key desc item_type
-                key=$(jq -r "${items_path}[${idx}].key" "$CONFIG_FILE")
-                desc=$(jq -r "${items_path}[${idx}].description" "$CONFIG_FILE")
-                item_type=$(jq -r "${items_path}[${idx}].type" "$CONFIG_FILE")
-
-                local prefix=""
-                local desc_color="$COLOR_DESC"
-                if [[ "$item_type" == "group" ]]; then
+            local i=$((col * num_rows + row))
+            if [[ $i -lt $total ]]; then
+                local k="${keys[$i]}" t="${types[$i]}" d="${descs[$i]}"
+                local prefix="" dc="$C_DESC"
+                if [[ "$t" == "group" ]]; then
                     prefix="+"
-                    desc_color="$COLOR_GROUP"
+                    dc="$C_GRP"
                 fi
-
-                local visible_len=$(( ${#key} + 2 + ${#prefix} + ${#desc} ))
+                local visible_len=$(( ${#k} + 4 + ${#prefix} + ${#d} ))
                 local pad=$((col_width - visible_len))
-                if [[ $pad -lt 0 ]]; then pad=0; fi
-
-                printf "${COLOR_KEY}%s${COLOR_RESET}  ${desc_color}%s%s${COLOR_RESET}" "$key" "$prefix" "$desc"
+                [[ $pad -lt 1 ]] && pad=1
+                printf "%s%s%s  %s→%s %s%s%s%s" "$C_KEY" "$k" "$C_R" "$C_SEP" "$C_R" "$dc" "$prefix" "$d" "$C_R"
                 printf '%*s' "$pad" ""
             fi
         done
@@ -138,35 +106,26 @@ render_menu() {
     done
 
     # Footer
-    printf "\n${COLOR_SEP}"
+    printf "\n%s" "$C_SEP"
     printf '%.0s─' {1..98}
-    printf "${COLOR_RESET}\n"
+    printf "%s\n" "$C_R"
     if [[ ${#NAV_STACK[@]} -gt 0 ]]; then
-        printf "  ${COLOR_SEP}Esc/Backspace: back${COLOR_RESET}\n"
+        printf "  %sesc  close    ⌫  back%s\n" "$C_SEP" "$C_R"
     else
-        printf "  ${COLOR_SEP}Esc: close${COLOR_RESET}\n"
+        printf "  %sesc  close%s\n" "$C_SEP" "$C_R"
     fi
 }
 
 handle_key() {
     local keypress="$1"
-    local items_path
-    items_path=$(get_items_path)
+    local i=0
 
-    local count
-    count=$(jq -r "${items_path} | length" "$CONFIG_FILE" 2>/dev/null || echo "0")
-
-    for ((i = 0; i < count; i++)); do
-        local key item_type command
-        key=$(jq -r "${items_path}[${i}].key" "$CONFIG_FILE")
-        item_type=$(jq -r "${items_path}[${i}].type" "$CONFIG_FILE")
-        command=$(jq -r "${items_path}[${i}].command // empty" "$CONFIG_FILE")
-
+    while IFS=$'\t' read -r key type desc command; do
         if [[ "$key" == "$keypress" ]]; then
-            case "$item_type" in
+            case "$type" in
                 group)
                     NAV_STACK+=("$i")
-                    return 0  # Continue loop
+                    return 0
                     ;;
                 action)
                     tmux send-keys -t "$PANE_ID" -l "$command"
@@ -182,36 +141,30 @@ handle_key() {
                     ;;
             esac
         fi
-    done
-
-    # Key not found - ignore
-    return 0
+        ((i++))
+    done < <(get_current_items)
 }
 
 # Main loop
 while true; do
     render_menu
 
-    # Read a single keypress
     IFS= read -rsn1 keypress
 
-    # Handle escape sequences
+    # Escape
     if [[ "$keypress" == $'\x1b' ]]; then
-        # Check for escape sequence (arrow keys, etc.)
         read -rsn1 -t 0.1 seq1 || true
         if [[ -z "$seq1" ]]; then
-            # Plain Escape
             if [[ ${#NAV_STACK[@]} -gt 0 ]]; then
                 unset 'NAV_STACK[${#NAV_STACK[@]}-1]'
             else
                 exit 0
             fi
         fi
-        # Ignore other escape sequences
         continue
     fi
 
-    # Handle backspace (0x7f or 0x08)
+    # Backspace
     if [[ "$keypress" == $'\x7f' || "$keypress" == $'\x08' ]]; then
         if [[ ${#NAV_STACK[@]} -gt 0 ]]; then
             unset 'NAV_STACK[${#NAV_STACK[@]}-1]'
@@ -221,7 +174,7 @@ while true; do
         continue
     fi
 
-    # Handle regular keypress
+    # Regular key
     if [[ -n "$keypress" ]]; then
         handle_key "$keypress"
     fi
