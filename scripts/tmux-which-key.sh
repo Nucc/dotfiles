@@ -135,7 +135,7 @@ handle_key() {
                 popup)
                     local pane_path
                     pane_path=$(tmux display-message -t "$PANE_ID" -p '#{pane_current_path}')
-                    tmux display-popup -E -h 80% -w 80% -d "$pane_path" "$command"
+                    tmux run-shell -b "sleep 0.1 && tmux display-popup -E -h 80% -w 80% -d '$pane_path' '$command'"
                     exit 0
                     ;;
                 tmux)
